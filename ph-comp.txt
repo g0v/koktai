@@ -1,0 +1,240 @@
+.UC
+.PO 2.07
+.LL 17.54
+.HE
+~t890l0
+
+.EH
+.FO
+~t550l0
+
+~fm3fd0t96x0l0
+.TL,¦UºØ¤è­µ­µ¼Ğ¹ï·Ó - #p2721, 2000.06.11
+
+.EF
+~fm7fd0t168x0l0g2
+
+.TL,¦UºØ¤è­µ­µ¼Ğ¹ï·Ó
+
+~fm3t84l48
+
+
+    »¡©ú¡G
+      ¡]¤@¡^º~ª`¡Gº~¦rª`­µ²Å¸¹¡A§Y±Ğ¨|³¡¹{³¡°ê»yª`­µ²Å¸¹²Ä¤@¦¡¤Î¤è­µ¶|¸¹¡A
+                  ¥Ñº~¦rÂ²¤Æ¦Ó¦¨ªº­µ¼Ğ¡C
+      ¡]¤G¡^º~¦r¡Gº~¦rª`­µ¨Ò¡]»O¡G»O­µ)(µØ¡GµØ­µ¡^¡C
+      ¡]¤T¡^µØ»O¡GµØ»O­µ¼Ğ (Mandarin & Taiwanese Phonetic Alphabet, MTPA)¡A
+                  §â¦UºØÃ¹°¨­µ¼Ğ¤¤¡A¨ú¨ä©ö°O¡B©ö¿é¤Jªº­µ¼Ğ¨Ï¥Î¡C
+      ¡]¥|¡^TLPA¡G»OÆW»y¨¥­µ¼Ğ (Taiwan Language Phonetic Alphabet)¡C
+      ¡]¤­¡^°ê»Ú¡G°ê»Ú­µ¼Ğ (International Phonetic Alphabet, IPA)¡A°ê»Ú¾Ç³N
+                  ¤W©Ò¨Ï¥Îªº«÷­µ¡C
+      ¡]¤»¡^¥Ì¨å¡G¥Ì¬°ÀMµÛ·Hªù­µ·s¦r¨å¡]±Ğ·|¨Ï¥ÎªºÃ¹°¨¦r¥À¡^¡C
+      ¡]¤C¡^º~»Ô¡G¤¤°êº~»y»P»Ô«n¤è¨¥«÷­µ¤è®×¡C
+
+    µù¸Ñ¡G
+      ¡]¤@¡^¡u'¡v¦¹²Å¦b p, t, k Án¥Àªº¥k¤W¨¤ªí¥Ü°e®ğ¡C
+      ¡]¤G¡^¡u'¡v¦¹²Å¦b¤JÁn h, p, t, k ªº¥ª¤W¨¤¡A¦p¡G¡ã'h, ¡ã'p, ¡ã't, ¡ã'k¡A
+            ªí¥Ü¶§¤J¡]¤U¤J¡^Án¡C
+      ¡]¤T¡^¬A¸¹( )¤º¤§­µ¡Aªí¦r¥À³æ¿Wµo­µ®É¨Ï¥Î¨ì¡A»P¨ä¥L­µ¬Û«÷®É«h¬Ù²¤¡C
+
+~t204l0
+
+~fm7t126
+¤@¡BÁn¥À
+
+~fm3t84l48
+        (¤@)    (¤G)           (¤T)    (¥|)    (¤­)    (¤»)    (¤C)
+        º~ª`    º~¦r           µØ»O    TLPA    °ê»Ú    ¥Ì¨å    º~»Ô
+               (»O)    (µØ)
+        ú@    Ãäûº¥¬úÀ  Ãäûº    b       p       p       p       b
+        úA    ¤åıw¤ìüÒ  ¡¼      bb      b       b       b¡şm    bb
+        úB    ªiıÂ°tşŞ  ªiı»    p       ph      p'      ph      p
+        úC    ªùq´Öx  ªùˆá    m       m       m       m       m
+        úD    ¡¼  ¡¼    ­·‰S    f       f       f       ¡¼      f
+        úE    (Ä¬¡B«È­µ)        v       v       v       ¡¼      ¡¼
+
+        úF    ¨{ê¦aJ  ¦a»    d       t       t       t       d
+        úG    ¥o~fk;z~fm3;­Ó‰~(¨u¥Î)    dd      ¡¼      d       ¡¼      ¡¼
+        úH    ¤Ñ‘Á¥Là  ¥Là    t       th      t'      th      t
+        úI    ®Q“F­@’ì  ­@’ê    n       n       n       n       n
+        úJ    Â§“½¬h”Y  ·ÈŠP    l       l       l       l(n)    l
+
+        úK    ¥ú•Ê¨D–Y  ¨D‹Q    g       k       k       k       g
+        úL    ÃZ—y»y—Û  ¡¼      gg      g       g       g       gg
+        úM    ¦Ò™J¥h™È  ¬ì™H    k       kh      k'      kh      k
+        úN    §d›C¶®šü  ¡¼      ng      ng      ~fk;’»~fm3;      ng      ng
+        úO    ªá¤³ßœ·  ©It    h       h       h       h       h
+
+        úP    ¿úH­sÒ  ¾÷@    j(i)    c       t~fk;’ş~fm3;     ch      j
+        úQ    ¤Gİ¤JŸX  ¡¼      jj      j       d~fk;†Ó~fm3;     ji      jj
+        úR    ¤dŸò¤CŸş  ¤CŸ|    ch(i)   ch      t~fk;’ş~fm3;'    chh     q
+        úS    ¦Õ X¡¼    ¡¼      ng(i)   ng(i)   n~fk;†Ó~fm3;     ¡¼      ¡¼
+        úT    ¥ı Ú®É ^  ¦è ]    si      s       ~fk;’ş~fm3;      si      s(i)
+
+        úY    ²î‚¤´¿Ğ  ¸ê ı    tz      c       ts      ts      z
+        úZ    ¼ö‚è¦p‚Õ  ¡¼      zz      j       dz      ju      zz
+        ú[    ¾Lƒ^¥X„r  »ÛH    ts      ch      ts'     chh     c
+        ú\    Ä¬„«¥q…c  ¥q`    s       s       s       s       s
+
+        úU    ¡¼  ¡¼    ª¾‹¨    z       z       t~fk;’ı~fm3;     ¡¼      zh
+        úV    ¡¼  ¡¼    ¦Y‹ä    zh      zh      t~fk;’ı~fm3;'    ¡¼      ch
+        úW    ¡¼  ¡¼    ¥¢Œg    sh      sh      ~fk;’ı~fm3;      ¡¼      sh
+        úX    ¡¼  ¡¼    ¤éŒÅ    r       r       ~fk;¸~fm3;      ¡¼      r
+~t204l0
+
+~fm7t126
+¤G¡BÃı¥À
+
+~fm3t84l48
+        (¤@)    (¤G)           (¤T)    (¥|)    (¤­)    (¤»)    (¤C)
+        º~ª`    º~¦r           µØ»O    TLPA    °ê»Ú    ¥Ì¨å    º~»Ô
+               (»O)    (µØ)
+        ú]    ¨È…Ùªü…Ù  ªü…Ù    a       a       a       a       a
+        ú]ú§  «õ†âÀn…Ş  ¡¼      ah      ah      a~fk;’¹~fm3;     ah      ah
+        ú^    À`…ä­m„¤  ¡¼      ann     ann     ~fk;†Á~fm3;      a~fk;’ü~fm3;     na
+        ú^ú§  âº›Ë¡¼    ¡¼      ahnn    ah     ~fk;†Â’¹~fm3;     ah~fk;’ü~fm3;    nah
+        ú_    ­W˜í¯Q…ç  ¡¼      oo      oo      ~fk;’®~fm3;      ~fk;’û~fm3;      oo
+        ú`    ¦n›Ö¤È›D  ¡¼      oonn    oonn/   ~fk;†Ç~fm3;      ~fk;’û’ü~fm3;    noo
+                                        onn
+        ú`ú§  ½¤K¡¼    ¡¼      oohnn   oonnh/ ~fk;†È’¹~fm3;     ¡¼      nooh
+                                        onnh
+        úa    ¦n›äÄ®…ı  ³á…ü    o       o       o       o       o
+        úaú§  ¾Ç†B¡¼    ¡¼      oh      oh      o~fk;’¹~fm3;     oh      oh
+        úc/   ¤õ›ëÄ®†E  °ş†D    er      er      ~fk;’¯/“D~fm3;   o       o
+        úb    ¬ì˜ù¡¼    ¡¼      eer     ¡¼      ~fk;“B~fm3;      ¡¼      ¡¼
+        úcú§/ ¾Ç†J³¢•`  ¡¼      erh     erh    ~fk;’¼’¹~fm3;/~fk;“D’¹~fm3;oh      oh
+        úbú§  ³¢•R(¬u)  ¡¼      eerh    ¡¼      ~fk;“B’¹~fm3;    ¡¼      ¡¼
+
+        úe    °×†R¸G†T  ¡¼      e       e       e       e       e
+        úeú§  ³·„Ó¤Ì†W  ¡¼      eh      eh      e~fk;’¹~fm3;     eh      eh
+        úf    ¥Í„ÕÀ¦†Y  ¡¼      enn     enn     ~fk;†Ã~fm3;      e       ne
+        úfú§  ²ó›N¡¼    ¡¼      ehnn    ehnn   ~fk;†Ä’¹~fm3;     eh~fk;’ü~fm3;    neh
+        úd    ®a•b(ºs)  ¼O­    ee      ee      ~fk;†Õ~fm3;      ¡¼      ¡¼
+        údú§  ®æ•g(ºs)  ¡¼      eeh     eeh    ~fk;†Ö’¹~fm3;     ¡¼      ¡¼
+        ~fk;“Ä~fm3;    À¦~fk;“Â~fm3;(ºs)  ¡¼      eenn    eenn    ~fk;†×~fm3;      ¡¼      ¡¼
+
+        úg    ·R†c«s†`  «s†`    ai      ai      ai      ai      ai
+        úgú§  ¡¼  ¡¼    ¡¼      aih     aih     ai~fk;’¹~fm3;    aih     aih
+        úh    ´®†g¶~†h(¦P¦w)    ainn    ainn    ~fk;†Ë~fm3;      ai~fk;’ü~fm3;    nai
+        úhú§  ­ò†l¡¼    ¡¼      aihnn   ainnh   ~fk;†Ë’¹~fm3;    aih~fk;’ü~fm3;   naih
+        új    ¿^†n¥W†n  ¥W†n    au      au      au      au      au
+        újú§  ¡¼  ¡¼    ¡¼      auh     auh     au~fk;’¹~fm3;    ¡¼      auh
+        úk    ÃÂ›[¡¼    ¡¼      aunn    aunn    ~fk;†Ï~fm3;      au~fk;’ü~fm3;    nau
+        úkú§  ¡¼  ¡¼    ¡¼      auhnn   aunnh   ~fk;†Ï’¹~fm3;    ¡¼      nauh
+        úl    ¡¼  ¡¼    ¼Ú¡    ou      ou      ou      ¡¼      ou
+        úcúe  ®Á  ¾c(¬u)¡¼      ere     ere    ~fk;“D~fm3;e/~fk;’¼~fm3;e  oe      oe
+        úcúeú§¯U(¬u)    ¡¼      ereh    ereh   ~fk;“D~fm3;e~fk;’¹~fm3;/   oeh     oeh
+                                               ~fk;’¼~fm3;e~fk;’¹~fm3;
+        úm    ·t†¡¥Ì•®  ¡¼      am      am      a~fk;†Ü~fm3;     am      am
+        ú]ú¡  À£†£¦X•³  ¡¼      ap      ap      ap      ap      ap
+        ún    ±»†¥°Ñ…@(ºs)      oom     oom    ~fk;’·†Ü~fm3;     om      oom
+        ú_ú¡  ¡¼  ¡¼    ¡¼      oop     oop     ~fk;’·~fm3;p     op      oop
+        úo    ©i†®¡¼    ¡¼      m       m       ~fk;†Ü~fm3;      m       m
+        úoú§  Àq†±¡¼    ¡¼      mh      mh      ~fk;†Ü’¹~fm3;    ¡¼      mh
+        úp    (¨u¥Î)    ©i~fk;ŒÄ~fm3;    m       m       ~fk;†Ü~fm3;      ¡¼      ¡¼
+        úq    ­­œ{¦w†³  ¦w†³    an      an      an      an      an
+        ú]ú£  ¹K†¸º£ƒÏ  ¡¼      at      at      at      at      at
+        úr    ®¦ˆE¡¼    ®¦¥   (e)n    (e)n     en      en      en
+        ús    Ê¿†º¯Î†º  »ê†º    ang     ang     a~fk;’»~fm3;     ang     ang
+        ú]ú¥  ´¤†¿¨¤•È  ¡¼      ak      ak      ak      ak      ak
+        út    ¯Î†Á¤ı†Â  ¡¼      ong     ong    ~fk;’·’»~fm3;     ong     ong
+        ú_ú¥  ´c†ÆºÖœ¬  ¡¼      ook     ook/ok ~fk;’·~fm3;k      ok      ok
+        úu   (¤£³æ¥Î)   ñ¢§    eng     eng/ng ~fk;’¼’»~fm3;     eng     eng
+        úv    ¯±†È¡¼    ¡¼      ng      ng       ~fk;’»~fm3;     ng      ng
+        úvú§  ª«v¡¼    ¡¼      ngh     ngh    ~fk;’±’¹~fm3;     ¡¼      ngh
+        úw    ¡¼  ¡¼    ¨àä    er      er      ~fk;“A~fm3;      ¡¼      er,r
+
+        Õ    ´È†Ñ¦ç†Ï  ¦ç†Ï    i       i       i       i       i
+        Õú§  ¦ŞFÅK‘¿  ¡¼      ih      ih      i~fk;’¹~fm3;     ih      ih
+        ×    ¿P†Ù¤Ñ‘Á  ¡¼      inn     enn    ~fk;†Ä~fm3;       i~fk;’ü~fm3;     ni
+        ×ú§  ª«}¡¼    ¡¼      ihnn    innh   ~fk;†Ä’¹~fm3;     ih~fk;’ü~fm3;    nih
+        úz    ¦Ã‡°ªZıU  «Î‡°    u/wu    u       u       u       u
+        úzú§  ¨r’p¹Â…h  ¡¼      uh      uh      u~fk;’¹~fm3;     uh      uh
+        ú{    ½Şx¡¼    ¡¼      ir      ir     ~fk;’ú~fm3;       ¡¼      ¡¼
+        ú{ú¡  Àß  (¬u)  ¡¼      irp     irp    ~fk;’ú~fm3;p      ¡¼      ¡¼
+        ú{ú£  ®Öö(¬u)  ¡¼      irt     irt    ~fk;’ú~fm3;t      ¡¼      ¡¼
+        ú{ú¥  ¶Â  (¬u)  ¡¼      irk     irk    ~fk;’ú~fm3;k      ¡¼      ¡¼
+        ú|    ¦Ï‡W(·H)  ¡¼      unn     unn     ~fk;†É~fm3;      ¡¼      nu
+        ú}    ¡¼  ¡¼    ²JÉ    y       y/iu/yu u       ¡¼      y
+
+        ú~    ¡¼  ¡¼    ¡¼      ii      ii      /       r/z     r/z
+
+        µù¸Ñ¡G
+          ¡]¤@¡^¥»¨å±Ä¥Î¡i£¬¡j»P¡iúc¡j¤¬¸É¡C¥t³y¡iúb/eer¡j²Åªí¬u¦{
+                ¡i¬ì˜ù¡j¦rªº¡iúb¡jÃı¡C¦]­ì®×¡iú_¡şoo¡j¡iúa¡şo¡j¡iúc
+                ¡şer¡j¤T²Å¤¤¡A¡iú_¡j¡iúa¡j¤G²Å­µ¯À±µªñ¡A§ï¥Î¡iú_¡j
+                ¡iúc¡j¡iúb¡j¸û¬°²M·¡¡A·Ó­ì®×¥ç¥i¡A¥u³y¡iú_¡j²Å¡C¦p
+                ªG­n¨Dµo­µ¥¿½T´N­n³y¡iú_¡j¡iúb¡j¤G²Å¡A§â¡i£¬¡j¦r¤@
+                ¾îªº¤U­±§ï¦¨¥¿µÙ§Î¯Ê¥k¤W¨¤ªº¡iú_¡j²Å¡A¦b¡iú_¡j²Åªº
+                ¤@¾î¤W¦A¥[¤@µu½İ´N¦¨¡iúb¡j²Å¡C
+          ¡]¤G¡^¡iúf¡ş~fk;†Ã~fm3;¡jÃı²Å¤Wªº¥À­µ¬O¦p¡iúN¡j¡iúI¡j¡i£v¡j
+                µ¥¡K¡K¥b»ó­µ®ÉÃı¥Àªºªº»ó­µ´N¥i¬Ù²¤¡C
+~t204l0
+
+~fm7t126
+¤T¡Bµ²¦XÃı¥À
+
+~fm3t84l48
+        (¤@)    (¤G)           (¤T)    (¥|)    (¤­)    (¤»)    (¤C)
+        º~ª`    º~¦r           µØ»O    TLPA    °ê»Ú    ¥Ì¨å    º~»Ô
+               (»O)    (µØ)
+        †İ    ­C†İ³¥†ß  Àn†İ    ia      ia      ia      ia      ia
+        †ä    ÅÕ†äÄ¹†å  ¡¼      iann    iann    ~fk;†Ì~fm3;      ia~fk;’ü~fm3;    nia
+        †â    ¥ç†â¾Àûs  ¡¼      iah     iah     ia~fk;’¹~fm3;    iah     iah
+        †é    ¡¼  ¡¼    ¡¼      iann    iann    ~fk;†Ì’¹~fm3;    iah~fk;’ü~fm3;   niah
+        ‡§    ¬ù‡§ÃÄ‡¨(Åª­µ)    iook    iook    ~fk;†Ù~fm3;k     i~fk;’û~fm3;k    iook
+        †ë    Àm†ë¬v†ì  ¡¼      ioonn   ioonn   ~fk;†Ú~fm3;      ¡¼      nioo
+        †ğ    ¡¼  ¡¼    ¡¼      ioonnh  ioonnh  ~fk;†Ú’¹~fm3;    ¡¼      niooh
+        †ò    ¸y†ò¥s•ş  ­ò†ò    io      io      io      io      io
+        †÷    ¾Ğ†÷¤ØŸÆ  ¡¼      ioh     ioh     io~fk;’¹~fm3;    ioh     ioh
+        †ù    ¸y†ù¥s–F  ¡¼      er      er      ~fk;†Û~fm3;      io      io
+        †ş    ¬ù†şÃÄ‡@  ¡¼      erh     erh     i~fk;“D’¹~fm3;/  ioh     ioh
+                                                i~fk;’·’¹~fm3;
+        ‡O    ¼~‡Oªo‡P  ¡¼      iu      iu      iu      iu      iu
+        ‡T    ¡¼  ¡¼    ¡¼      iuh     iuh     iu~fk;’¹~fm3;    iuh     iuh
+        ‡V    ±iøÀm‡V  ¡¼      iunn    iunn    i~fk;†É~fm3;     iu~fk;’ü~fm3;    niu
+        ‡[    ¡¼  ¡¼    ¡¼      iuhnn   iunnh   i~fk;†É’¹~fm3;   ¡¼      niuh
+        ‡A    ¤Ô‡A§¯‡A  §¯‡A    iau     iau     iau     iau     iau
+        ‡H    ¿ß‡H¡¼    ¡¼      iaunn   iaunn   i~fk;†Ï~fm3;     iau~fk;’ü~fm3;   niau
+        ‡F    ¡¼  ¡¼    ¡¼      iauh    iauh    iau~fk;’¹~fm3;   iauh    iauh
+        ‡M    ¡¼  ¡¼    ¡¼      iauhnn  iaunnh  iau~fk;’¹~fm3;   iauh    iauh
+        ‡]    ìI‡]ÆQ‡^  ¡¼      iam     iam     iam     iam     iam
+        ‡b    ¸­‡c¡¼    ¡¼      iap     iap     iap     iap     iap
+        ‡d    ²T‡d­µ‡d  ¡¼      im      im      im      im      im
+        ‡i    «æ–r´¥‡i  ¡¼      ip      ip      ip      ip      ip
+        ‡k    ºt‡m·Ï‡k  ·Ï‡k    ian     ian/    ian     ian     ian
+                                        ien(¦Ñ¬£)/
+                                        en(·s¬£)
+        ‡p    ³] ß¾\‡q  ¡¼      iat     iat/    iat     iat     iat
+                                        iEt(¦Ñ¬£)/
+                                        Et(·s¬£)
+        ‡r    ¦L‡u¦]‡r  ¦]‡r    in      in      in      in      in
+        ‡w    µ§ûÆ¤@‡w  ¡¼      it      it      it      it      it
+        ‡y    ²D”{¥¡‡y  ¥¡‡y    iang    iang    ia~fk;’»~fm3;    iang    iang
+        ‡~    ¬ù‡~(ºs)  ¡¼      iak     iak     iak     iak     iak
+        ‡¢    «i‡¤¹l‡¢  ¡¼      iong    iong    i~fk;¿~fm3;     iong    iong
+        ‡©    ¥Ã‡«­^‡©  ­^‡©    ing     ing     i~fk;’»~fm3;     eng     ing/ying
+        ~fk;ê~fm3;/‡® ¯q‡®¦Ëo  ¡¼      iek     ik      iek     ek      yik
+        ‡¾    ©ì’y½²ƒ÷  µì‡¾    ua      ua      ua      oah     ua
+        ‡Ã    Áïš²³Î–Ì  ¡¼      uah     uah     ua~fk;’¹~fm3;    oah     uah
+        ‡Ñ    ¹º‡Ñ(ºs)  ¡¼      ueh     ueh     ue~fk;’¹~fm3;    oeh     ueh
+        ‡í    ¹º‡í(¬u)  ¡¼      uih     uih     ui~fk;’¹~fm3;    uih     uih
+        ‡ß    ¡¼  ¡¼    ¡¼      uaih    uaih    uai~fk;’¹~fm3;   oaih    uaih
+        ‡Å    ´«‡Å¸J‡Ç  ¡¼      uann    uann    ~fk;†Ğ~fm3;      oa~fk;’ü~fm3;    nua
+        ‡Ì    ¸Ü‡Ì¨©ûë  ¡¼      ue      ue      ue      oe      ue
+        ~fk;ë~fm3;    ©fÀ´C½  ¡¼      ue      ue      u~fk;†Ã~fm3;     ¡¼      ue
+        ‡á    Ãö–ê¡¼    ¡¼      uainn   uainn   ua~fk;†Å~fm3;    oai~fk;’ü~fm3;   nuai
+        ‡ï    ¶À‡ğ(ºs)  ¡¼      uinn    uinn    ~fk;†Î~fm3;      ui~fk;’ü~fm3;    nui
+        ‡ô    ¡¼  ¡¼    ¡¼      uinnh   uinnh   ~fk;†Î’¹~fm3;    oih~fk;’ü~fm3;   nuih
+        ~fk;ì~fm3;    çx~fk;í~fm3;(¬u)  ¡¼      irm     irm    ~fk;’ú~fm3;m      ¡¼      ¡¼
+        ˆL    ®¦ˆL®Ú—N(¬u)      irn     irn    ~fk;’ú~fm3;n      ¡¼      ¡¼
+        ‡ö    ¶~‡÷(¬u)  ¡¼      irinn   irinn  ~fk;’ú†Å~fm3;     ¡¼      ¡¼
+        ‡ı    Ås‡ıÆW‡ı  ÆW‡ı    uan     uan     uan     oan     uan
+        ˆC    ºWˆC¶VˆD  ¡¼      uat     uat     uat     oat     uat
+        ˆE    ®¦ˆE·ÅˆE  ·ÅˆE    un      un      un      un      un
+        ˆJ    ¼÷ˆJ«ß”ï  ¡¼      ut      ut      ut      ut      ut
+        ˆS    õÆˆS¡¼    ¨LˆS    uang    uang    ua~fk;’»~fm3;    oang    uang
+        ˆX    ~fk;…@~fm3;ˆX¡¼    ¡¼      uak     uak     uak     uak     uak
+
+        µù¸Ñ¡G
+         ¡]¤@¡^‡®¡şiek(¦¶¦¡)¡×~fk;ê~fm3;¡şik(TLPA)

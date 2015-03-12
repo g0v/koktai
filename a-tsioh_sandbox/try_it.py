@@ -17,7 +17,8 @@ def main():
             line = line.decode('utf8')
             if line.startswith('~t96;'):
                 # should be a word ?
-                print ("%s : %s" % (analyse_word_entry.parse_one(line))).encode('utf8')
+                print analyse_word_entry.format_one(analyse_word_entry.parse_one(line)).encode('utf8')
+                print "----"
         except UnicodeDecodeError:
             print "encoding error on line", i
 

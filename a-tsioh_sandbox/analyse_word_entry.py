@@ -11,6 +11,14 @@ import re
 re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~t84;(?P<definition>.*)$",re.U)
 re_special_chars = re.compile(ur"~[a-z0-9]+;")
 
+re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<body>.*)$")
+
+def format_one(entry):
+    return """
+    %(entry)s [%(POS)s] (%(nh)s)
+    %(body)s
+    """ % entry
+
 def parse_one(line):
     """
     analyse one line, assume unicode
@@ -18,12 +26,30 @@ def parse_one(line):
     matchs = re_main_parts.match(line)
     if matchs:
         entry = matchs.group("entry")
-        entry = re_special_chars.sub("",entry)
         definition = matchs.group("definition")
+        # remove formating chars (not sure of the meaning of each)
+        entry = re_special_chars.sub("", entry)
+        definition = re_special_chars.sub("", definition)
+        # romanise the phonetics
         entry = convert_any(entry)
         definition = convert_any(definition)
-        return (entry, definition)
-    raise NameError('unparsable line: ' + line)
+
+        # analyse def content
+        def_matchs = re_definition.match(definition)
+        if def_matchs:
+            nh = def_matchs.group('nhomonym')
+            pos = def_matchs.group('POS')
+            body = def_matchs.group('body')
+            e = {
+                'entry': entry,
+                'nh': nh,
+                'POS': pos,
+                'body': body
+                }
+            return e
+
+    print "pb with", line.encode('utf8')
+    #raise NameError('unparsable line: ' + line)
 
 
 

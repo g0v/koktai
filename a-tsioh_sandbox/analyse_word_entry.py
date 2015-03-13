@@ -29,6 +29,7 @@ def parse_one(line):
         definition = matchs.group("definition")
         # remove formating chars (not sure of the meaning of each)
         entry = re_special_chars.sub("", entry)
+        tmp = entry
         definition = re_special_chars.sub("", definition)
         # romanise the phonetics
         entry = convert_any(entry)
@@ -41,6 +42,7 @@ def parse_one(line):
             pos = def_matchs.group('POS')
             body = def_matchs.group('body')
             e = {
+                'raw': tmp,
                 'entry': entry,
                 'nh': nh,
                 'POS': pos,

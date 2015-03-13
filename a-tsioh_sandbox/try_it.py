@@ -5,11 +5,16 @@ try to get as much data as possible from original .dic files
 """
 
 import fileinput
+from collections import defaultdict
+import json
 
 import analyse_word_entry
+import wsl_to_kaulo
 
 def main():
     i = 0
+    good = defaultdict(set)
+    bad = defaultdict(set)
     for line in fileinput.input():
         i += 1
         # not sure about the proper encoding to use
@@ -17,8 +22,8 @@ def main():
             line = line.decode('utf8')
             if line.startswith('~t96;'):
                 # should be a word ?
-                print analyse_word_entry.format_one(analyse_word_entry.parse_one(line)).encode('utf8')
-                print "----"
+                entry = analyse_word_entry.parse_one(line)
+                print (analyse_word_entry.format_one(entry)).encode('utf8')
         except UnicodeDecodeError:
             print "encoding error on line", i
 

@@ -13,11 +13,10 @@ import wsl_to_kaulo
 
 def main():
     i = 0
-    good = defaultdict(set)
-    bad = defaultdict(set)
     for line in fileinput.input():
         i += 1
         # not sure about the proper encoding to use
+        # Perl actually does a better job on this, original encoding is CP950
         try:
             line = line.decode('utf8')
             if line.startswith('~t96;'):

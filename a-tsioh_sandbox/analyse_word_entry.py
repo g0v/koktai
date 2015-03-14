@@ -39,7 +39,11 @@ def parse_one(line):
         def_matchs = re_definition.match(definition)
         if def_matchs:
             nh = def_matchs.group('nhomonym')
+            if nh is None:
+                nh = '1'
             pos = def_matchs.group('POS')
+            if pos is None:
+                pos = 'None'
             body = def_matchs.group('body')
             e = {
                 'raw': tmp,
@@ -51,6 +55,7 @@ def parse_one(line):
             return e
 
     print "pb with", line.encode('utf8')
+    return None
     #raise NameError('unparsable line: ' + line)
 
 

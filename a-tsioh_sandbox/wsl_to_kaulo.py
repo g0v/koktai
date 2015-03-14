@@ -5,6 +5,15 @@ into church romanisation
 """
 
 import codecs
+import unicodedata as ud
+
+def is_CJK(c):
+    try:
+        if 'CJK' in ud.name(c):
+            return True
+        return False
+    except:
+        return False
 
 data = {}
 
@@ -18,20 +27,32 @@ with codecs.open("WSL_list.tsv","r","utf8") as f:
 
 def check_entry(raw):
     # these chars have to be ignored
-    raw = raw.replace('(',"").replace(')','').replace('/','').replace(u'·','')
+    raw = raw.replace('(',"").replace(')','').replace(u'·','')
     result = [(raw[0],[])] # list of (character, [list of romanisations])
-    for i in range(1,len(raw)):
-        syl = convert(raw[i])
-        if syl == None :
-            if len(result[-1][1]) == 0 :
-                # unknown syllable
-                result[-1][1].append(raw[i])
+    i = 1
+    while i < len(raw):
+        if raw[i] == '/':
+            #alternative
+            i += 1
+            if len(result[-1][1]) == 0:
+                # alternative writting
+                result[-1] = (result[-1][0] + "/" + raw[i], [])
             else:
-                # next sinogram
-                result.append((raw[i],[]))
+                # alternative reading
+                result[-1][1].append(raw[i])
         else:
-            # some reading for previous sinogram
-            result[-1][1].append(raw[i])
+            syl = convert(raw[i])
+            if syl == None:
+                if len(result[-1][1]) == 0 :
+                    # still has to be some unknown syllable
+                    result[-1][1].append(raw[i])
+                else:
+                    # next sinogram
+                    result.append((raw[i],[]))
+            else:
+                # some reading for previous sinogram
+                result[-1][1].append(raw[i])
+        i += 1
     return result
 
 

@@ -38,7 +38,7 @@ for c in CONSTRAINTS:
     g.cypher.execute(c)
 
 def merge_in_graph(tx, e):
-    e['key'] = "".join([e['entry'],e['nh']])
+    e['key'] = "".join([e['raw'],e['nh']])
     stmt_form = """
     MERGE (:NgoForm {form:{form}})
     """

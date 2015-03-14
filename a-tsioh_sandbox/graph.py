@@ -107,13 +107,14 @@ def main():
                     continue
                 merge_in_graph(tx, entry)
                 if (i % 50) == 0:
-                    print i
+                    #print i
                     tx.commit()
                     tx = g.cypher.begin()
                     
         except UnicodeDecodeError:
             print "encoding error on line", i
     tx.commit()
+    
 
 
 if __name__ == "__main__":

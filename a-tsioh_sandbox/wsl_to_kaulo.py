@@ -27,7 +27,7 @@ with codecs.open("WSL_list.tsv","r","utf8") as f:
 
 def check_entry(raw):
     # these chars have to be ignored
-    raw = raw.replace('(',"").replace(')','').replace(u'·','')
+    raw = raw.replace('(',"").replace(')','').replace(u'·','').replace(u'…','')
     result = [(raw[0],[])] # list of (character, [list of romanisations])
     i = 1
     while i < len(raw):

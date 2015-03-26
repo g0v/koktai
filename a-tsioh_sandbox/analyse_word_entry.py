@@ -5,6 +5,7 @@ ex:
 ~t96;【~fb7bb1;八~fm3bb1;~fb7bb1;荒~fm3bb1;~fm3bb1;】~t84;[數帶名詞] (台)八/方荒遠丌~fk;~fm3;地/帶(/域)。 
 """
 
+import sys
 from wsl_to_kaulo import convert_any
 import re
 
@@ -13,11 +14,35 @@ re_special_chars = re.compile(ur"~[a-z0-9]+;")
 
 re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<body>.*)$")
 
+re_lang = re.compile(ur"\(台\)",re.U)
+
+def split_by_language(definition):
+    sentences = []
+    current_language = u"國語"
+    position = 0
+    m = re_lang.search(definition, position)
+    while m:
+        (begin, end) = m.span()
+        sentences.append({'lang': current_language, 'sentence': definition[position:begin]})
+        current_language = definition[end-2]
+        position = end
+        m = re_lang.match(definition, position)
+    sentences.append({'lang': current_language, 'sentence': definition[position:]})
+    return sentences
+
+
+
+
+
+
+
 def format_one(entry):
     return """
     %(entry)s [%(POS)s] (%(nh)s)
     %(body)s
-    """ % entry
+    sentences:
+    """ % entry + "\n".join(["\t%(lang)s : %(sentence)s" % x for x in entry['sentences']])
+
 
 def parse_one(line):
     """
@@ -29,12 +54,7 @@ def parse_one(line):
         definition = matchs.group("definition")
         # remove formating chars (not sure of the meaning of each)
         entry = re_special_chars.sub("", entry)
-        tmp = entry
         definition = re_special_chars.sub("", definition)
-        # romanise the phonetics
-        entry = convert_any(entry)
-        definition = convert_any(definition)
-
         # analyse def content
         def_matchs = re_definition.match(definition)
         if def_matchs:
@@ -45,16 +65,20 @@ def parse_one(line):
             if pos is None:
                 pos = 'None'
             body = def_matchs.group('body')
+            sentences = split_by_language(body)
+            for s in sentences:
+                if s['lang'] == u"台":
+                    s['sentence'] = convert_any(s['sentence'])
             e = {
-                'raw': tmp,
                 'entry': entry,
                 'nh': nh,
                 'POS': pos,
-                'body': body
+                'body': body,
+                'sentences': sentences
                 }
             return e
 
-    print "pb with", line.encode('utf8')
+    print >>sys.stderr, "pb with", line.encode('utf8')
     return None
     #raise NameError('unparsable line: ' + line)
 

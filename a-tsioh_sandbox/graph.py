@@ -38,14 +38,13 @@ for c in CONSTRAINTS:
     g.cypher.execute(c)
 
 def merge_in_graph(tx, e):
-    e['key'] = "".join([e['raw'],e['nh']])
+    e['key'] = "".join([e['entry'],e['nh']])
     stmt_form = """
     MERGE (:NgoForm {form:{form}})
     """
     stmt_word = """
     MATCH (f:NgoForm {form:{key}})
     MERGE (f) -[:entry]-> (:NgoWord {key: {key},
-                                     raw: {raw},
                                      entry: {entry},
                                      nh: {nh},
                                      POS: {POS},
@@ -68,9 +67,22 @@ def merge_in_graph(tx, e):
     MERGE (e:NgoError {wsl: {wsl}})
     MERGE (s) -[:contains]-> (e)
     """
+
+    stmt_sentence = """
+    MATCH (w:NgoWord {key: {key}})
+    CREATE (s:NgoSentence {lang: {lang}, text:{sentence}})
+    CREATE (w) -[:NgoDef {n: {n}}]-> (s)
+    """
     tx.append(stmt_form, {'form': e['key']})
     tx.append(stmt_word, e)
-    syl_list = wsl_to_kaulo.check_entry(e['raw'])
+    for n,s in enumerate(e['sentences']):
+        tx.append(stmt_sentence, {
+            'key':e['key'],
+            'lang': s['lang'],
+            'sentence': s['sentence'],
+            'n': n})
+
+    syl_list = wsl_to_kaulo.check_entry(e['entry'])
     for n,(sino, readings) in enumerate(syl_list):
         wsl = "/".join(readings)
         tx.append(stmt_syl, {'raw': sino + wsl,

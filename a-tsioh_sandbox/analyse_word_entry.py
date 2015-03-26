@@ -14,7 +14,7 @@ re_special_chars = re.compile(ur"~[a-z0-9]+;")
 
 re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<body>.*)$")
 
-re_lang = re.compile(ur"\(台\)",re.U)
+re_lang = re.compile(ur"\((台|國語)\)",re.U)
 
 def split_by_language(definition):
     sentences = []
@@ -24,9 +24,9 @@ def split_by_language(definition):
     while m:
         (begin, end) = m.span()
         sentences.append({'lang': current_language, 'sentence': definition[position:begin]})
-        current_language = definition[end-2]
+        current_language = definition[begin+1:end-1]
         position = end
-        m = re_lang.match(definition, position)
+        m = re_lang.search(definition, position)
     sentences.append({'lang': current_language, 'sentence': definition[position:]})
     return sentences
 
@@ -43,6 +43,24 @@ def format_one(entry):
     sentences:
     """ % entry + "\n".join(["\t%(lang)s : %(sentence)s" % x for x in entry['sentences']])
 
+
+def html_of_entry(entry):
+    html = """
+    div
+      h1 %(entry)s
+      div.part-of-speech %(POS)s
+      div.homonym %(nh)s
+      div.definition
+    """ % entry
+    for s in entry['sentences']:
+        html += """
+          div.sentence
+            div.lang %(lang)s
+            div.text %(sentence)s
+        """ % s
+    return html
+              
+      
 
 def parse_one(line):
     """

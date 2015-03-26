@@ -22,7 +22,7 @@ def main():
             if line.startswith('~t96;'):
                 # should be a word ?
                 entry = analyse_word_entry.parse_one(line)
-                print (analyse_word_entry.format_one(entry)).encode('utf8')
+                print (analyse_word_entry.html_of_entry(entry)).encode('utf8')
         except UnicodeDecodeError:
             print "encoding error on line", i
 

@@ -79,4 +79,13 @@ def convert_any(line):
             result.append(c)
     return "".join(result)
 
+def annotate(line):
+    result = []
+    for c in line:
+        if c in data and len(result) > 0:
+            result[-1][1].append(data[c])
+        else:
+            result.append([c,""])
+    return result
+
 

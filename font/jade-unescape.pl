@@ -10,7 +10,11 @@ my $m3 = decode_json(slurp("$Bin/m3.json"));
 while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
-    s!&#xF(....);!
+    s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
+    s!&#xF([89af]...);!
+        $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<mark>&#xF$1</mark>]
+    !eg;
+    s!&#xF([^89af]...);!
         $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<img src="img/m3/$1.png">]
     !eg;
     Encode::_utf8_off($_);

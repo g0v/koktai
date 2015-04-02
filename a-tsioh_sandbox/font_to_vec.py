@@ -10,7 +10,8 @@ from png_to_vec import scan_lines_and_columns
 
 SIZE = (60,60)
 
-chars = [x.decode('utf8').strip() for x in open("unicode_ext_charlist.txt").readlines()]
+chars = [x.decode('utf8').strip() for x in open("unicode_bmp_charlist.txt").readlines()]
+chars += [x.decode('utf8').strip() for x in open("unicode_ext_charlist.txt").readlines()]
 
 data = {}
 for text in chars:

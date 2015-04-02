@@ -9,7 +9,7 @@ from collections import defaultdict
 import json
 
 import analyse_word_entry
-import wsl_to_kaulo
+#import wsl_to_kaulo
 
 def main():
     print """

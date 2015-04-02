@@ -6,7 +6,7 @@ ex:
 """
 
 import sys
-from wsl_to_kaulo import convert_any
+# from wsl_to_kaulo import convert_any
 import re
 
 re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~t84;(?P<definition>.*)$",re.U)
@@ -95,9 +95,9 @@ def parse_one(line):
                 pos = 'None'
             body = def_matchs.group('body')
             sentences = split_by_language(body)
-            for s in sentences:
-                if s['lang'] == u"台":
-                    s['sentence'] = convert_any(s['sentence'])
+            #for s in sentences:
+            #    if s['lang'] == u"台":
+            #        s['sentence'] = convert_any(s['sentence'])
             e = {
                 'entry': entry,
                 'nh': nh,

@@ -8,7 +8,8 @@ import json
 
 SIZE = (10,10)
 
-chars = [x.decode('utf8').strip() for x in open("unicode_ext_charlist.txt").readlines()]
+chars = [x.decode('utf8').strip() for x in open("unicode_bmp_charlist.txt").readlines()]
+chars += [x.decode('utf8').strip() for x in open("unicode_ext_charlist.txt").readlines()]
 
 data = {}
 for text in chars:

@@ -1,0 +1,39 @@
+@charset "UTF-8";
+@import url('./han.min.css');
+.sentence {
+    border-left: 2px solid green;
+    padding: 5px;
+    margin: 5px;
+}
+.lang {
+    display: inline-block;
+    border: #009 1px solid;
+    padding: 3px;
+}
+.text {
+    padding: 3px;
+}
+.part-of-speech {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 5px;
+    float: left;
+}
+.homonym {
+    padding-left: 3px;
+}
+h1 {
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+body.han-init-context > div {
+    float: left;
+}
+rt {
+    font-size: 50%;
+}
+img {
+    width: 24px;
+    height: 24px;
+    border: 1px solid red;
+}

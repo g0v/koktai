@@ -26,7 +26,7 @@ sub k {
     my $str = shift;
     $str =~ s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
     $str =~ s!&#xF([89af]...);!
-        $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<mark>&#xF$1</mark>]
+        $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<mark>&#xF$1;</mark>]
     !eg;
     $str =~ s!&#xF([^89af]...);!
         $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<img src="img/k/$1.png">]

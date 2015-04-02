@@ -37,3 +37,10 @@ img {
     height: 24px;
     border: 1px solid red;
 }
+@font-face {
+    font-family: 'k';
+    src: url('./font/koktai-k.woff') format('woff');
+}
+mark {
+    font-family: 'k';
+}

@@ -79,8 +79,8 @@ def parse_one(line):
         # recode change font tags
         #entry = re_kai_font.sub("<k>",entry)
         #entry = re_ming_font.sub("</k>",entry)
-        entry = re_change_font.sub("<k>\1</k>",entry)
-        definition = re_change_font.sub("<k>\1</k>",definition)
+        entry = re_change_font.sub("<k>\\1</k>",entry)
+        definition = re_change_font.sub("<k>\\1</k>",definition)
         # remove formating chars (not sure of the meaning of each)
         entry = re_special_chars.sub("", entry)
         definition = re_special_chars.sub("", definition)

@@ -50,3 +50,9 @@ mark {
 .preface p {
     padding-left: 20px;
 }
+.preface table {
+    margin-left: 20px;
+}
+.preface pre {
+    font-family: monospace;
+}

@@ -38,7 +38,8 @@ while (<>) {
     next if /^\./;
     /^(m3|k) +(\S)(\S) +(.+),(\d+)/ or exit print $_;
     my ($font, $hi, $lo, $keys, $tone) = ($1, sprintf("%02x", ord $2), sprintf("%02x", ord $3), $4, $5);
-    next unless $font eq 'm3';
+    next unless $font eq 'k';
+    next unless $hi =~ /8c|8d/;
     $keys = join '', map { $bpmf->{$_} } split //, $keys;
     print qq!"$hi$lo": "$keys$tones[$tone]",\n!;
 }

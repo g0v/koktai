@@ -9,7 +9,7 @@ import sys
 # from wsl_to_kaulo import convert_any
 import re
 
-re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~t84;(?P<definition>.*)$",re.U)
+re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~(fd6)?t84;(?P<definition>.*)$",re.U)
 
 re_kai_font = re.compile(ur"~fk;",re.U)
 re_ming_font = re.compile(ur"~fm3;",re.U)

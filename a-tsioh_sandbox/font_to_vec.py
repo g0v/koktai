@@ -15,11 +15,17 @@ chars += [x.decode('utf8').strip() for x in open("unicode_ext_charlist.txt").rea
 
 data = {}
 for text in chars:
-    ttfont = ImageFont.truetype ('/usr/share/fonts/truetype/arphic/uming.ttc', 128)
-    image = Image.new ('1', (128, 128), 0);
-    ImageDraw.Draw(image).text( (0, 0), text, font = ttfont, fill = 1 )
+    #ttfont = ImageFont.truetype('/usr/share/fonts/truetype/arphic/uming.ttc', 128)
+    minfont = ImageFont.truetype("/usr/share/fonts/truetype/hanazono/HanaMinB.ttf", 128)
+    ttfont = ImageFont.truetype("/usr/share/fonts/truetype/hanazono/HanaMinA.ttf", 128)
+    image = Image.new ('1', (128, 128), 1);
+    if ord(text) <= 0x1ffff :
+        ImageDraw.Draw(image).text( (0, 0), text, font = ttfont, fill = 0 )
+    else:
+        ImageDraw.Draw(image).text( (0, 0), text, font = minfont, fill = 0 )
+    image.save("./arphic/" + "%x" %(ord(text),) + ".png")
     small = image.resize(SIZE)
     data["%x"%(ord(text),)] = small.histogram()
 
 
-print json.dumps(data)
+#print json.dumps(data)

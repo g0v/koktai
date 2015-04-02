@@ -10,7 +10,13 @@ from wsl_to_kaulo import convert_any
 import re
 
 re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~t84;(?P<definition>.*)$",re.U)
-re_special_chars = re.compile(ur"~[a-z0-9]+;")
+
+re_kai_font = re.compile(ur"~fk;",re.U)
+re_ming_font = re.compile(ur"~fm3;",re.U)
+
+re_change_font = re.compile(ur"~fk;(.*?)~fm3;",re.U)
+
+re_special_chars = re.compile(ur"~[a-z0-9]+;",re.U)
 
 re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<body>.*)$")
 
@@ -70,6 +76,11 @@ def parse_one(line):
     if matchs:
         entry = matchs.group("entry")
         definition = matchs.group("definition")
+        # recode change font tags
+        #entry = re_kai_font.sub("<k>",entry)
+        #entry = re_ming_font.sub("</k>",entry)
+        entry = re_change_font.sub("<k>\1</k>",entry)
+        definition = re_change_font.sub("<k>\1</k>",definition)
         # remove formating chars (not sure of the meaning of each)
         entry = re_special_chars.sub("", entry)
         definition = re_special_chars.sub("", definition)
@@ -96,7 +107,7 @@ def parse_one(line):
                 }
             return e
 
-    print >>sys.stderr, "pb with", line.encode('utf8')
+    #print >>sys.stderr, "pb with", line.encode('utf8')
     return None
     #raise NameError('unparsable line: ' + line)
 

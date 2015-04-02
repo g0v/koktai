@@ -3,7 +3,7 @@
 try to get as much data as possible from original .dic files
 (cat-ed on stdin)
 """
-
+import sys
 import fileinput
 from collections import defaultdict
 import json
@@ -30,9 +30,10 @@ html
             if line.startswith('~t96;'):
                 # should be a word ?
                 entry = analyse_word_entry.parse_one(line)
-                print (analyse_word_entry.html_of_entry(entry)).encode('utf8')
+                if entry:
+                    print (analyse_word_entry.html_of_entry(entry)).encode('utf8')
         except UnicodeDecodeError:
-            print "encoding error on line", i
+            print >>sys.stderr,"encoding error on line", i
 
 if __name__ == "__main__":
     main()

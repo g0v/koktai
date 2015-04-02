@@ -44,3 +44,9 @@ img {
 mark {
     font-family: 'k';
 }
+.preface ul {
+    list-style: none;
+}
+.preface p {
+    padding-left: 20px;
+}

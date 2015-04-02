@@ -14,7 +14,7 @@ re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~t84;(?P<definition>
 re_kai_font = re.compile(ur"~fk;",re.U)
 re_ming_font = re.compile(ur"~fm3;",re.U)
 
-re_change_font = re.compile(ur"~fk;(.*?)~fm3;",re.U)
+re_change_font = re.compile(ur"~fk[a-z0-9]*;(.*?)~fm3[a-z0-9]*;",re.U)
 
 re_special_chars = re.compile(ur"~[a-z0-9]+;",re.U)
 

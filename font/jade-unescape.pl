@@ -11,10 +11,7 @@ while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
     s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
-    s!&#xF([89af]...);!
-        $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<mark>&#xF$1</mark>]
-    !eg;
-    s!&#xF([^89af]...);!
+    s!&#xF(....);!
         $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<img src="img/m3/$1.png">]
     !eg;
     Encode::_utf8_off($_);
@@ -27,7 +24,11 @@ while (<>) {
 
 sub k {
     my $str = shift;
-    $str =~ s!&#xF(....);!
+    $str =~ s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
+    $str =~ s!&#xF([89af]...);!
+        $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<mark>&#xF$1</mark>]
+    !eg;
+    $str =~ s!&#xF([^89af]...);!
         $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<img src="img/k/$1.png">]
     !eg;
     return $str;

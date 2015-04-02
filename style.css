@@ -44,6 +44,9 @@ img {
 mark {
     font-family: 'k';
 }
+.preface h1, .preface h2 {
+    text-align: center;
+}
 .preface ul {
     list-style: none;
 }
@@ -55,4 +58,8 @@ mark {
 }
 .preface pre {
     font-family: monospace;
+}
+.preface img.char {
+    width: 0.9em;
+    height: 0.9em;
 }

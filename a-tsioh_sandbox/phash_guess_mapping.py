@@ -4,7 +4,7 @@ import json
 
 import phash
 
-NBESTS = 5
+NBESTS = 10
 
 def compare_two_hash(h1,h2):
     return phash.cross_correlation(h1,h2)
@@ -23,7 +23,7 @@ def main(sources, targets):
             corr = compare_two_hash(s_hashs[s],t_hashs[t])
             scores.append((corr, t))
             # print s,t,corr
-        results[s] = [ (t,sc)  for sc,t in sorted(scores)[-NBESTS:]]
+        results[s] = [ (t,sc)  for sc,t in reversed(sorted(scores)[-NBESTS:])]
         #print "best",s, results[s]
     #print json.dumps(results)
         print "".join(["<img src=\"%s\"/>(%.2f)" % x for x in [(s,1.0)] + results[s]])+"<br/>"

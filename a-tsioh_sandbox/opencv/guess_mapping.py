@@ -9,7 +9,7 @@ NBESTS = 10
 
 matcher = cv2.BFMatcher()
 sift = cv2.SIFT()
-kernel = np.ones((5,5),np.float32)/25
+kernel = np.ones((10,10),np.float32)/(10*10)
 
 def compare_two(des1,des2):
     return np.mean([x.distance for x in matcher.match(des1,des2)])
@@ -18,9 +18,11 @@ def compute_descriptions(paths):
     result = {}
     for p in paths:
         im = cv2.imread(p)
+        #edges = np.uint8(np.absolute(cv2.Laplacian(im, cv2.CV_64F)))
         blurry = cv2.filter2D(im,-1,kernel)
-        gray = cv2.cvtColor(blurry, cv2.COLOR_BGR2GRAY)
-        kp, des = sift.detectAndCompute(gray, None)
+        
+        #gray = cv2.cvtColor(blurry, cv2.COLOR_BGR2GRAY)
+        kp, des = sift.detectAndCompute(blurry, None)
         result[p] = des
     return result
 

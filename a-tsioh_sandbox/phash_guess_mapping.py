@@ -26,7 +26,7 @@ def main(sources, targets):
         results[s] = [ (t,sc)  for sc,t in sorted(scores)[-NBESTS:]]
         #print "best",s, results[s]
     #print json.dumps(results)
-        print "".join(["<img src=\"%s\"/>" % (x,) for x in [s] + [y[0] for y in results[s]]])+" %.3f<br/>" % (results[s][-1][1],)
+        print "".join(["<img src=\"%s\"/>(%.2f)" % x for x in [(s,1.0)] + results[s]])+"<br/>"
     print "</body></html>"
 
 

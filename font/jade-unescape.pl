@@ -11,6 +11,9 @@ while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
     s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
+    s!&#xF(c...);!
+        $m3->{$1} ? qq[$m3->{$1}] : qq[<img src="img/m3/$1.png">]
+    !eg;
     s!&#xF(....);!
         $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<img src="img/m3/$1.png">]
     !eg;

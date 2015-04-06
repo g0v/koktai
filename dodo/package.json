@@ -1,0 +1,37 @@
+{
+  "name": "ethercalc-log",
+  "version": "0.0.1",
+  "description": "EtherCalc Log Viewer",
+  "scripts": {
+    "start": "node server.js",
+    "build": "env NODE_ENV=production webpack build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/audreyt/ethercalc-log.git"
+  },
+  "keywords": [],
+  "author": "Audrey Tang <audreyt@audreyt.org>",
+  "license": "CC0",
+  "bugs": {
+    "url": "https://github.com/audreyt/ethercalc-log/issues"
+  },
+  "homepage": "https://github.com/audreyt/ethercalc-log",
+  "devDependencies": {
+    "babel-core": "^5.0.8",
+    "babel-loader": "^5.0.0",
+    "react-hot-loader": "^1.2.2",
+    "webpack": "^1.7.2",
+    "webpack-dev-server": "^1.7.0"
+  },
+  "dependencies": {
+    "babel-core": "^5.0.8",
+    "babel-loader": "^5.0.0",
+    "bluebird": "^2.9.24",
+    "moment": "^2.9.0",
+    "react": "^0.13.1",
+    "react-style": "^0.5.2",
+    "react-transmit": "^2.5.0",
+    "superagent-bluebird-promise": "^2.0.0"
+  }
+}

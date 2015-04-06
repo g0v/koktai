@@ -20,8 +20,9 @@ class App extends React.Component {
         return (
             <div id="outer" onClick={()=>this.setState({})}>
             <div id="container">
-                <img className="pane shadow-z-0" 
-                src={"https://g0v.github.io/koktai/img/k/"+id+".png"}/>
+                <span className="pane shadow-z-0">
+                    <img className="big5" src={"https://g0v.github.io/koktai/img/k/"+id+".png"}/>
+                </span>
                 <span className="equals pane shadow-z-0">=</span>
                     <input className="pane answer" placeholder="?" ref={ (it) => {
                         if (it && !isTouch) { React.findDOMNode(it).focus() }
@@ -34,11 +35,12 @@ class App extends React.Component {
                             this.post()
                         : ''
                     } style={{ left: pick ? '-1000px' : '' }}/>
-                { pick ? ( (pick.codePointAt(0) <= 0x1ffff) ?
+                { pick ? (
                     <span className="final choice han shadow-z-2" onClick={()=>this.post()}>
-                    { pick }</span>
-                : <img className="final choice han shadow-z-2" onClick={()=>this.post()} src={
+                    { 
+                         (pick.codePointAt(0) <= 0x1ffff) ?  pick : <img src={
                         "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+pick.codePointAt(0).toString(16)+".png" }/>
+                    }</span>
                 )
                 : <br/>}
             <div className="progress">
@@ -46,18 +48,14 @@ class App extends React.Component {
                     width: this.state.progress.length + (pick ? 1 : 0) + "%", height: "100%"
                 }}></div>
             </div>
-                {[1,2,3,4,5].map(idx => (candidates[idx-1].codePointAt(0) <= 0x1ffff) ?
+                {[1,2,3,4,5].map(idx =>
                     <span className={"choice han shadow-z-" + (pick ? 0 : 3)} onClick={
                         ()=>this.setState({pick: candidates[idx-1]})
                     }>
-                    { isTouch ? '' : <i className={"hint mdi-image-filter-" + idx} /> }{
-                        candidates[idx-1]
-                    }
-                    </span>
-                : <img className={"choice han shadow-z-" + (pick ? 0 : 3)} onClick={
-                        ()=>this.setState({pick: candidates[idx-1]})
-                } src={
-                    "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+candidates[idx-1].codePointAt(0).toString(16)+".png" }/>
+                    { isTouch ? '' : <i className={"hint mdi-image-filter-" + idx} /> }
+                    { (candidates[idx-1].codePointAt(0) <= 0x1ffff) ?  candidates[idx-1] : <img src={
+                "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+candidates[idx-1].codePointAt(0).toString(16)+".png" }/>
+                    }</span>
                 )}
                 <span className={"choice shadow-z-" + (pick ? 0 : 3)} onClick={
                     ()=>this.setState({pick: 'Ⓧ'})

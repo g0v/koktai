@@ -34,16 +34,19 @@ class App extends React.Component {
                             this.post()
                         : ''
                     } style={{ left: pick ? '-1000px' : '' }}/>
-                { pick ?
-                <span className="final choice han shadow-z-2" onClick={()=>this.post()}>
+                { pick ? ( (pick.codePointAt(0) <= 0x1ffff) ?
+                    <span className="final choice han shadow-z-2" onClick={()=>this.post()}>
                     { pick }</span>
+                : <img className="final choice han shadow-z-2" onClick={()=>this.post()} src={
+                        "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+pick.codePointAt(0).toString(16)+".png" }/>
+                )
                 : <br/>}
             <div className="progress">
                 <div className={"progress-bar " + (pick ? "progress-bar-success" : '')} style={{
                     width: this.state.progress.length + (pick ? 1 : 0) + "%", height: "100%"
                 }}></div>
             </div>
-                {[1,2,3,4,5].map(idx =>
+                {[1,2,3,4,5].map(idx => (candidates[idx-1].codePointAt(0) <= 0x1ffff) ?
                     <span className={"choice han shadow-z-" + (pick ? 0 : 3)} onClick={
                         ()=>this.setState({pick: candidates[idx-1]})
                     }>
@@ -51,6 +54,10 @@ class App extends React.Component {
                         candidates[idx-1]
                     }
                     </span>
+                : <img className={"choice han shadow-z-" + (pick ? 0 : 3)} onClick={
+                        ()=>this.setState({pick: candidates[idx-1]})
+                } src={
+                    "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+candidates[idx-1].codePointAt(0).toString(16)+".png" }/>
                 )}
                 <span className={"choice shadow-z-" + (pick ? 0 : 3)} onClick={
                     ()=>this.setState({pick: 'Ⓧ'})

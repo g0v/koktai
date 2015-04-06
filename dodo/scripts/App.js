@@ -13,7 +13,7 @@ class App extends React.Component {
         this.props.onPick(this.state.pick);
     }
     render() {
-        const {id, chars} = this.props
+        const {id, chars, max, done} = this.props
         const {pick} = this.state
         const candidates = []
         for (var x of chars) { candidates.push(x); }
@@ -43,9 +43,10 @@ class App extends React.Component {
                     }</span>
                 )
                 : <br/>}
+            <span id="score">{`${done + this.state.progress.length} / ${max}`}</span>
             <div className="progress">
                 <div className={"progress-bar " + (pick ? "progress-bar-success" : '')} style={{
-                    width: this.state.progress.length + (pick ? 1 : 0) + "%", height: "100%"
+                    width: ((done + this.state.progress.length + (pick ? 1 : 0)) / max * 100) + "%", height: "100%"
                 }}></div>
             </div>
                 {[1,2,3,4,5].map(idx =>

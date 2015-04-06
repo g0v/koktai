@@ -20,7 +20,7 @@ function load (id) {
 }
 function onPick (id, pick) {
     load(items[ Math.floor(Math.random() * items.length) ])
-    const payload = `"${ id }","${ pick }","${ sessionId }"`
+    const payload = `"F${ id }","${ pick }","${ sessionId }"`
     request.post("https://ethercalc.org/_/koktai-dodo")
         .type("text/csv").accept("application/json")
         .send(payload)

@@ -33,6 +33,8 @@ class App extends React.Component {
                             this.setState({ pick: 'Ⓧ' })
                         : (e.target.value === ' ') ?
                             this.post()
+                        : (e.target.value.codePointAt(0) > 0x1000)
+                            ? this.setState({pick: e.target.value})
                         : ''
                     } style={{ left: pick ? '-1000px' : '' }} onKeyDown={(e) =>
                         (e.key == 'Enter') ? this.post() : ''

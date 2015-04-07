@@ -16,7 +16,8 @@ class App extends React.Component {
         const {id, chars, max, done} = this.props
         const {pick} = this.state
         const candidates = []
-        for (var x of chars) { candidates.push(x); }
+        const indices = [];
+        for (var x of chars) { candidates.push(x); indices.push(indices.length + 1) }
         return (
             <div id="outer" onClick={()=>this.setState({})}>
             <div id="container">
@@ -53,7 +54,7 @@ class App extends React.Component {
                     width: ((done + this.state.progress.length + (pick ? 1 : 0)) / max * 100) + "%", height: "100%"
                 }}></div>
             </div>
-                {[1,2,3,4,5].map(idx =>
+                {indices.map(idx =>
                     <span className={"choice han shadow-z-" + (pick ? 0 : 3)} onClick={
                         ()=>this.setState({pick: candidates[idx-1]})
                     }>

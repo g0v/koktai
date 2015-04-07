@@ -20,9 +20,13 @@ function load (id) {
     React.render( <App id={id} max={max} done={done} chars={ Mapping[id] } onPick={(pick)=>onPick(id, pick)} />, root );
 }
 function onPick (id, pick) {
-    load(items[ Math.floor(Math.random() * items.length) ])
+    if (items.length == 0) {
+        alert("恭喜完成！現在，可以自行鍵入字形，打好字複製回視窗裡貼上即可。")
+        items = Object.keys(Mapping)
+    }
+    load(items.splice( Math.floor(Math.random() * items.length), 1 )[0]);
     const payload = `"F${ id }","${ pick }","${ sessionId }"`
-    request.post("https://ethercalc.org/_/koktai-dodo.4")
+    request.post("https://ethercalc.org/_/koktai-dodo.5")
         .type("text/csv").accept("application/json")
         .send(payload)
         .then(()=>console.log(payload))
@@ -31,14 +35,10 @@ if (/^\?([a-f0-9]{4})$/.test(location.search) && Mapping[location.search.slice(1
     load(location.search.slice(1))
 }
 else {
-    if (items.length == 0) {
-        alert("恭喜完成！下階段明天開始。\n現在，可以自行鍵入字形，打好字複製回視窗裡貼上即可。")
-        items = Object.keys(Mapping)
-    }
     load(items.splice( Math.floor(Math.random() * items.length), 1 )[0]);
 }
 
-request.get("https://ethercalc.org/log/scripts/ethercalc-dodo-done.4.json").then(res => {
+request.get("https://ethercalc.org/log/scripts/ethercalc-dodo-done.5.json").then(res => {
     var Remaining = JSON.parse(JSON.stringify(Mapping))
     for (var i = 0; i < res.body.length; i++) {
         delete Remaining[res.body[i]]

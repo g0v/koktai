@@ -43,7 +43,7 @@ class App extends React.Component {
                     <span className="final choice han shadow-z-2" onClick={()=>this.post()}>
                     { 
                          (pick.codePointAt(0) <= 0x1ffff) ?  pick : <img src={
-                        "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+pick.codePointAt(0).toString(16)+".png" }/>
+                         "http://glyphwiki.org/glyph/u"+pick.codePointAt(0).toString(16)+".png" }/>
                     }</span>
                 )
                 : <br/>}
@@ -59,7 +59,7 @@ class App extends React.Component {
                     }>
                     { isTouch ? '' : <i className={"hint mdi-image-filter-" + idx} /> }
                     { (candidates[idx-1].codePointAt(0) <= 0x1ffff) ?  candidates[idx-1] : <img src={
-                "https://g0v.github.io/koktai/a-tsioh_sandbox/pngs/"+candidates[idx-1].codePointAt(0).toString(16)+".png" }/>
+                    "http://glyphwiki.org/glyph/u"+candidates[idx-1].codePointAt(0).toString(16)+".png" }/>
                     }</span>
                 )}
                 <span className={"choice shadow-z-" + (pick ? 0 : 3)} onClick={

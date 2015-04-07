@@ -34,7 +34,9 @@ class App extends React.Component {
                         : (e.target.value === ' ') ?
                             this.post()
                         : ''
-                    } style={{ left: pick ? '-1000px' : '' }}/>
+                    } style={{ left: pick ? '-1000px' : '' }} onKeyDown={(e) =>
+                        (e.key == 'Enter') ? this.post() : ''
+                    } />
                 { pick ? (
                     <span className="final choice han shadow-z-2" onClick={()=>this.post()}>
                     { 

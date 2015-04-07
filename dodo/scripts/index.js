@@ -31,7 +31,11 @@ if (/^\?([a-f0-9]{4})$/.test(location.search) && Mapping[location.search.slice(1
     load(location.search.slice(1))
 }
 else {
-    load(items[ Math.floor(Math.random() * items.length) ]);
+    if (items.length == 0) {
+        alert("恭喜完成！下階段明天開始。\n現在，可以自行鍵入字形，打好字複製回視窗裡貼上即可。")
+        items = Object.keys(Mapping)
+    }
+    load(items.splice( Math.floor(Math.random() * items.length), 1 )[0]);
 }
 
 request.get("https://ethercalc.org/log/scripts/ethercalc-dodo-done.2.json").then(res => {

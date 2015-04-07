@@ -1,11 +1,12 @@
 use utf8;
 my %x;
 while (<>) {
-s{<mark>&#xf(....);</mark>}{} or next;
+    next if /inf/;
+s{(....)\.png}{} or next;
 my $big5 = $1;
-my $candidates = [];
-while (s/&#x([^;]+);//) {
-push @$candidates, $1;
+my $candidates = '';
+while (s/\/([^.]+).png//) {
+$candidates.= chr hex $1;
 }
 $x{$big5} = $candidates;
 }

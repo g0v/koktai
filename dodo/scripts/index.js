@@ -22,7 +22,7 @@ function load (id) {
 function onPick (id, pick) {
     load(items[ Math.floor(Math.random() * items.length) ])
     const payload = `"F${ id }","${ pick }","${ sessionId }"`
-    request.post("https://ethercalc.org/_/koktai-dodo")
+    request.post("https://ethercalc.org/_/koktai-dodo.2")
         .type("text/csv").accept("application/json")
         .send(payload)
         .then(()=>console.log(payload))
@@ -34,7 +34,7 @@ else {
     load(items[ Math.floor(Math.random() * items.length) ]);
 }
 
-request.get("https://ethercalc.org/log/scripts/ethercalc-dodo-done.json").then(res => {
+request.get("https://ethercalc.org/log/scripts/ethercalc-dodo-done.2.json").then(res => {
     var Remaining = JSON.parse(JSON.stringify(Mapping))
     for (var i = 0; i < res.body.length; i++) {
         delete Remaining[res.body[i]]

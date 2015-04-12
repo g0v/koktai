@@ -9,8 +9,8 @@ sub remap_pua {
     my $str = shift;
     $str =~ s{(^ +)?(~[A-Z][A-Z0-9]+;)}{\L$2\E}mg;
     $str =~ s!([\x{E000}-\x{F8FF}])!
-    #chr(0xF0000 + hex(join '', map sprintf("%02X", ord $_), split //, encode('CP950' => $1)))
-        "&#xF".(join '', map sprintf("%02x", ord $_), split //, encode('CP950' => $1)).";"
+    chr(0xF0000 + hex(join '', map sprintf("%02X", ord $_), split //, encode('CP950' => $1)))
+    #    "&#xF".(join '', map sprintf("%02x", ord $_), split //, encode('CP950' => $1)).";"
     !egx;
     return $str;
 }

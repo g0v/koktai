@@ -9,6 +9,7 @@ import sys
 # from wsl_to_kaulo import convert_any
 import re
 import json
+import os
 
 re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~(fd6)?t84;(?P<definition>.*)$",re.U)
 
@@ -24,7 +25,7 @@ re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<bod
 re_lang = re.compile(ur"\((台|國語)\)",re.U)
 
 
-private_to_unicode = json.load(open("mapping.json"))
+private_to_unicode = json.load(open(os.path.dirname(__file__) + "/mapping.json"))
 re_fk = re.compile(ur"<k>.*?</k>", re.U)
 def replace_privates(s):
     m = re_fk.search(s)

@@ -10,13 +10,13 @@ my $m3 = decode_json(slurp("$Bin/m3.json"));
 while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
-    s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
+    s!&#xFc6a([1-9]);!chr(0x245f + $1)!ieg;
     s!&#xF(c...);!
         $m3->{$1} ? qq[$m3->{$1}] : qq[<img src="img/m3/$1.png">]
-    !eg;
+    !ieg;
     s!&#xF(....);!
         $m3->{$1} ? qq[<rt>$m3->{$1}</rt>] : qq[<img src="img/m3/$1.png">]
-    !eg;
+    !ieg;
     Encode::_utf8_off($_);
     s/^html$/html(lang="zh-Hant-TW")/;
     print;
@@ -27,13 +27,13 @@ while (<>) {
 
 sub k {
     my $str = shift;
-    $str =~ s!&#xFc6a([1-9]);!chr(0x245f + $1)!eg;
+    $str =~ s!&#xFc6a([1-9]);!chr(0x245f + $1)!ieg;
     $str =~ s!&#xF([89af]...);!
         $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<mark>&#xf$1;</mark>]
-    !eg;
-    $str =~ s!&#xF([^89af]...);!
+    !ieg;
+    $str =~ s|&#xF([^89af]...);(?!</mark>)|
         $k->{$1} ? qq[<rt>$k->{$1}</rt>] : qq[<img src="img/k/$1.png">]
-    !eg;
+    |ieg;
     return $str;
 }
 #slurp()

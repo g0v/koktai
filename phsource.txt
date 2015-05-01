@@ -1,0 +1,501 @@
+
+.UC
+.PO 2.07
+.LL 17.54
+.HE
+~t890l0
+
+.EH
+.FO
+~t550l0
+
+~fm3fd0t84x0l0
+.TL,符號溯源 - #p2681,2000.06.08
+
+.EF
+~fm7fd0t168x0l0
+
+.TL,華語、臺語注音符號溯源
+~t104;
+.TL,,從宜工作室　　
+
+~fm3t84l48
+
+        註：一、 【臺語、臺音】：臺語嚴格的說應包括，閩南語系臺灣話、廣東系客家話和
+                 原住民的南島語言，但在本文中則依以往的習慣用法只指閩南系臺灣話。
+            二、 【華語、華音】：中華民國國民政府訂定的「國語」和中華人民共和國訂定
+                 的標準漢語「普通話」同以北京音為標準音，因此以「華語、華音」統稱。
+            三、 本套符號原本是國民政府所頒佈的"國語注音符號"（簡稱注音符號）相配合
+                 的臺音標音符號，是根據國語注音符號為基楚，再增加臺音特有的標音符號
+                 而成。
+            四、 本文主要目的在說明"臺語注音符號"的來源及發音法，此套符號是早在民國
+                 三十五(1946)年由朱兆祥先生所擬訂的，之後稍做修改，從宜工作室則依修
+                 改的版本加以改編。
+            五、 【華臺】：是華語、臺語拼音方案(MTPA, Mandarin & Taiwanese Phonetic
+                 Alphabet) 的簡稱，是由國語注音符號第二式加上臺音特有的音標而成。
+            六、 在每個"注音符號"的後面依序是華臺(MTPA)、臺語(TLPA)、國際(IPA)及中
+                 國大陸的漢語與閩南方言拼音方案四種系統。
+
+~fm7t126l0;
+一、聲符（母）~fm3;
+
+~t84;  ~t134;{{rt|ㄅ}}~t84l48; [b] [p] [p] [b]
+      【{{rt|ㄅ}}】符是依據漢字【包】字的舊體【<img src="img/m3/c6c6.png">】製成的。【<img src="img/m3/c6c6.png">】字的篆文是【　】，像【人】
+      的曲形，有所包裹，即懷妊的形像。其音亦取之於【包】字的聲母【{{rt|ㄅ}}】，音【{{rt|ㄅㄜ}}】。臺
+      音的【{{rt|ㄅ}}】，和華音大致相同。例字：1.【冰】字，華音【{{rt|ㄅㄧㄥ}}】，臺音同，但音值則有些
+      不同，華音為[{{rt|ㄅ}}<img src="img/m3/8ed5.png"><img src="img/m3/fa76.png">]，臺音為[{{rt|ㄅ}}<img src="img/m3/8ed5.png"><img src="img/m3/fa65.png"><img src="img/m3/fa76.png">]。2.【褒】字，華音【{{rt|ㄅㄠ}}】，臺音【{{rt|ㄅㄜ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa41.png">~t84l48; [bb] [b] [b] [bb]
+      【<img src="img/m3/fa41.png">】符為臺灣方音閏號之一。據華語注音符號的【{{rt|ㄅ}}】符號下的鉤加深成為小圓形，來
+      表示【{{rt|ㄅ}}】的濁音【<img src="img/m3/fa41.png">】。此外有：「{{rt|ㆢ}}、{{rt|ㆣ}}、<img src="img/m3/fa5a.png">」都是依同樣的表記方法。
+      例字：1.【無】字，華音【{{rt|ㄨ|ˊ}}】，臺音【{{rt|ㆠㄜ|ˊ}}】。2.【米】字，華音【{{rt|ㄇㄧ|ˇ}}】，臺音【{{rt|ㆠㄧ|ˋ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa42.png">~t84l48; [p] [ph] [p'] [p]
+      【<img src="img/m3/fa42.png">】符出於【ㄆ】字。【ㄆ】字的篆文是【  】，分寫在兩邊就成【扑{{rt|ㄆㄨ}}】。下部【　】
+      形是「手／~fk;{{rt|ㄉㆲ}}~fm3;」的篆形。其音亦是出於【扑{{rt|ㄆㄨ}}】字的聲母【<img src="img/m3/fa42.png">】，音【{{rt|ㄆㄜ}}】。台音的【<img src="img/m3/fa42.png">】
+      跟華音相同。例字：【坡】，華音【{{rt|ㄆㄛ}}】，臺音【{{rt|ㄆㄜ}}／{{rt|ㄆㄛ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa43.png">~t84l48; [m] [m] [m] [m]
+      【<img src="img/m3/fa43.png">】符出於【<img src="img/m3/c6c4.png">＝冪】字。【<img src="img/m3/c6c4.png">】字的篆文【<img src="img/m3/fa43.png">】像由上面覆蓋的樣子。因此【冒、帽】
+      等有「覆蓋」的意思的字，都從【<img src="img/m3/c6c4.png">】所構成。其音也來自【<img src="img/m3/c6c4.png">{{rt|ㄇㄧ|ˋ}}】字的聲母【<img src="img/m3/fa43.png">】，音
+      「<img src="img/m3/fa43.png"><img src="img/m3/fa63.png">」。台音、華音裡都有【<img src="img/m3/fa43.png">】音。例字：【媽】，華音【媽{{rt|ㄇㄚ}}媽~fk;{{rt|ㄖㄢ|ˊ}}~fm3;】。臺音【阿{{rt|ㄚ}}
+      媽{{rt|ㄇㄚ|ˋ}}】(稱祖母)。~l0;
+
+  ~t134;<img src="img/m3/fa44.png">~t84l48; [f] [f] [f] [f]
+      【<img src="img/m3/fa44.png">】符出於【<img src="img/m3/fa44.png">】字。【<img src="img/m3/fa44.png">】字的篆文作【　】，像匣子橫臥的樣子。其音亦得之於
+      【匚{{rt|ㄈㄤ}}】字的聲母【<img src="img/m3/fa44.png">】，音【<img src="img/m3/fa44.png"><img src="img/m3/fa63.png">】只用在華音。臺音不用【<img src="img/m3/fa44.png">】，只在用打火石打
+      出火花點燃紙張時用急促的【<img src="img/m3/fa44.png">】音將著火的紙張吹成火焰時纔使用到此音【{{rt|ㄈㄨ|ㆵ}}】。
+      例字：【夫】字，華音【{{rt|ㄈㄨ}}】。臺音【{{rt|ㄏㄨ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa45.png">~t84l48; [v] [v] [v] [v]~l48;
+      【<img src="img/m3/fa45.png">】符出於【萬】字的簡體字【万】。發音【<img src="img/m3/fa45.png"><img src="img/m3/fa63.png">】移用蘇州語【万、微、物】等字的
+      聲母。只用於蘇州、客語及外文等譯音，華音、臺音不用。~l0;
+
+  ~t134;<img src="img/m3/fa46.png">~t84; [d] [t] [t] [d] ~l48;
+      【<img src="img/m3/fa46.png">】符出於【刀】字。【刀】的篆文是【　】，把它加以符號化，就成為【<img src="img/m3/fa46.png">】。亦
+      從【刀{{rt|ㄉㄠ}}】字的聲母【<img src="img/m3/fa46.png">】取音，發音【{{rt|ㄉㄜ}}】。臺音的【<img src="img/m3/fa46.png">】大致跟華音相同。
+      例字：【大】字，華音【{{rt|ㄉㄚ|ˋ}}】、臺音【大{{rt|ㄉㄞ|˫}}】 (讀音)，【大{{rt|ㄉㄨㄚ|˫}}】(語音)。~l0;
+
+  ~t134;<img src="img/m3/fa47.png">~t84; [dd] [□] [d] [□]~l48;
+      【<img src="img/m3/fa47.png"> 】 臺語音系的閏號，華音不用，是【<img src="img/m3/fa46.png">】的濁化音。廈門音的【<img src="img/m3/fa4a.png">】，新發音學都
+      用【d】表音。則似接近【<img src="img/m3/fa47.png">】音，與嚴格的【l】音不同。~l0;
+
+  ~t134;<img src="img/m3/fa48.png">~t84; [t] [th] [t'] [t]~l48;
+      【<img src="img/m3/fa48.png">】符出於【子】字的篆文【　】的倒置形。產【子】，倒著出來的樣子，是【突】
+      （突然）。所以古時候【<img src="img/m3/fa48.png">{{rt|ㄊㄨ|ˊ}}】、【突{{rt|ㄊㄨ|ˊ}}】二字相通，都念【{{rt|ㄊㄨ|ˊ}}】。【<img src="img/m3/fa48.png">】符的音亦得自
+      【<img src="img/m3/fa48.png">{{rt|ㄊㄨ|ˊ}}】字的聲母【<img src="img/m3/fa48.png">】，音【{{rt|ㄊㄜ}}】。臺音亦用【<img src="img/m3/fa48.png">】符。符號的發音亦和華音相同。
+       例字：【胎】字，華音【胎{{rt|ㄊㄞ}}】，臺音同。~l0;
+
+  ~t134;<img src="img/m3/fa49.png">~t84; [n] [n] [n] [n]~l48;
+      【<img src="img/m3/fa49.png">】符是依據【乃】字的古體【<img src="img/m3/fa49.png">】製定的。其音亦得自【乃{{rt|ㄋㄞ|ˇ}}】字的聲母【<img src="img/m3/fa49.png">】，音
+      【{{rt|ㄋㄜ}}】。臺音裡亦有【<img src="img/m3/fa49.png">】，同用這個符號。例字：1.【尼】字，華音【{{rt|ㄋㄧ|ˊ}}】，臺音同。
+       2.【惱】字，華音【{{rt|ㄋㄠ|ˇ}}】，臺音【{{rt|ㄋㄠ|ˋ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa4a.png">~t84; [l] [l] [l] [l] ~l48;
+      【<img src="img/m3/fa4a.png">】符的形體出於【力】字的篆文【　】(筋的意思)。請注意【筋】字，字形亦由【力】
+      構成。以【力】造形，其作用為(力氣)，其音亦得自【力{{rt|ㄌㄧ|ˋ}}】字的聲母【<img src="img/m3/fa4a.png">】，發音【{{rt|ㄌㄜ}}】
+      。臺音亦有【<img src="img/m3/fa4a.png">】，共同用【<img src="img/m3/fa4a.png">】符。近來語音學家多用【ｄ】代【l】表達臺音的【<img src="img/m3/fa4a.png">】
+      ，則我們需添閏號【<img src="img/m3/fa47.png">】。例字：1.【來】字，華音【{{rt|ㄌㄞ|ˊ}}】，臺音同。2.【連】字，華音
+      【{{rt|ㄌㄧㄢ|ˊ}}】，臺音同、【鈴】字華音【{{rt|ㄌㄧㄥ|ˊ}}】，臺音亦同。3.【六】字，華音【{{rt|ㄌㄧㄡ|ˋ}}】，臺音【{{rt|ㄌㄧㆦ|ㆶ̇}}】
+      （讀音），【{{rt|ㄌㄚ|ㆶ̇}}】（語音）。~l0;
+
+  ~t134;<img src="img/m3/fa4b.png">~t84; [g] [k] [k] [g] ~l46;
+      【<img src="img/m3/fa4b.png">】符取形於【<img src="img/m3/fa4b.png">{{rt|ㄍㄨㄞ|ˋ}}】字，亦取其聲母【<img src="img/m3/fa4b.png">】為名，發音【{{rt|ㄍㄜ}}】。臺語方音符號【<img src="img/m3/fa4b.png">】的
+      音值大致和華音的【<img src="img/m3/fa4b.png">】相同。嚴格地說，北平音的「{{rt|ㄅ}}、<img src="img/m3/fa46.png">、<img src="img/m3/fa4b.png">」等都比閩南(臺)音的發
+      音柔軟些。例字：【哥】字，華、臺音都念【{{rt|ㄍㄜ}}】，【該】字，華、臺音都念【{{rt|ㄍㄞ}}】。~l0;
+
+  ~t134;{{rt|ㆣ}}~t84; [gg] [g] [g] [gg]~l46;
+      【{{rt|ㆣ}}】符把【<img src="img/m3/fa4b.png">】符的末筆反鉤成為小圓形，表示濁音。就是帶濁音的【<img src="img/m3/fa4b.png">】。華語音系沒
+      有這符號，是臺語音系的閏音。像臺灣話【鵝{{rt|ㆣㄜ|ˊ}}／{{rt|ㆣㄧㄚ|ˊ}}】字的聲母【{{rt|ㆣ}}】，發音【{{rt|ㆣㄜ}}】。這符
+      號和【<img src="img/m3/fa4e.png">】（帶鼻音）符，需要能辨別。  例字：【餓】字，華音【{{rt|ㄜ|ˋ}}】、臺音【{{rt|ㆣㄜ|˫}}】。
+      【鵝】字，華音【{{rt|ㄜ|ˊ}}】、臺音【{{rt|ㆣㄜ|ˊ}}／{{rt|ㆣㄧㄚ|ˊ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa4d.png">~t84; [k] [kh] [k'] [k]~l46;
+      【<img src="img/m3/fa4d.png">】符出於【<img src="img/m3/fa4d.png">{{rt|ㄎㄠ|ˇ}}】字。這字的下部【<img src="img/m3/fa72.png">＝　】的形狀，像氣息由喉中往上升的樣子，被
+      上部【─】形阻擋，因而發出「咳嗽」聲【<img src="img/m3/fa4d.png">{{rt|ㄎㄜ|ㆷ}}】。亦從【<img src="img/m3/fa4d.png">{{rt|ㄎㄠ|ˇ}}】字的聲母【<img src="img/m3/fa4d.png">{{rt|ㄎㄜ}}】取音，
+      發音【{{rt|ㄎㄜ}}】。這個符號，華語、臺語相同共用。例字：【科】字，華音【{{rt|ㄎㄜ}}】、臺音【{{rt|ㄎㄜ}}】
+      (漳州腔)【{{rt|ㄎㄛ}}】(泉州腔)。~l0;
+
+  ~t134;<img src="img/m3/fa4e.png">~t84; [ng] [ng] [~fk;{{rt|ㄊㆨㆤ|ˊ}}~fm3;] [ng] [ng]~l46;
+      【<img src="img/m3/fa4e.png">】符出於【<img src="img/m3/fa4e.png">】(五忽切→{{rt|ㄨ|ˋ}})字字形。發音像蘇州話的【額】字或閩南的【娥{{rt|ㄫㆦ|ˊ}}】字的
+      聲母【<img src="img/m3/fa4e.png">】，即是帶鼻音的【{{rt|ㆣ}}】。這個符號為舊華音的遺音，在新華音是閏號，但正可適
+      用於臺語音系，發音【<img src="img/m3/fa4e.png"><img src="img/m3/fa63.png">】。例字：①【我、五】，華音【{{rt|ㄨㄛ|ˇ}}、{{rt|ㄨ|ˇ}}】、臺音【{{rt|ㄫㆦ|ˋ}}、{{rt|ㄫㆦ|ˋ}}】
+      （讀音）【{{rt|ㆣㄨㄚ|ˋ}}、{{rt|ㆣㆦ|˫}}】（語音）。2.【午、忤】字，華音【{{rt|ㄨ|ˇ}}、{{rt|ㄨ|ˇ}}】、臺音【{{rt|ㄫㆦ|ˋ}}、{{rt|ㄫㆦ|ˋ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa4f.png">~t84; [h] [h] [h] [h] ~l46;
+      【<img src="img/m3/fa4f.png">】符出於【厂{{rt|ㄏㄢ|ˇ}}】字，是表示在崖下人可居的意思。今又為【庵】字的簡寫。臺灣地
+      名【大{{rt|ㄉㄨㄚ|˫}}嵙{{rt|ㄎㄜ}}崁{{rt|ㄏㆰ|˫}}】的【崁{{rt|ㄏㆰ|˫}}】和【厂】字，音義相似。亦取其聲母【<img src="img/m3/fa4f.png">】為名稱，發音
+      【{{rt|ㄏㄜ}}】。華音與臺音，共用這個符號。音值大致相同。嚴格地說有舌位前後之別，不礙辨
+      義。~l0;
+
+  ~t134;<img src="img/m3/fa50.png">~t84; [j] [c(i)] [t~fk;{{rt|ㄋㄧ|ˊ}}~fm3;] [j]~l46;
+      【<img src="img/m3/fa50.png">】符出於【<img src="img/m3/fa50.png">{{rt|ㄐㄧㄡ}}】字。【<img src="img/m3/fa50.png">】字的篆文作【　】形，像藤蔓糾纏的樣子，而其音亦得自
+      【<img src="img/m3/fa50.png">{{rt|ㄐㄧㄡ}}】字的聲母【<img src="img/m3/fa50.png">{{rt|ㄐㄧ}}】。為著教學時傳授聲音能響亮清楚，加【ㄧ】(直寫)<img src="img/m3/fab5.png">【<img src="img/m3/8ed5.png">】
+      (橫寫)韻母而發音【{{rt|ㄐㄧ}}】，就是這個符號的名稱。【之】字的臺音就須用這個符號注音讀
+      出。（【<img src="img/m3/fa50.png">】和【<img src="img/m3/fa59.png">】舌位相近、互補，【<img src="img/m3/fa50.png">】和【ㄧ】【{{rt|ㄩ}}】韻母相拼、【<img src="img/m3/fa59.png">】和【{{rt|ㄚ}}】
+      【<img src="img/m3/fa7a.png">】【<img src="img/m3/fa65.png">】韻母相拼。【<img src="img/m3/fa52.png">】和【<img src="img/m3/fa54.png">】二符和【<img src="img/m3/fa5b.png">】和【<img src="img/m3/fa5c.png">】二符之關係亦與【<img src="img/m3/fa50.png">】和
+      【<img src="img/m3/fa59.png">】的關係相同）。例字：【基】字，華音【{{rt|ㄐㄧ}}】，臺音【{{rt|ㄍㄧ}}】。~l0;
+
+  ~t134;{{rt|ㆢ}}~t84; [jj] [j] [d~fk;{{rt|ㄧ|˫}}~fm3;] [jj]~l44;
+      【{{rt|ㆢ}}】符是臺音閏號。依據【<img src="img/m3/fa50.png">】音符的右筆下端，向左倒彎鉤上，和直筆成半圓形，不超
+      過直筆，表示濁音。就是帶濁音的【<img src="img/m3/fa50.png">】。音讀【兒{{rt|ㆢㄧ|ˊ}}】字的陰平調。註：【{{rt|ㆢ}}】母字今廈
+      門音多變成【<img src="img/m3/fa4a.png">】再變【<img src="img/m3/fa47.png">】。華音【兒{{rt|ㄦ|ˊ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa52.png">~t84; [ch] [ch(i)] [t~fk;{{rt|ㄋㄧ|ˊ}}~fm3;'] [q]~l44;
+      【<img src="img/m3/fa52.png">】符出於【<img src="img/m3/fa52.png">{{rt|ㄑㄩㄢ|ˇ}}】字。表示細流的意思。亦由【<img src="img/m3/fa52.png">】（畎的意思。與【<img src="img/m3/c6cc.png">{{rt|ㄑㄩㄢ|ˇ}}】，河川的
+      意思相同。）字的聲母【<img src="img/m3/fa52.png">】得聲；發音【{{rt|ㄑㄧ}}】。華音和臺音共用這個符號。音值大致相
+      同。華音的舌位稍微靠後，但不妨礙辨義。【<img src="img/m3/fa52.png">】和【ㄧ】【{{rt|ㄩ}}】相拼、【<img src="img/m3/fa5b.png">】和【{{rt|ㄚ}}】
+      【<img src="img/m3/fa7a.png">】【<img src="img/m3/fa65.png">】相拼，音位則相近以至相同。【<img src="img/m3/fa52.png">】【<img src="img/m3/fa5b.png">】兩音位相近以至相同，因此有些
+      閩臺音音標則共用一個符號而不做區分，分別使用。例字：【千{{rt|ㄑㄧㄢ}}】、【清{{rt|ㄑㄧㄥ}}】，華音、
+      臺音拼音相同。（嚴密的審音音值，從略）。~l0;
+
+  ~t134;<img src="img/m3/c6ce.png">~t84; [ng(i)] [ng(i)] [n~fk;{{rt|ㄏㄨㆤ|ㆷ̇}}~fm3;／~fk;{{rt|ㄊㆨㆤ|ㆷ̇}}~fm3;] [□]~l44;
+      【<img src="img/m3/c6ce.png">】符出於【<img src="img/m3/c6ce.png">{{rt|ㄧㄢ|ˇ}}】字。就是在崖下蓋屋的意思，而取蘇州【呢】字的鼻音聲母【<img src="img/m3/c6ce.png">】
+      【<img src="img/m3/fa49.png">】的鼻化音，發音【{{rt|ㄬㄧ}}】。這個符號在華語屬閏音，標準華音不用，閩臺語中亦只有
+      漳州方言的【耳{{rt|ㄬㄧ|ˋ}}】字用得到它。互見【{{rt|ㄫㄧ|ˋ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa54.png">~t84; [si] [s(i)] [~fk;{{rt|ㄋㄧ|ˊ}}~fm3;] [x]~l44;
+      【<img src="img/m3/fa54.png">】符出於【下{{rt|ㄒㄧㄚ|ˋ}}】的篆文【<img src="img/m3/fa54.png">】，亦得音於【下{{rt|ㄒㄧㄚ|ˋ}}】字的聲母【<img src="img/m3/fa54.png">】，發音【{{rt|ㄒㄧ}}】。
+      臺語亦共用這個符號，音值也大致相同。嚴格地說，華音的【<img src="img/m3/fa54.png">】較舌面化。臺語裡，
+      【<img src="img/m3/fa54.png">】、【<img src="img/m3/fa5c.png">】發音部位相鄰，在華音【<img src="img/m3/fa54.png">】、【<img src="img/m3/fa5c.png">】之間。朱式原案把【<img src="img/m3/fa54.png">】歸入泉州
+      閏音，本典的【{{rt|ㄒㄧ}}】，朱式用【~fk;{{rt|ㄩㄥ|ˋ}}~fm3;】，皆不妨礙辨義。例字：【仙】字，華音【{{rt|ㄒㄧㄢ}}】，臺
+      音同。【<img src="img/m3/fa54.png">】[si]單拼時用【<img src="img/m3/fa54.png"><img src="img/m3/8ed5.png">】[si]，與其他音相拼時用【<img src="img/m3/fa54.png">】[s]，【<img src="img/m3/8ed5.png">】[i]可
+      省略。~l0;
+
+  ~t134;<img src="img/m3/fa55.png">~t84; [z] [z] [t~fk;{{rt|ㄋㄧ}}~fm3;] [zh]~l44;
+      【<img src="img/m3/fa55.png">】符出於【之】字的篆文【　】，只略加以變形的符號化而已。亦挪用【之{{rt|ㄓ}}】字
+      的音字做為「<img src="img/m3/fa55.png">」符的名稱，發音【<img src="img/m3/fa55.png">】。臺音裡沒有這個音，不用這個符號。學習華
+      語的的人需勤加練習務必能和【<img src="img/m3/fa59.png">】符，區別清楚。例字：1.【知】字，華音【{{rt|ㄓ}}】、
+      臺音【{{rt|ㄉㄧ}}】（讀音）【{{rt|ㄗㄞ}}】(語音)。2.【之】字，華音【<img src="img/m3/fa55.png">】、臺音【{{rt|ㄐㄧ}}】。~l0;
+
+  ~t134;{{rt|ㄔ}}~t84; [zh] [zh] [t~fk;{{rt|ㄋㄧ}}~fm3;'] [ch]~l44;
+      【{{rt|ㄔ}}】符出於【彳{{rt|ㄔ|ˋ}}】字。【{{rt|ㄔ}}】字的篆文【　】，像人的脛骨三屬相聯。亦取音於
+      【{{rt|ㄔ}}{{rt|ㄔ|ˋ}}】字的聲母，做為【{{rt|ㄔ}}】符的名稱，發音【{{rt|ㄔ}}】【喫{{rt|ㄔ}}】。臺音不用這個符號。
+      但是【彳】字，丑亦切。用臺音切成【{{rt|ㄊㄧㆤ|ㆶ}}】正謂【踢{{rt|ㄊㄚ|ㆵ}}】。例字：【叉、春】字，華音
+      【{{rt|ㄔㄚ}}、{{rt|ㄔㄨㄣ}}】、臺音【{{rt|ㄘㄚ}}、{{rt|ㄘㄨㄣ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa57.png">~t84; [sh] [sh] [~fk;{{rt|ㄋㄧ}}~fm3;] [sh]~l44;
+      【<img src="img/m3/fa57.png">】符出於【尸{{rt|ㄕ}}】字。其篆文【　】像人橫臥，亦像陳列尸體祭祀。即用【尸】字的
+      音做為【<img src="img/m3/fa57.png">】符的音，發音【<img src="img/m3/fa57.png">】。【尸】字的臺音是【{{rt|ㄒㄧ}}】，所以說華語時要分清楚。
+      餘例字：【士】，華音【{{rt|ㄕ|ˋ}}】，臺音【{{rt|ㄙㄨ|˫}}】。【沙】華音【{{rt|ㄕㄚ}}】，臺音【{{rt|ㄙㄚ}}】(文)、【{{rt|ㄙㄨㄚ}}】
+      (語)。~l0;
+
+  ~t134;<img src="img/m3/fa58.png">~t84; [r] [r] [~fk;{{rt|ㄏㄨㆤ|ㆷ̇}}~fm3;] [r]~l48;
+      【<img src="img/m3/fa58.png">】符一看就知道是【日{{rt|ㄖ|ˋ}}】字的變形。把【日】字，唸成陰平調就是華音【<img src="img/m3/fa58.png">】符的
+      名稱，發音【<img src="img/m3/fa58.png">】。臺音沒有【<img src="img/m3/fa58.png">】音，【日】字唸【{{rt|ㆢㄧ|ㆵ}}】【{{rt|ㄌㄧ|ㆵ̇}}】。所以說華語要能分辨
+      【<img src="img/m3/fa58.png">】和【{{rt|ㆢ}}】。例字：【熱】字，華音【{{rt|ㄖㄜ|ˋ}}】，臺音【{{rt|ㆢㄧㄚ|ㆵ̇}}】。【人】，華音【{{rt|ㄖㄣ|ˊ}}】，臺
+      音【{{rt|ㆢㄧㄣ|ˊ}}→{{rt|ㄌㄧㄣ|ˊ}}】（讀音）。又音【{{rt|ㄌㄤ|ˊ}}】，諧：【郎{{rt|ㄌㄤ|ˊ}}】【儂{{rt|ㄌㄤ|ˊ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa59.png">~t84; [tz] [c] [ts] [z]~l48;
+      【<img src="img/m3/fa59.png">】符出於【節】字的古體【<img src="img/m3/fa59.png">{{rt|ㄐㄧ}}】。【節】字，舊華音讀做【<img src="img/m3/fa59.png"><img src="img/m3/8ed5.png"><img src="img/m3/fa64.png"><rt>ㆷ</rt>】，所以設計國
+      語注音符號的人，也就取舊華音「節」字的聲母【<img src="img/m3/fa59.png">】，做為【<img src="img/m3/fa59.png">】符的名稱。臺音亦要用
+      「<img src="img/m3/fa59.png">」符，音值大致相同，但華音【<img src="img/m3/fa59.png">】符可以單行注音，臺音則不能。【<img src="img/m3/fa59.png">】和【<img src="img/m3/fa50.png">】二
+      符發音部位相同，可分亦可以合併。本文為配合已習慣使用「華語注音符」讀者的了解，採
+      用分開使用的方式。【<img src="img/m3/fa50.png">】拼【<img src="img/m3/8ed5.png">／ㄧ】【{{rt|ㄩ}}】二母，【<img src="img/m3/fa59.png">】拼【{{rt|ㄚ}}】【<img src="img/m3/fa7a.png">】【<img src="img/m3/fa65.png">】三母。
+      例字： 1.【災】字，華音【{{rt|ㄗㄞ}}】，臺音同，2.【宗】字，華音【{{rt|ㄗㄨㄥ}}】，臺音【{{rt|ㄗㆲ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa5a.png">~t84; [zz] [j] [dz] [zz]~l48;
+      【<img src="img/m3/fa5a.png">】符，是帶音的【<img src="img/m3/fa59.png">】。據華音【<img src="img/m3/fa59.png">】變形，加濁音符號造成。華音不用。例字：1.
+      【裕】字，華音【{{rt|ㄩ|ˋ}}】，臺音【{{rt|ㆡㄨ|˫}}】。2.【~fk;{{rt|ㄎㄧㆬ}}~fm3;】字，（熱也），華音【{{rt|ㄖㄨㄛ|ˋ}}】、臺音
+      【~bt180;·~bt0;{{rt|ㆡㄨㄚ|ㆷ}}】。【閏】字，華音【{{rt|ㄖㄨㄣ|ˋ}}】，臺音【{{rt|ㆡㄨㄣ|˫}}】。~l0;
+
+  ~t134;<img src="img/m3/fa5b.png">~t84; [ts] [ch] [ts'] [c]~l48;
+      【<img src="img/m3/fa5b.png">】符出於【七{{rt|ㄑㄧ}}】字的篆文【　】。【七{{rt|ㄑㄧ}}】字，舊華音唸【<img src="img/m3/fa5b.png"><img src="img/m3/8ed5.png">】，所以取其聲母
+      【<img src="img/m3/fa5b.png">】做為這符號的名稱唸【<img src="img/m3/fa5b.png">】。華音和臺音共用這符。音值大致相同。只是臺語不能單
+      獨注音。又【<img src="img/m3/fa5b.png">】和【<img src="img/m3/fa52.png">】舌位相同，可分可併。分用的【<img src="img/m3/fa5b.png">】拼【{{rt|ㄚ}}】【<img src="img/m3/fa65.png">】【<img src="img/m3/fa7a.png">】成
+      【{{rt|ㄘㄚ}}】【{{rt|ㄘㆤ}}】【{{rt|ㄘㄨ}}】，【<img src="img/m3/fa52.png">】拼【<img src="img/m3/8ed5.png">／ㄧ】【{{rt|ㄩ}}】成【{{rt|ㄑㄧ}}】、【{{rt|ㄑㄩ}}】。合併的是【{{rt|ㄑㄧ}}】併入
+      【<img src="img/m3/fa5b.png"><img src="img/m3/8ed5.png">】。互見【<img src="img/m3/fa50.png">】【<img src="img/m3/fa52.png">】二符項內。例字：【猜】，華音【{{rt|ㄘㄞ}}】，臺音同。~l0;
+
+  ~t134;<img src="img/m3/fa5c.png">~t84; [s] [s] [s] [s]~l48;
+      【<img src="img/m3/fa5c.png">】符的來源是【私】的本字【　＝<img src="img/m3/fa5c.png">】。亦以【<img src="img/m3/fa5c.png">{{rt|ㄙ}}】字的音做為【<img src="img/m3/fa5c.png">】符號的名稱，
+      發音【<img src="img/m3/fa5c.png">】閩臺音亦用【<img src="img/m3/fa5c.png">】符，音值大致相同。只是閩臺音裡單獨不成音節。又【<img src="img/m3/fa5c.png">】和
+      【<img src="img/m3/fa54.png">】二母的舌位，在臺音裡比在華音更為接近以至同位，所以主合併的人把【{{rt|ㄒㄧ}}】拼成
+      【<img src="img/m3/fa5c.png"><img src="img/m3/8ed5.png">】。本書分用，便於類推華音（請參照【<img src="img/m3/fa59.png">】項）。例字：【司、私、思】三字，華
+      音皆【{{rt|ㄙ}}】，臺音皆【{{rt|ㄙㄨ}}】。~l0;
+
+~fm7t126l0;
+二、韻符（母）~fm3;
+
+~t84;  ~t134;{{rt|ㄚ}}~t84; [a] [a] [a] [a] ~t84l48;
+      【{{rt|ㄚ}}】的符號是根據漢字【丫叉】（＝椏杈）的【丫{{rt|ㄧㄚ}}】字製造出來的。【丫】字的舊音讀
+      【{{rt|ㄚ}}{{rt|ㄚ}}】。（閩南音猶存舊音）。臺音系亦用【{{rt|ㄚ}}】的符號，音值大致相同，至少不妨礙辨
+      義。例字：【阿】字，華音【{{rt|ㄚ|ˋ}}】阿片，臺南音【{{rt|ㄚ}}】阿片。~l0;
+
+  ~t134;<img src="img/m3/fa5e.png">~t84; [ann] [ann] [~fk;{{rt|ㆲ}}~fm3;] [na]~l48;
+      【<img src="img/m3/fa5e.png">】符是臺音閏號。【{{rt|ㄚ}}】符的鼻化音。例字：~fk;{{rt|ㆠㄛ|ㆷ}}~fm3;【{{rt|ㆩ|˪}}】(俯首也)，餡【{{rt|ㆩ|˫}}】 (餡兒)。~l0;
+
+  ~t134;<img src="img/m3/fa5f.png">~t84; [oo] [oo] [~fk;{{rt|ㄊㄨㆤ|ㆷ}}~fm3;] [oo]~l48;
+      【<img src="img/m3/fa5f.png">】的符號是臺音閏號。第二筆寫成正菱形而缺一邊，纔能跟華音的「<img src="img/m3/fa61.png">」（第二筆半
+      圓形）有區別。亦須與泉州閏音【<img src="img/m3/fa62.png">】的符號能區別。發音時口腔（形）比華音的【<img src="img/m3/fa61.png">】
+      較開並且發聲位置較後面，如：臺音【{{rt|ㄏㄨㄛ}}】裡的【{{rt|ㄨㄛ}}】的合音。例字：1.【烏】字，華音，
+      【{{rt|ㄨ}}】、臺音【{{rt|ㆦ}}】。2.【芋】字，華音【{{rt|ㄩ|ˋ}}】，臺音【{{rt|ㆦ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa60.png">~t84; [oonn] [oonn／onn] [~fk;{{rt|ㆦ|ㆶ̇}}~fm3;] [noo]~l48;
+      【<img src="img/m3/fa60.png">】符是臺音閏號，【<img src="img/m3/fa5f.png">】的鼻化音，如：哄嬰兒入睡時說【<img src="img/m3/fa60.png"><img src="img/m3/fa60.png">睏】的【<img src="img/m3/fa60.png">】。字形可
+      用「掩」或「捂」。~l0;
+
+  ~t134;<img src="img/m3/fa61.png">~t84; [o] [o] [o] [o] ~l48;
+      【<img src="img/m3/fa61.png">】符是【　】【<img src="img/m3/fa4d.png">】符的反形。【<img src="img/m3/fa4d.png">】字本義，氣息不通達。已在上文提過。【<img src="img/m3/fa61.png">】字
+      反過來就是通達透出的意思，成「<img src="img/m3/fa61.png">」形。【喔{{rt|ㄛ}}】，是明白的意思。這個符號第二筆的後
+      半部要寫成半圓形。這符號的音，本來讀「和{{rt|ㄏㄜ|ˊ}}」字的韻音【<img src="img/m3/fa63.png">】。後來因修訂注音符號公
+      布時：將【～<img src="img/m3/fa61.png">】韻分化為【<img src="img/m3/fa61.png">】【<img src="img/m3/fa63.png">】二韻，就將舊音【<img src="img/m3/fa63.png">】讓給【<img src="img/m3/fa63.png">】符號，而【<img src="img/m3/fa61.png">】
+      符本身改讀今華音【波、頗、破】等字的韻音【<img src="img/m3/fa61.png">】。閩南音亦用這【<img src="img/m3/fa61.png">】符。在綜合閩南
+      方言基本字典（就是臺灣通行的閩南方言）裡【<img src="img/m3/fa61.png">】【<img src="img/m3/fa63.png">】互補，【<img src="img/m3/fa61.png">】為泉州腔、【<img src="img/m3/fa63.png">】
+      為漳州腔。本書採用【<img src="img/m3/fa63.png">】系音，而一度把【<img src="img/m3/fa61.png">】移用表達泉州閏音【科】（彙音妙悟韻目
+      名）韻。今另擬【<img src="img/m3/fa62.png">】。音值近似國際音標的【~fk;{{rt|ㄋㄧ|˫}}~fm3;】、【~fk;{{rt|ㄊㄨㄧ|ㆷ}}~fm3;】而不完全一致，實為掀唇（如
+      ：<img src="img/m3/fa55.png">、{{rt|ㄔ}}、<img src="img/m3/fa57.png">）的【<img src="img/m3/fa63.png">】(請看次項)。~l0;
+
+  ~t134;<img src="img/m3/fa63.png">~t84; [er] [er] [~fk;{{rt|ㄊㄨㆤ|ㆷ̇}}~fm3;] [e]~l48;
+      華音【<img src="img/m3/fa63.png">】符是由【<img src="img/m3/fa61.png">】符分化出來的，詳上文。構形本來是在「<img src="img/m3/fa61.png">」符上邊當中，加小
+      圓點作【˙<img src="img/m3/fa61.png">】形。後來，草書、印刷都把小圓點往下拉長，連接中筆，作「<img src="img/m3/fa63.png">」形。唸
+      【痾{{rt|ㄜ}}】音和平的【和{{rt|ㄏㄜ|ˊ}}】的韻音。華臺音標共用這個符號。只是朱氏原案用【<img src="img/m3/fa63.png">】表達
+      泉州閏音【{{rt|ㄋㄧ|˫}}／{{rt|ㄊㄨㆤ|ㆷ̇}}】，本書則用以表達台灣的漳州腔，而與泉州腔的【<img src="img/m3/fa61.png">】互補。例字：
+      【娥】字，華音【{{rt|ㄜ|ˊ}}】，臺音【{{rt|ㄫㆦ|ˊ}}】。例字：【蠔】字，華音【{{rt|ㄏㄠ|ˊ}}】，臺灣的漳州腔
+      【{{rt|ㄜ|ˊ}}】、泉州腔【{{rt|ㄛ|ˊ}}】。【惡】字，臺音有：【{{rt|ㆦ|ㆶ}}／{{rt|ㄜ|ㆷ}}／{{rt|ㆦ|˪}}／{{rt|ㆧ|˪}}／{{rt|ㆦ}}】等，歧音、義異。~l0;
+
+  ~t134;<img src="img/m3/fa62.png">~t84; [eer] [□] [~fk;{{rt|ㄋㄧ|˫}}~fm3;] [□]~l48;
+      【<img src="img/m3/fa62.png">】母是閩南泉州方音。符號形體，由【<img src="img/m3/fa5f.png">】【<img src="img/m3/fa63.png">】二形合體、亦合音構成，詳見前項
+      【<img src="img/m3/fa61.png">】，筆寫時注意第二筆寫成正陵形而缺右上一邊。與華音「<img src="img/m3/fa63.png">」有別。~l0;
+
+  ~t134;<img src="img/m3/fa64.png">~t84; [ee] [ee] [ε／E] [ee]~l48;
+      【<img src="img/m3/fa64.png">】符是依據【也{{rt|ㄧㄝ|ˇ}}】字的篆文加以變形造成的。亦用【也】字的韻母【<img src="img/m3/fa64.png">】做為名稱，
+      發音【<img src="img/m3/fa64.png">】【誒{{rt|ㄝ|ˋ}}】的陰平調。例字：【~fk;{{rt|ㄗㄠ|˫}}~fm3;】字，閩南漳州腔的【<img src="img/m3/fa64.png">】，即國際音標的
+      【ε／E】，發音相當於嘴形較寬的【e】，同時有【e】(窄音）。即閩南俗韻書十五音所
+      分的【嘉】【～<img src="img/m3/fa64.png">】、【稽】【～<img src="img/m3/fa65.png">】兩韻。今在臺灣混合為一，無辨義作用。例字：
+      【鞋】字，華音【{{rt|ㄒㄧㄝ|ˊ}}】。臺音 【{{rt|ㆤ|ˊ}}／{{rt|ㄨㆤ|ˊ}}】【{{rt|ㄝ|ˊ}}／<img src="img/m3/fa7a.png">ㄝˊ】。~l0;
+
+  ~t134;~fk;{{rt|ㄌㄞ|ˋ}}~fm3;~t84; [eenn] [eenn／enn] [~fk;{{rt|ㆪ|ˊ}}~fm3;] [nee]~l48;
+      【~fk;{{rt|ㄌㄞ|ˋ}}~fm3;】符是臺語閏音。【<img src="img/m3/fa64.png">】母的鼻化音。形體由「<img src="img/m3/fa64.png">」符加鼻化記號造成。即閩南
+      俗韻書十五音所分的【嘉】【～<img src="img/m3/fa64.png">】、【稽】【～<img src="img/m3/fa65.png">】兩韻的鼻化音。今在臺灣【<img src="img/m3/fa64.png">】
+      【<img src="img/m3/fa65.png">】兩韻混而為一，無辨義作用。例字：【嬰】字，華音【{{rt|ㄧㄥ}}】，漳音【~fk;{{rt|ㄌㄞ}}~fm3;】，泉音
+      【{{rt|ㆥ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa65.png">~t84; [e] [e] [e] [e]~l48;
+      【<img src="img/m3/fa65.png">】符是閩南(臺)閏音。閩南(臺)閏音。參照前項。例字：【挨】字，，華音【<img src="img/m3/fa67.png">】、臺
+      音【{{rt|ㆤ}}／{{rt|ㄨㆤ}}】。【<img src="img/m3/fa65.png">】【ㄝ】符，兩者的差別只在【<img src="img/m3/fa65.png">】符，音位較高(嘴形較窄)，【ㄝ】
+      符的音位較低(嘴形較廣)。~l0;
+
+  ~t134;<img src="img/m3/fa66.png">~t84; [enn] [enn] [~fk;{{rt|ㆲ|ˋ}}~fm3;] [ne]~l48;
+      【<img src="img/m3/fa66.png">】符是閩南(臺)閏音，「<img src="img/m3/fa65.png">」母的鼻化音。形體由「<img src="img/m3/fa65.png">」符加鼻化記號造成。例字：
+      【嬰】字，華音【{{rt|ㄧㄥ}}】，閩、臺讀書音亦是【{{rt|ㄧㄥ}}】、廈音【<img src="img/m3/fa79.png">】、漳音【~fk;{{rt|ㄌㄞ|ˋ}}~fm3;】。~l0;
+
+  ~t134;<img src="img/m3/fa67.png">~t84; [ai] [ai] [ai] [ai] ~l48;
+      【<img src="img/m3/fa67.png">】符是由【亥】字的古文【　】的別體【<img src="img/m3/fa67.png">】字造出來的，其音亦取諸【亥{{rt|ㄏㄞ|ˋ}}】的
+      韻母【<img src="img/m3/fa67.png">】，讀成【{{rt|ㄚ}}<img src="img/m3/fab0.png">】【ㄧ┬】合音。臺音亦共用這符號。音值大致相同。例字：
+      【哀、埃】字，華、臺音都音【{{rt|ㄞ}}】音。【癌】字，舊音【{{rt|ㄧㄢ|ˊ}}】，華音【{{rt|ㄧㄢ|ˊ}}】、臺音
+      【{{rt|ㆣㆰ|ˊ}}】。註：【<img src="img/m3/fab0.png">】表示舌位靠後，【┬】表示舌位靠下。下文【├】表示舌位靠前。
+      其他倣此。~l0;
+
+  ~t134;<img src="img/m3/fa68.png">~t84; [ainn] [ainn] [~fk;{{rt|ㆭ|˪}}~fm3;] [nai]~l48;
+      【<img src="img/m3/fa68.png">】符是臺語方音閏號。根據華音【<img src="img/m3/fa67.png">】符加鼻音記號，分化出來。例：【<img src="img/m3/fa68.png"><img src="img/m3/fa68.png">】哮。~l0;
+
+  ~t134;<img src="img/m3/fa69.png">~t84; [ei] [ei] [ei] [ei] ~l48;
+      【<img src="img/m3/fa69.png">】符出於【<img src="img/m3/fa69.png">{{rt|ㄧ|ˊ}}】字的篆文【<img src="img/m3/fa69.png">】像流水移動之狀。今借【<img src="img/m3/fa69.png">】形，略為轉音，讀成
+      【<img src="img/m3/fa63.png">】【<img src="img/m3/fa78.png">】的合音，成為複合韻母【<img src="img/m3/fa69.png">】。猶如【微{{rt|ㄨㄟ|ˊ}}】字的臺音【{{rt|ㆠㄧ|ˊ}}】，華音轉讀
+      【{{rt|ㄨㄟ|ˊ}}】，有例可循。例字：【欸】字，華音【{{rt|ㄟ|ˋ}}】、臺音【{{rt|ㆤ|˪}}】。~l0;
+
+  ~t134;<img src="img/m3/fa6a.png">~t84; [au] [au] [au] [au] ~l48;
+      【<img src="img/m3/fa6a.png">】符取形於【<img src="img/m3/fa6a.png">{{rt|ㄧㄠ}}】字。【<img src="img/m3/fa6a.png">】之篆文【　】，像嬰兒初生的形狀，所以「<img src="img/m3/fa6a.png">{{rt|ㄧㄠ}}」是
+      「小」的意思。亦由「<img src="img/m3/fa6a.png">{{rt|ㄧㄠ}}」的韻母得音，讀【{{rt|ㄚ}}├】【<img src="img/m3/fa7a.png">┬】的合音。臺語方音和華音
+      共用這個符號，音值也大致相同。例字：【凹{{rt|ㄠ}}】，華臺音同為【ㄠ】。臺又音【<img src="img/m3/fa63.png">】，
+      可訓讀【{{rt|ㄋㄚ|ㆷ}}】【{{rt|ㄌㄚ|ㆴ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa6b.png">~t84; [aunn] [aunn] [~fk;{{rt|ㄧ}}~fm3;] [nau]~l48;
+      【<img src="img/m3/fa6b.png">】符是【<img src="img/m3/fa6a.png">】符的鼻化音。臺語閏音，華語裡不使用。例【{{rt|ㄧㆯ}}】，貓的叫聲。~l0;
+~t84;  ~t134;<img src="img/m3/fa6c.png">~t84; [ou] [ou] [ou] [ou] ~l48;
+      【<img src="img/m3/fa6c.png">】符一看即知為出於【又{{rt|ㄧㄡ|ˋ}}】字。【又】字的篆文【　】，像伸出手指頭的樣子。後
+      來專指右手。【右】字的篆文是【　】，再借做表【重複】【更進一層】之義的【又】字。
+      其音亦得自【　】【{{rt|ㄕㄡ|ˇ}}】＝【手】字的韻母【<img src="img/m3/fa6c.png">】，讀【<img src="img/m3/fa61.png">】【<img src="img/m3/fa7a.png">】的合音。臺音系裡不
+      使用這符號。例字： ①【歐】，【<img src="img/m3/fa6c.png">】，臺音【<img src="img/m3/fa6a.png">】。 ②【偶】字，華音【{{rt|ㄡ|ˇ}}】，臺音
+      【{{rt|ㄫㆦ|ˋ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa6d.png">~t84; [am] [am] [a~fk;{{rt|ㆪ|ㆷ̇}}~fm3;] [am]~l48;
+      【<img src="img/m3/fa6d.png">】符是臺語閏號，華語音系所無。是【{{rt|ㄚ}}】【<img src="img/m3/fa43.png">】的合體又是合音。例字：【庵】臺音
+      【<img src="img/m3/fa6d.png">】。~l0;
+
+  ~t134;<img src="img/m3/fa6e.png">~t84; [oom] [oom／om] [~fk;{{rt|ㄊㄨㄧ}}{{rt|ㆪ|ㆷ̇}}~fm3;] [oom／om]~l48;
+      【<img src="img/m3/fa6e.png">】符也是閩南音閏號，華語音系不用。是【<img src="img/m3/fa5f.png">】【<img src="img/m3/fa43.png">】二符的合體又是合音。例字：
+      【掩】字臺音【{{rt|ㄧㆰ|ˋ}}】(烏感切)，用臺音切讀成【{{rt|ㆰ|ˋ}}】，可以轉為【<img src="img/m3/fa6e.png">】，有【覆】義。~l0;
+
+  ~t134;<img src="img/m3/fa6f.png">~t84; [m] [m] [~fk;{{rt|ㆪ|ㆷ̇}}~fm3;] [m]~l48;
+      【<img src="img/m3/fa6f.png">】符是聲母【<img src="img/m3/fa43.png">】的韻化音符號。華語裡，只有一個不拘聲調的【呣】(歎詞）以及
+      【我們】的縮音【{{rt|ㆬ}}】用到這符。臺語裡則較常見，如否定詞【不／伓{{rt|ㆬ|˫}}】，阿姆的
+      【姆{{rt|ㆬ|ˋ}}】。~l0;
+
+  ~t134;宀~t84l48; 【宀】[m]符是華語音系裡的閏音，不見注音符號表。只見用於譯音。如【達姆達姆
+      彈】的【姆】【~fk;{{rt|ㄕㄨㄤ|ˇ}}~fm3;】。其實【達姆】可譯成【{{rt|ㄉㆰ|ˊ}}】。【宀】符亦可併入【<img src="img/m3/fa6f.png">】。
+      【<img src="img/m3/fa6f.png">】【<img src="img/m3/fa76.png">】的中槓皆表示韻化。~l0;
+
+  ~t134;<img src="img/m3/fa71.png">~t84; [an] [an] [an] [an] ~l48;
+      【<img src="img/m3/fa71.png">】符是把【　{{rt|ㄏㄢ|ˋ}}】字的篆文【　】加以變形製成的。【<img src="img/m3/fa71.png">】是【菡{{rt|ㄏㄢ|ˋ}}萏{{rt|ㄉㄢ|ˋ}}】的合音，
+      是草木的花還沒有發放函然（含著）的意思又是象形字，像包含的樣子。即取【<img src="img/m3/fa71.png">{{rt|ㄏㄢ|ˋ}}】字
+      的韻母【<img src="img/m3/fa71.png">】，讀【{{rt|ㄚ}}】【~fk;{{rt|ㄗㄜ|〾˫}}~fm3;】的合音。閩南方言亦用這個符號，音值大致相同。如：
+      【安】字，華語和臺語都用【<img src="img/m3/fa71.png">】拼音，音色微異，但不妨礙辨義。【丹{{rt|ㄉㄢ}}】也一樣。華
+      音【山{{rt|ㄕㄢ}}】，臺音讀音【山{{rt|ㄙㄢ}}】、語音【山{{rt|ㄙㄨㆩ}}】。~l0;
+
+  ~t134;<img src="img/m3/fa72.png">~t84; [en] [n(不單用)] [~fk;{{rt|ㄊㄨㄧ|ㆷ}}~fm3;n] [en]~l48;
+      【<img src="img/m3/fa72.png">】符出於【隱】字的篆文【　】【  】，像人逃遁隱匿的樣子。也取【隱】字的韻母
+      【<img src="img/m3/fa72.png">】做為名稱發音【<img src="img/m3/fa63.png">】【~fk;{{rt|ㄗㄜ|〾˫}}~fm3;】的合音。臺語方音也用這韻符，但是不能單獨注音，即單
+      獨不成音節。必需和【<img src="img/m3/fa78.png">】【<img src="img/m3/fa7a.png">】相拼成【{{rt|ㄧㄣ}}】或【{{rt|ㄨㄣ}}】始得讀出。或因此故，【台灣省國
+      語推行委員會】編訂【台灣方音符號】時猶未賦與名稱。例字：【恩】字，華音【{{rt|ㄣ}}】、閩
+      南音【{{rt|ㄨㄣ}}】(廈)、【{{rt|ㄧㄣ}}】(漳)、【{{rt|ㆨㄣ}}】(泉)。註：【~fk;{{rt|ㄗㄜ|〾˫}}~fm3;】是聲母【ㄋ】的韻化音。~l0;
+
+  ~t134;<img src="img/m3/fa73.png">~t84; [ang] [ang] [a~fk;{{rt|ㄊㄨㄧ|˫}}~fm3;] [ang]~l48;
+      【<img src="img/m3/fa73.png">】符出於【尢{{rt|ㄨㄤ}}／尪／~fk;{{rt|ㆠㆲ|ˋ}}~fm3;】。其篆文【　】像跛了一條腿、彎曲的樣子。也取其
+      韻母【<img src="img/m3/fa73.png">】做為名稱，讀【{{rt|ㄚ}}】【<img src="img/m3/fa76.png">】的合音，即骯髒的【骯】字音。華、臺音共用
+      這符號。【~fk;{{rt|ㆠㆲ|ˋ}}~fm3;】字的臺音正讀【<img src="img/m3/fa73.png">】（俗稱木偶神像）。餘例：【昂】字，華音【{{rt|ㄤ|ˊ}}】，
+      臺音【{{rt|ㆣㆲ|ˊ}}】。【盎】字，華音【{{rt|ㄤ|ˋ}}】、臺音【盎{{rt|ㄤ|˪}}】。~l0;
+
+  ~t134;<img src="img/m3/fa74.png">~t84; [oong] [oong／ong] [~fk;{{rt|ㄊㄨㄧ}}{{rt|ㄊㄨㄧ|˫}}~fm3;] [ong]~l48;
+      【<img src="img/m3/fa74.png">】符是臺語方音閏號，一看就知為依據工具的【工】字，加以變形製成。【工】字，
+      字形橫扁，【<img src="img/m3/fa74.png">】符，則稍微偏於豎直長方形。亦就取【工{{rt|ㄍㆲ}}】字的臺音韻母【<img src="img/m3/fa74.png">】音
+      【<img src="img/m3/fa5f.png"><img src="img/m3/fa76.png">】做為名稱，讀如華音的【{{rt|ㄨㄥ}}】。只是【<img src="img/m3/fa74.png">】符口腔、口形較開，屬開口呼，所
+      以另成一符。【{{rt|ㄨㄥ}}】母呈圓唇屬合口呼。【ㄨㄥ】為【<img src="img/m3/fa7a.png">】【<img src="img/m3/fa63.png">】【<img src="img/m3/fa76.png">】;【{{rt|ㆲ}}】為【<img src="img/m3/fa5f.png">】
+      【<img src="img/m3/fa76.png">】的合音。例字：1.【翁】字，華音【{{rt|ㄨㄥ}}】臺音【{{rt|ㆲ}}】。2.【汪】字，華音【{{rt|ㄨㄤ}}】，
+      臺音【{{rt|ㆲ}}】。3.【風】字，華音【{{rt|ㄈㄥ}}】，臺音【{{rt|ㄏㆲ}}】。~l0;
+
+  ~t134;{{rt|ㄥ}}~t84; [eng] [eng] [~fk;{{rt|ㄏㄨㄞ}}~fm3;] [eng]~l48;
+      【{{rt|ㄥ}}】符出於【~fk;{{rt|ㄏㆭ|ˊ}}~fm3;＝肱{{rt|ㄍㄨㄥ}}】的古文【　】，像人胳臂彎曲的樣子。其音亦得自【~fk;{{rt|ㄏㆭ|ˊ}}~fm3;{{rt|ㄍㄨㄥ}}】
+      字音的韻尾【{{rt|ㄥ}}】，讀如【鞥{{rt|ㄥ}}】馬轡。發音【<img src="img/m3/fa63.png"><img src="img/m3/fa76.png">】。臺音雖然亦應用這個音符注音，
+      卻不單獨出現，情形與【<img src="img/m3/fa72.png">】符相同。例字：【英】字，華音【{{rt|ㄧㄥ}}】，臺音同樣拼成
+      【{{rt|ㄧㄥ}}】（實在音值，華音是【<img src="img/m3/8ed5.png"><img src="img/m3/fa76.png">】，臺音是【<img src="img/m3/8ed5.png"><img src="img/m3/fa65.png"><img src="img/m3/fa76.png">】）。~l0;
+
+  ~t134;<img src="img/m3/fa76.png">~t84; [ng] [ng] [~fk;{{rt|ㄊㄨㄧ|˫}}~fm3;] [ng]~l48;
+      【<img src="img/m3/fa76.png">】符是在【<img src="img/m3/fa4e.png">】符的下部兩劃之間加一豎製成的，表【<img src="img/m3/fa4e.png">】的鼻化韻音。華語【~fk;{{rt|ㄅㆮ|ㆷ̇}}~fm3;！
+      不錯】的【~fk;{{rt|ㄅㆮ|ㆷ̇}}~fm3;】，近似此音，但多未完全鼻化，所以不用。閩南方音有這個音，用這個符
+      號。例字：1.【黃】字，華音【{{rt|ㄏㄨㄤ|ˊ}}】，臺音【{{rt|ㆭ|ˊ}}】。2.【秧】字，華音【{{rt|ㄧㄤ}}】，臺音
+      【{{rt|ㆭ}}】。辨似：<img src="img/m3/fa43.png">、<img src="img/m3/fa6f.png">、<img src="img/m3/fa4e.png">、<img src="img/m3/fa76.png">。~l0;
+
+  ~t134;ㄦ~t84; [er] [er][~fk;{{rt|ㄋㄧ|˪}}~fm3;] [er／r]~l48;
+      【ㄦ】符出於【人】字的古文奇字【　】。從【人】的字，在左邊變【~fk;{{rt|ㄒㄧㆰ|˫}}~fm3;】，如【伯】
+      【仲】，在字下邊變成【儿】形，如【兒】【兄】字的下部。設計注音符號時，因兒字從
+      【儿】，即據以造【<img src="img/m3/fa77.png">】符。又取其音唸成陰平調做為【ㄦ】符的名稱。發音如【<img src="img/m3/fa63.png">】的
+      捲舌音。臺音沒有捲舌音，想說得純正就要勤加練習。例字：【二】字，華音【{{rt|ㄦ|ˋ}}】，閩
+      臺音【{{rt|ㆢㄧ|˫}}】(漳州)、【{{rt|ㄌㄧ|˫}}】 (廈門)。~l0;
+
+  ~t134;<img src="img/m3/8ed5.png">／<img src="img/m3/fa78.png">~t84; [i／yi] [i] [i] [i]~l48;
+      【<img src="img/m3/8ed5.png">／<img src="img/m3/fa78.png">】符的形與音都出於【一、二、三】之【一】。華音、閩臺音共用這個符號，而
+      以華音的【<img src="img/m3/fa78.png">】為名稱。例字： 1.【伊】字，華音、臺音同為【{{rt|ㄧ}}】。 2.【一】字，華音
+      【{{rt|ㄧ}}】，臺音【{{rt|ㄧ|ㆵ}}】。~l0;
+
+  ~t134;<img src="img/m3/8ed7.png">／<img src="img/m3/fa79.png">~t84; [inn] [inn][~fk;{{rt|ㆲ|˫}}~fm3;] [ni]~l48;
+      【<img src="img/m3/fa79.png">】符是【<img src="img/m3/fa78.png">】符的鼻化音，華音無此音，故不用這個符號。在【<img src="img/m3/fa78.png">】符加鼻音記號製
+      成。例字：【天】字，華音【{{rt|ㄊㄧㄢ}}】，臺音【{{rt|ㄊㄧㄢ}}】(讀音)，【{{rt|ㄊㆪ}}】(語音)。~l0;
+
+  ~t134;<img src="img/m3/fa7a.png">~t84; [u] [u] [u] [u] ~l48;
+      【<img src="img/m3/fa7a.png">】符取形於「五{{rt|ㄨ|ˇ}}」的古文【<img src="img/m3/fa7a.png">】，篆文【　】，再把【五{{rt|ㄨ|ˇ}}】讀成陰平調作為【<img src="img/m3/fa7a.png">】
+      符的名稱。華、臺音共用這個符號的形和音。~l0;
+
+  ~t134;<img src="img/m3/fa7b.png">~t84; [ir] [ir] [~fk;{{rt|ㄋㄧㄚ}}~fm3;] [□]~l48;
+      【<img src="img/m3/fa7b.png">】符是臺語方音中泉州系閏音。據【<img src="img/m3/fa7a.png">】符加一短橫成【<img src="img/m3/fa7b.png">】，表泉州【豬{{rt|ㄉㆨ}}】的韻
+      音，音值【~fk;{{rt|ㄋㄧㄚ}}~fm3;】。~l0;
+
+  ~t134;<img src="img/m3/fa7c.png">~t84; [unn] [unn] [~fk;{{rt|ㆭ|ˊ}}~fm3;] [nu]~l48;
+      【<img src="img/m3/fa7c.png">】符是【<img src="img/m3/fa7a.png">】的鼻化韻母，但是單獨不成音節，必須與【<img src="img/m3/8ed5.png">】相拼才能發生作用，拼出
+      音綴。例字：臺音【鴦{{rt|ㄧㆫ}}】【香{{rt|ㄏㄧㆫ}}】。華音無此音。~l0;
+
+  ~t134;{{rt|ㄩ}}~t84; [y／iu,yu] [y] [y] [u]~l48;
+      【{{rt|ㄩ}}】符的來源是【凵】【{{rt|ㄑㄩ}}】字，其篆文【　】像用柳條編的盛飯器具。亦從這字的字音
+      【{{rt|ㄑㄩ}}】，取【{{rt|ㄩ}}】符的音叫【{{rt|ㄩ}}】。例字：1.【迂】，華音【{{rt|ㄩ}}】，臺音【{{rt|ㄨ}}】。2.【雨】
+      ，華音【{{rt|ㄩ|ˇ}}】，臺音(文)【{{rt|ㄨ|ˋ}}】、(語)【{{rt|ㄏㆦ|˫}}】。辨似：【{{rt|ㄩ}}】向上開口，盛物器形，【<img src="img/m3/fa43.png">】
+      向下覆蓋的樣子。臺語沒有【{{rt|ㄩ}}】音。~l0;
+
+  ~t134;{{rt|ㄭ}}~t84; [ii／r,z] [ ／ ] [ii] [□]~l48;
+      【{{rt|ㄭ}}】符取自【師】字右文，加以符號化。亦從【師】字的後半音(音尾)取這個符號的名稱
+      ，發音【{{rt|ㄭ}}】。此音不能單獨存在、不拼出，故稱做「空韻」。閩南泉州方音的【資{{rt|ㄗㆨ}}】的
+      韻音【<img src="img/m3/fa7b.png">】近之。【{{rt|ㄭ}}】的嚴密記音包括【　】【　】。~l0;
+
+~fm7t126l0;
+三、四個入聲記號~fm3;
+
+~fm3t84l48
+      閩南方音(臺音)的入聲分為兩種：一種收於【~fk;<img src="img/m3/faae.png">~fm3;、~fk;<img src="img/m3/faaf.png">~fm3;、~fk;<img src="img/m3/fab0.png">~fm3;】促聲韻尾，一種收於
+      【~fk;<img src="img/m3/fab1.png">~fm3;】[～h][～h][～~fk;{{rt|ㄊㄨㄧ|ˋ}}~fm3;][～h]叫喉塞韻尾。~l0;
+
+  ~t134;～<img src="img/m3/faa1.png">／～<rt>ㆵ</rt>／～<img src="img/m3/faa5.png">~t84; [～p][～t][～k]~l48;
+      小寫的【～<img src="img/m3/faa1.png">／～<rt>ㆵ</rt>／～<img src="img/m3/faa5.png">】頂上，不加圓點表示【陰入聲】亦叫【上入聲】;加上圓點的
+      【～<img src="img/m3/faa2.png">／～<img src="img/m3/faa4.png">／～<img src="img/m3/faa6.png"> 】【～'p/～'t/～'k】是表示【陽入聲】亦叫【下入聲】。~l0;
+
+  ~t134;~fk;<img src="img/m3/faae.png">~fm3;~t84; [～p][～p][～p][～p]~l48;
+      小寫的【~fk;<img src="img/m3/faae.png">~fm3;】附在拼音的右下角表示收於【～<img src="img/m3/faa1.png">】音的入聲。例如：1.【邑】字，音
+      【{{rt|ㄧ|ㆴ}}】。2.【及】字，音【{{rt|ㄍㄚ|ㆴ}}】(語音)、【{{rt|ㄍㄧ|ㆴ̇}}】(讀音)。~l0;
+
+  ~t134;~fk;<img src="img/m3/faaf.png">~fm3;~t84; [～t][～t][～t][～t]~l48;
+      小寫的【~fk;<img src="img/m3/faaf.png">~fm3;】附在拼音的右下角表示收於【～<rt>ㆵ</rt>】音的入聲。小寫的【～<rt>ㆵ</rt>】，表示收於
+      【～<rt>ㆵ</rt>】的入聲。例如： 1.【壹】字，音【{{rt|ㄧ|ㆵ}}】。 2.【直】字，音【{{rt|ㄉㄧ|ㆵ̇}}】。 3.【八】音
+      【{{rt|ㄅㄚ|ㆵ}}】。 4.【奪】音【{{rt|ㄉㄨㄚ|ㆵ̇}}】。~l0;
+
+  ~t134;~fk;<img src="img/m3/fab0.png">~fm3;~t84; [～k][～k][～k][～k]~l48;
+      同樣，小寫的【~fk;<img src="img/m3/fab0.png">~fm3;】附在拼音的右下角表示收於【～<img src="img/m3/faa5.png">】音的入聲。例如： 1.【角】字，
+      音【{{rt|ㄍㄚ|ㆶ}}】。 2.【學】字，讀音【{{rt|ㄏㄚ|ㆶ̇}}】、語音【{{rt|ㄜ|ㆷ̇}}】。~l0;
+
+  ~t134;~fk;<img src="img/m3/fab1.png">~fm3;~t84; [～h] [～h][～~fk;{{rt|ㄊㄨㄧ|ˋ}}~fm3;][～h]~l48;
+      小寫的【~fk;<img src="img/m3/fab1.png">~fm3;】附在拼音的右下角表示收於【～<rt>ㆷ</rt>】音的入聲。用這個記號表示喉塞音。收於
+      喉塞音韻尾的拼音，叫做喉塞音入聲。例如： 1.【學】字的【{{rt|ㄜ|ㆷ̇}}】(語音)。 2.【桌{{rt|ㄉㄜ|ㆷ}}】
+      (語音)。 3.【塔{{rt|ㄊㄚ|ㆷ}}】(語音)。 4.【突{{rt|ㄉㄨ|ㆷ̇}}】(語音)。~l0;
+
+~fm7t126l0;
+四、華臺音聲調
+
+~t104;   華音聲調：~t84fm3l126;
+      一聲    二聲　　三聲　　四聲    輕聲~l84;
+      陰平    陽平    上聲    去聲    輕聲
+        1       2       3       4       5   ── TLPA、威妥瑪式。
+      省略     ˊ      ˇ      ˋ      ．   ── 注音符號。
+       55      35   315／214   51    無規則 ── 五度音階制。
+       <img src="img/m3/faaa.png">      <img src="img/m3/faae.png">      ˇ<img src="img/m3/faaf.png">    <img src="img/m3/faab.png">       <img src="img/m3/fab2.png">  ── 國際音標。
+
+~t104fm7;   臺音聲調：~t84fm3l126;(↓)指變調
+       一聲　　二聲　  三聲　　四聲　　五聲　　六聲　　七聲　　八聲 　 輕聲~l84;
+       陰平    陰上    陰去    陰入    陽平    陽上    陽去    陽入    輕聲
+        1       2       3       4       5       6       7       8       0
+      55／44  51／53  21／11  32／21  14／25   泉音   33／22   4／5
+        <img src="img/m3/faaa.png">      <img src="img/m3/faab.png">      <img src="img/m3/faac.png">      <img src="img/m3/faad.png">      <img src="img/m3/faae.png">              <img src="img/m3/fab0.png">      <img src="img/m3/fab1.png">      <img src="img/m3/fab2.png">
+        ↓      ↓      ↓      ↓      ↓              ↓      ↓
+        33      55      51    55／44  33／21          21／11  21／22
+        東{{rt|ㄉㆲ}}    董{{rt|ㄉㆲ|ˋ}}    凍{{rt|ㄉㆲ|˪}}    督{{rt|ㄉㆦ|ㆶ}}    童{{rt|ㄉㆲ|ˊ}}   動(泉)   洞{{rt|ㄉㆲ|˫}}    毒{{rt|ㄉㆦ|ㆶ̇}}    仔~fk;{{rt|ㄗㄨㄟ|ˇ}}~fm3;
+       省略      ˋ     <img src="img/m3/8ed4.png">    <rt>ㆷ</rt><img src="img/m3/faa1.png"><rt>ㆵ</rt><img src="img/m3/faa5.png">  ˊ       ˋ     <img src="img/m3/8ed3.png">     <img src="img/m3/faa8.png"><img src="img/m3/faa2.png"><img src="img/m3/faa4.png"><img src="img/m3/faa6.png"> ．
+
+      四個陰(上)入聲：以【～<rt>ㆷ</rt>～<img src="img/m3/faa1.png">～<rt>ㆵ</rt>～<img src="img/m3/faa5.png">／～h ～p ～t ～k】表示。
+      四個陽(下)入聲：以【～<img src="img/m3/faa8.png">～<img src="img/m3/faa2.png">～<img src="img/m3/faa4.png">～<img src="img/m3/faa6.png">／～'h ～'p ～'t ～'k】表示。
+      註：九聲：中央(合音)【{{rt|ㄉㄧㆲ|ˊ}}】【tiong 9】，音值為[tio~fk;{{rt|ㄊㄨㄧ|˫}}~fm3;35]，一個音節。
+~fm7t126l0;五、連讀變音原則：~fm3;
+
+~fm3t84l48
+        【輕聲】變音發生在第二音節以下，這【連讀變音】則發生在第一音節。或說是一種
+    輕念。無論如何，這是漢語方言一般在音韻組織上為著發音說話能順口，流暢而出的自然
+    要求，免於詰屈聱牙。一方面帶出一種語法作用。即，如不依照自然形成的規則、習慣唸
+    出，就語不成詞、句不成義。操母語的人耳濡不爽，後天學習的要速成則需循規練習。
+
+  【陰平調】連：平、上、去、入，變似【陽去／<img src="img/m3/8ed3.png">】。即【一聲變七聲】。
+      例：新{{rt|ㄒㄧㄣ}}→{{rt|ㄒㄧㄣ|˫}}衫{{rt|ㄙㆩ}}。將{{rt|ㄐㄧㆲ}}→{{rt|ㄐㄧㆲ|˫}}來{{rt|ㄌㄞ|ˊ}}。相{{rt|ㄒㄧㆲ}}→{{rt|ㄒㄧㆲ|˫}}好{{rt|ㄏㆦ|ˋ}}。花{{rt|ㄏㄨㆤ}}→{{rt|ㄏㄨㆤ|˫}}布{{rt|ㄅㆦ|˪}}。
+          兄{{rt|ㄏㄧㆩ}}→{{rt|ㄏㄧㆩ|˫}}弟{{rt|ㄉㄧ}}。分{{rt|ㄏㄨㄣ}}→{{rt|ㄏㄨㄣ|˫}}別{{rt|ㄅㄧㄚ|ㆵ}}。修{{rt|ㄒㄧㄨ}}→{{rt|ㄒㄧㄨ|˫}}業{{rt|ㆣㄧㄚ|ㆴ̇}}。
+
+  【上聲調】連：平、上、去、入，變似【陰平／無號】。即【二聲變一聲】。
+      例：手{{rt|ㄑㄧㄨ|ˋ}}→{{rt|ㄑㄧㄨ}}心{{rt|ㄒㄧㆬ}}。改{{rt|ㄍㄞ|ˋ}}→{{rt|ㄍㄞ}}良{{rt|ㄌㄧㆲ|ˊ}}。妲{{rt|ㄉㄚ|ㆵ}}→{{rt|ㄊㄢ|ˋ}}己{{rt|ㄍㄧ|ˋ}}→{{rt|ㄎㄧ|ˋ}}。主{{rt|ㄗㄨ|ˋ}}→{{rt|ㄗㄨ}}意{{rt|ㄧ|˪}}。
+          早{{rt|ㄗㄚ|ˋ}}→{{rt|ㄗㄚ}}飯{{rt|ㄅㆭ|˫}}。款{{rt|ㄎㄨㄢ|ˋ}}→{{rt|ㄎㄨㄢ}}式{{rt|ㄒㄧ|ㆵ}}。洗{{rt|ㄙㆤ|ˋ}}→{{rt|ㄙㆤ}}浴{{rt|ㄧㆤ|ㆶ̇}}。
+
+  【陰去調】連：平、上、去、入，變似【上聲／ˋ】。即【三聲變二聲】。
+      例：透{{rt|ㄊㄠ|˪}}→{{rt|ㄊㄠ|ˋ}}風{{rt|ㄏㆲ}}。破{{rt|ㄆㄨㄚ|˪}}→{{rt|ㄆㄨㄚ|ˋ}}鞋{{rt|ㄨㆤ|ˊ}}。銃{{rt|ㄑㄧㄥ|˪}}→{{rt|ㄑㄧㄥ|ˋ}}子{{rt|ㄐㄧ|ˋ}}。興{{rt|ㄏㄧㄥ|˪}}→{{rt|ㄏㄧㆲ|ˋ}}趣{{rt|ㄘㄨ|˪}}。
+          放{{rt|ㄏㆲ|˪}}→{{rt|ㄏㆲ|ˋ}}蕩{{rt|ㄉㆲ|˫}}。做{{rt|ㄗㄜ|˪}}→{{rt|ㄗㄜ|ˋ}}穡{{rt|ㄒㄧ|ㆵ}}。抗{{rt|ㄎㆲ|˪}}→{{rt|ㄎㆲ|ˋ}}毒{{rt|ㄉㆦ|ㆶ̇}}。
+
+  【陰入調】連：平、上、去、入，變似【陽入／<img src="img/m3/faa2.png"><img src="img/m3/faa4.png"><img src="img/m3/faa6.png">】。但【喉塞韻／～<rt>ㆷ</rt>】變似
+      【上聲／ˋ】。
+      例：督{{rt|ㄉㆦ|ㆶ}}→{{rt|ㄉㆦ|ㆶ̇}}軍{{rt|ㄍㄨㄣ}}。踢{{rt|ㄊㄚ|ㆵ}}→{{rt|ㄊㄚ|ㆵ̇}}球{{rt|ㄍㄧㄨ|ˊ}}。國{{rt|ㄍㆦ|ㆶ}}→{{rt|ㄍㆦ|ㆶ̇}}語{{rt|ㆣㄨ|ˋ}}。得{{rt|ㄉㄧㆤ|ㆶ}}→{{rt|ㄉㄧㆤ|ㆶ̇}}勝{{rt|ㄒㄧㄥ|˪}}。
+          托{{rt|ㄊㆦ|ㆶ}}→{{rt|ㄊㆦ|ㆶ̇}}重{{rt|ㄉㄧㆲ|˫}}。桌{{rt|ㄉㄜ|ㆷ}}→{{rt|ㄉㄜ|ˋ}}角{{rt|ㄍㄚ|ㆶ}}。出{{rt|ㄘㄨ|ㆵ}}→{{rt|ㄘㄨ|ㆵ̇}}力{{rt|ㄌㄚ|ㆵ̇}}。
+
+  【陽平調】連：平、上、去、入，變似【陽去／<img src="img/m3/8ed3.png">】。即【五聲變七聲】。
+      泉州腔則變似【陰去／<img src="img/m3/8ed4.png">】
+      例：人{{rt|ㄌㄧㄣ|ˊ}}→{{rt|ㄌㄧㄣ|˫}}參{{rt|ㄒㄧㆬ}}。茶{{rt|ㄉㆤ|ˊ}}→{{rt|ㄉㆤ|˫}}油{{rt|ㄧㄨ|ˊ}}。門{{rt|ㄇㆭ|ˊ}}→{{rt|ㄇㆭ|˫}}口{{rt|ㄎㄠ|ˋ}}。微{{rt|ㆠㄧ|ˊ}}→{{rt|ㆠㄧ|˫}}笑{{rt|ㄑㄧㄜ|˪}}。
+          黃{{rt|ㆭ|ˊ}}→{{rt|ㆭ|˫}}豆{{rt|ㄉㄠ|˫}}。油{{rt|ㄧㄨ|ˊ}}→{{rt|ㄧㄨ|˫}}漆{{rt|ㄘㄚ|ㆵ}}。明{{rt|ㆠㄧㄥ|ˊ}}→{{rt|ㆠㄧㄥ|˫}}白{{rt|ㄅㄧㆤ|ㆶ̇}}。
+
+  【陽去調】連：平、上、去、入，變似【陰去／<img src="img/m3/8ed4.png">】。即【七聲變三聲】。
+      例：認{{rt|ㄌㄧㄣ|˫}}→{{rt|ㄌㄧㄣ|˪}}真{{rt|ㄐㄧㄣ}}。老{{rt|ㄌㄠ|˫}}→{{rt|ㄌㄠ|˪}}人{{rt|ㄌㄤ|ˊ}}。字{{rt|ㄌㄧ|˫}}→{{rt|ㄌㄧ|˪}}典{{rt|ㄉㄧㄢ|ˋ}}。大{{rt|ㄉㄞ|˫}}→{{rt|ㄉㄞ|˪}}概{{rt|ㄎㄞ|˪}}。
+          援{{rt|ㄨㄢ|˫}}→{{rt|ㄨㄢ|˪}}助{{rt|ㄗㆦ|˫}}。道{{rt|ㄉㄜ|˫}}→{{rt|ㄉㄜ|˪}}德{{rt|ㄉㄧㆤ|ㆶ}}。大{{rt|ㄉㄞ|˫}}→{{rt|ㄉㄞ|˪}}學{{rt|ㄏㄚ|ㆶ̇}}。
+
+  【陽入調】【<img src="img/m3/faa2.png"><img src="img/m3/faa4.png"><img src="img/m3/faa6.png">】連：平、上、去、入，促聲韻，變似【陰入】【<img src="img/m3/faa1.png"><rt>ㆵ</rt><img src="img/m3/faa5.png">】。但
+      【喉塞韻／～<img src="img/m3/faa8.png">】強調時變【陰去／<img src="img/m3/8ed4.png">】。
+      例：立{{rt|ㄌㄧ|ㆴ̇}}→{{rt|ㄌㄧ|ㆴ}}功{{rt|ㄍㆲ}}。業{{rt|ㆣㄧㄚ|ㆴ̇}}→{{rt|ㆣㄧㄚ|ㆴ}}農{{rt|ㄌㆲ|ˊ}}。十{{rt|ㄒㄧ|ㆴ̇}}→{{rt|ㄒㄧ|ㆴ}}九{{rt|ㄍㄧㄨ|ˋ}}。合{{rt|ㄏㄚ|ㆴ̇}}→{{rt|ㄏㄚ|ㆴ}}併{{rt|ㄅㄧㄥ|˪}}。
+          食{{rt|ㄐㄧㄚ|ㆷ̇}}→{{rt|ㄐㄧㄚ|˪}}飯{{rt|ㄅㆭ|˫}}。粒{{rt|ㄌㄧㄚ|ㆴ̇}}→{{rt|ㄌㄧㄚ|ㆴ}}積{{rt|ㄐㄧㆤ|ㆶ}}。入{{rt|ㄌㄧ|ㆴ̇}}→{{rt|ㄌㄧ|ㆴ}}學{{rt|ㄏㄚ|ㆶ̇}}。
+
+   為著方便記憶變音規則：可把【5→7→3→2→1→7】以【573217】順序記住。

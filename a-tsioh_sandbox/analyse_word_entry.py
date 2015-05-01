@@ -24,6 +24,8 @@ re_definition = re.compile(ur"^(?P<nhomonym>[0-9]+ )?(?P<POS>\[[^\]]+\])?(?P<bod
 
 re_lang = re.compile(ur"\((台|國語)\)",re.U)
 
+re_zhuyin = re.compile(ur"[\u3105-\u31ba]",re.U)
+
 
 private_to_unicode = json.load(open(os.path.dirname(__file__) + "/mapping.json"))
 re_fk = re.compile(ur"<k>.*?</k>", re.U)
@@ -44,7 +46,16 @@ def split_by_language(definition):
     m = re_lang.search(definition, position)
     while m:
         (begin, end) = m.span()
-        sentences.append({'lang': current_language, 'sentence': definition[position:begin]})
+        chunks = definition[position:begin].split(u"。")
+        for i, sentence in enumerate(chunks):
+            if len(sentence) ==0:
+                continue
+            if i < len(chunks) - 1:
+                sentence += u"。"
+            if current_language == u"台" and re_zhuyin.search(sentence) is None:
+                sentences.append({'lang': u"國語", 'sentence': sentence})
+            else:
+                sentences.append({'lang': current_language, 'sentence': sentence})
         current_language = definition[begin+1:end-1]
         position = end
         m = re_lang.search(definition, position)

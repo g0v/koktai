@@ -4,8 +4,8 @@ use File::Slurp qw[slurp];
 use Encode;
 use FindBin '$Bin';
 
-my $k = decode_json(slurp("$Bin/k.json"));
-my $m3 = decode_json(slurp("$Bin/m3.json"));
+my $k = decode_json(scalar slurp("$Bin/k.json"));
+my $m3 = decode_json(scalar slurp("$Bin/m3.json"));
 my $mapping = decode_json(slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
 
 while (<>) {

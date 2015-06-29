@@ -4,6 +4,8 @@ from unittest.case import TestCase
 from 分漢字注音 import 分漢字注音
 
 class 分漢字注音試驗(TestCase):
+    def setUp(self):
+        self.漢字注音 = 分漢字注音()
     def test_無漢字一注音(self):
         self.比較一字(
             '( )󸍐',
@@ -52,11 +54,18 @@ class 分漢字注音試驗(TestCase):
                 ([], ['󸍐'])
             )
     def 比較一字(self, 原本, 答案):
-        漢字注音 = 分漢字注音()
-        結果 = 漢字注音.分一字(原本)
+        結果 = self.漢字注音.分一字(原本)
         self.assertEqual(結果, 答案)
-#     def test_中央的括號有注音莫愛(self):
-#         self.比較一字(
-#             '例󹎿(/前󹻓例󹎿)',
-#             (['<k>󿭐</k>', '此'], ['󹻂'])
-#         )
+    def test_分一般句(self):
+        self.比較一逝長度(
+            '一󹻃四󺁠界(/過)󹛘/󹕬攏󸩡<k>󿫊</k>(/亦)󸹃有󸞴。',
+            6
+        )
+    def test_有加的字(self):
+        self.比較一逝長度(
+            '頭󹅨前󹻓(/前󹻓面󿵉)。',
+            2
+        )
+    def 比較一逝長度(self, 原本, 答案):
+        結果 = self.漢字注音.分一逝(原本)
+        self.assertEqual(len(結果), 答案, 結果)

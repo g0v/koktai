@@ -10,6 +10,12 @@ class 分漢字注音:
         with open(join(這馬資料夾, '..', 'font', 'm3.json')) as 檔案:
             for 編號, 注音 in json.load(檔案).items():
                 self.注音表[0xf0000 + int(編號, 16)] = 注音
+    def 分一逝而且轉注音(self, 文本):
+        字資料陣列=self.分一逝(文本)
+        for _,音陣列 in 字資料陣列:
+            for 編號,音 in enumerate(音陣列):
+                音陣列[編號]=self.注音表[ord(音)]
+        return 字資料陣列
     def 分一逝(self, 文本):
         無解說文本 = self._提掉有注音的括號.sub('', 文本)
         所在 = len(無解說文本) - 1

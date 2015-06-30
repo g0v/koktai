@@ -3,7 +3,7 @@ from os.path import dirname, abspath, join
 import re
 
 class 分漢字注音:
-    _提掉有注音的括號 = re.compile(r'\(/[^()]*[\uF0000-\uFffff][^()]*\)')
+    _提掉有注音的括號 = re.compile(r'\(/[^()]+[\U000F0000-\U000Fffff][^()]*\)')
     def __init__(self):
         這馬資料夾 = dirname(abspath(__file__))
         self.注音表 = {}

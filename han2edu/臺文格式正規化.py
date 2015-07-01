@@ -11,14 +11,30 @@ class 臺文格式正規化:
     def __init__(self):
         這馬資料夾 = dirname(abspath(__file__))
         self.注音表 = {}
+        注音對應編號={}
         with open(join(這馬資料夾, '..', 'font', 'm3.json')) as 檔案:
             for 編號, 注音 in json.load(檔案).items():
-                self.注音表[0xf0000 + int(編號, 16)] = 注音
+                完整編號=0xf0000 + int(編號, 16)
+                self.注音表[完整編號] = 注音
+                注音對應編號[注音] = 完整編號
+        self.換注音編號={}
+        with open(join(這馬資料夾, '..', 'font', 'k.json')) as 檔案:
+            for 編號, 注音 in json.load(檔案).items():
+                完整編號=0xf0000 + int(編號, 16)
+                if 注音 in 注音對應編號:
+                    self.換注音編號[完整編號]=注音對應編號[注音]
         self._漢字注音 = 分漢字注音()
     def 正規化(self, 文本):
         文本 = self._處理箭頭(文本)
         文本 = self._處理注音括號(文本)
+        文本 = self._換注音編號(文本)
         return 文本 
+    def _換注音編號(self,文本):
+        return re.sub('(<k>[\U000F0000-\U000Fffff]</k>)', self._是注音編號就換掉, 文本)
+    def _是注音編號就換掉(self, 子字串):
+        if ord(子字串.group(0)[3]) in self.換注音編號:
+            return chr(self.換注音編號[ord(子字串.group(0)[3])])
+        return 子字串.group(0)
     def _處理注音括號(self, 文本):
         return re.sub('(\(/[\U000F0000-\U000Fffff]\))', self._是注音就提掉, 文本)
     def _是注音就提掉(self, 子字串):

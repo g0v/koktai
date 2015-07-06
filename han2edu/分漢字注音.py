@@ -1,6 +1,7 @@
 import json
 from os.path import dirname, abspath, join
 import re
+from 臺灣言語工具.音標系統.閩南語.方音符號吳守禮改良式 import 方音符號吳守禮改良式
 
 class 分漢字注音:
     _提掉有注音的括號 = re.compile(r'\(/[^()]+[\U000F0000-\U000Fffff][^()]*\)')
@@ -9,12 +10,13 @@ class 分漢字注音:
         self.注音表 = {}
         with open(join(這馬資料夾, '..', 'font', 'm3.json')) as 檔案:
             for 編號, 注音 in json.load(檔案).items():
-                self.注音表[0xf0000 + int(編號, 16)] = 注音
+                self.注音表[0xf0000 + int(編號, 16)] = 方音符號吳守禮改良式(注音).轉換到臺灣閩南語羅馬字拼音()
+
     def 分一逝而且轉注音(self, 文本):
-        字資料陣列=self.分一逝(文本)
-        for _,音陣列 in 字資料陣列:
-            for 編號,音 in enumerate(音陣列):
-                音陣列[編號]=self.注音表[ord(音)]
+        字資料陣列 = self.分一逝(文本)
+        for _, 音陣列 in 字資料陣列:
+            for 編號, 音 in enumerate(音陣列):
+                音陣列[編號] = self.注音表[ord(音)]
         return 字資料陣列
     def 分一逝(self, 文本):
         無解說文本 = self._提掉有注音的括號.sub('', 文本)

@@ -10,6 +10,7 @@ import sys
 import re
 import json
 import os
+import unicodedata as ud
 
 re_main_parts = re.compile(ur"^~t96;【(?P<entry>[^】]+)】~(fd6)?t84;(?P<definition>.*)$",re.U)
 
@@ -38,6 +39,21 @@ def replace_privates(s):
         m = re_fk.search(s,end)
     return s
 
+def confirm_taigi(sentence):
+    """
+    Check if each sinogram in a sentence is
+    followed by a zhuyin annotation
+    """
+    for i,char in enumerate(unicode(sentence)[:-1]):
+        try:
+            if ud.name(char).startswith("CJK "):
+                next_code = ord(sentence[i+1])
+                if not (next_code >= 0xf0000 and next_code <= 0xfffff):
+                    print "failed",next_code, char.encode("utf8"),sentence.encode("utf8")
+                    return False
+        except:
+            pass
+    return True
 
 def split_by_language(definition):
     sentences = []
@@ -52,7 +68,7 @@ def split_by_language(definition):
                 continue
             if i < len(chunks) - 1:
                 sentence += u"。"
-            if current_language == u"台" and re_zhuyin.search(sentence) is None:
+            if current_language == u"台" and (not confirm_taigi(sentence)):
                 sentences.append({'lang': u"國語", 'sentence': sentence})
             else:
                 sentences.append({'lang': current_language, 'sentence': sentence})

@@ -11,13 +11,20 @@ import json
 import analyse_word_entry
 #import wsl_to_kaulo
 
-def process_buffer(buf):
+def process_buffer(buf,list_of_results):
     entry = analyse_word_entry.parse_one("".join(buf))
     if entry:
-        return (analyse_word_entry.html_of_entry(entry)).encode('utf8')
+        if len(list_of_results) > 0 and list_of_results[-1]['entry'] == entry['entry']:
+            list_of_results[-1]['heteronyms'].append(entry)
+        else:
+            list_of_results.append({'entry':entry['entry'], 'heteronyms':[entry]})
     else:
-        return "".join(buf).encode("utf8")
+        print "unanalyzed", "".join(buf).encode("utf8")
 
+def print_results(list_of_results):
+    for entry in list_of_results:
+        for h in entry['heteronyms']:
+            print analyse_word_entry.html_of_entry(h).encode("utf8")
 def main():
     print """
 doctype html
@@ -26,7 +33,7 @@ html
     meta(charset='utf8')
   body
     """
-        
+    lor = []        
     i = 0
     buf = []
     inside = False
@@ -39,12 +46,12 @@ html
             if line.startswith('~t96;'): 
                 # new word
                 if len(buf)>0:
-                    print process_buffer(buf)
+                    process_buffer(buf, lor)
                 buf = [line]
                 inside = True
             elif line.startswith(u".本文"):
                 if len(buf)>0:
-                    print process_buffer(buf)
+                    process_buffer(buf, lor)
                 buf = []
                 inside = False
             elif inside:
@@ -54,7 +61,8 @@ html
         except UnicodeDecodeError:
             print >>sys.stderr,"encoding error on line", i
     if len(buf)>0:
-        print process_buffer(buf)
+        process_buffer(buf,lor)
+    print_results(lor)
 
 if __name__ == "__main__":
     main()

@@ -48,34 +48,37 @@ def confirm_taigi(sentence):
         try:
             if ud.name(char).startswith("CJK "):
                 next_code = ord(sentence[i+1])
-                if not (next_code >= 0xf0000 and next_code <= 0xfffff):
-                    print "failed",next_code, char.encode("utf8"),sentence.encode("utf8")
-                    return False
+                if (not (next_code >= 0xf0000 and next_code <= 0xfffff)):
+                    if not ud.name(sentence[i+1]).startswith("BOPOMOFO") and not sentence[i+1] == "<":
+                        return False
         except:
-            pass
+            continue
     return True
 
 def split_by_language(definition):
     sentences = []
     current_language = u"國語"
     position = 0
-    m = re_lang.search(definition, position)
-    while m:
-        (begin, end) = m.span()
-        chunks = definition[position:begin].split(u"。")
-        for i, sentence in enumerate(chunks):
-            if len(sentence) ==0:
-                continue
-            if i < len(chunks) - 1:
-                sentence += u"。"
-            if current_language == u"台" and (not confirm_taigi(sentence)):
-                sentences.append({'lang': u"國語", 'sentence': sentence})
-            else:
-                sentences.append({'lang': current_language, 'sentence': sentence})
-        current_language = definition[begin+1:end-1]
-        position = end
-        m = re_lang.search(definition, position)
-    sentences.append({'lang': current_language, 'sentence': definition[position:]})
+    #m = re_lang.search(definition, position)
+    chunks = definition.split(u"。")
+    for i, sentence in enumerate(chunks):
+        if len(sentence) ==0:
+            continue
+        if i < len(chunks) - 1:
+            sentence += u"。"
+        if u"(台)" in sentence[:5]:
+            sentence = sentence.replace(u"(台)","",1)
+            current_language = u"台"
+        if u"(國語)" in sentence[:6]:
+            sentence = sentence.replace(u"(國語)", "",1)
+            current_language = u"國語"
+        if current_language == u"台" and (not confirm_taigi(sentence)):
+            current_language = u"國語"
+            #sentences.append({'lang': u"國語", 'sentence': sentence})
+        if len(sentences) >0 and sentences[-1]['lang'] == current_language:
+            sentences[-1]['sentence'] += sentence
+        else:
+            sentences.append({'lang': current_language, 'sentence': sentence})
     return sentences
 
 
@@ -95,17 +98,20 @@ def format_one(entry):
 def html_of_entry(entry):
     html = """
     div
-      h1 %(entry)s
-      div.part-of-speech %(POS)s
-      div.homonym %(nh)s
-      div.definition
-    """ % entry
+      h3 %(entry)s
+      dl
+        dd %(POS)s
+    """.rstrip() % entry
+       # dd %(nh)s
     for s in entry['sentences']:
-        html += """
-          div.sentence
-            div.lang %(lang)s
-            div.text %(sentence)s
-        """ % s
+        if True: #s['lang'] == u"台":
+            html += u"""
+        dd
+          u %s
+            """.rstrip() % (s['lang'],)
+        html += u"""
+        dd %(sentence)s
+        """.rstrip() % s
     return html
               
       

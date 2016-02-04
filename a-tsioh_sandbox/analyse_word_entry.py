@@ -49,7 +49,7 @@ def confirm_taigi(sentence):
             if ud.name(char).startswith("CJK "):
                 next_code = ord(sentence[i+1])
                 if (not (next_code >= 0xf0000 and next_code <= 0xfffff)):
-                    if not ud.name(sentence[i+1]).startswith("BOPOMOFO") and not sentence[i+1] == "<":
+                    if not ud.name(sentence[i+1]).startswith("BOPOMOFO") and not sentence[i+1] in ("<",")"):
                         return False
         except:
             continue

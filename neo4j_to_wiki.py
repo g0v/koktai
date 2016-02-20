@@ -26,11 +26,9 @@ def img_to_wiki(s):
 def word_to_wiki(w):
     return u"""
 ==='''『%(entry)s』'''===
-:%(POS)s
 :%(content)s
     """ % ({"entry": img_to_wiki(zhuyin_to_ruby(w[u"項"])),
-            "POS": w[u'詞類'],
-            "content": img_to_wiki(zhuyin_to_ruby(w[u"本文"]))})
+        "content": img_to_wiki(zhuyin_to_ruby(w[u"本文"])).replace("\n","\n:")})
 
 
 

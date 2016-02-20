@@ -190,7 +190,7 @@ def parse_one_word(lines):
                 nh = ''
             pos = def_matchs.group('POS')
             if pos is None:
-                pos = 'None'
+                pos = ''
             body = def_matchs.group('body')
             body = replace_privates(body)
             e = {

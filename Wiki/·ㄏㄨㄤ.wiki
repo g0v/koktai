@@ -8,5 +8,5 @@
     
 
 ==='''『…{{ruby|慌|·ㄏㄨㄤ}}』'''===
-: [後狀]詞尾。表「很」字的意思。多表極端難忍受的程度。(台){{ruby|用|ㄧㆲ˫}}[狀＋{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}{{ruby|<mark>&#xffa45;</mark>|ㆠㆤ˫}}{{ruby|/|ㆠㄨㆤ˫}}{{ruby|講|ㄍㆲˋ}}{{ruby|→|ㄍㆲ}}{{ruby|得|ㄉㄧㆵ}}]。「……{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}[[File:fa49.png|20px]]<rt>ㆠㆤㆷ</rt>{{ruby|/|ㆠㄨㆤㆷ}}{{ruby|死|ㄒㄧˋ}}」。句型。例：累得～。(台){{ruby|懶|ㄌㄢˋ}}{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}{{ruby|<mark>&#xffa45;</mark>|ㆠㆤ˫}}{{ruby|/|ㆠㄨㆤ˫}}{{ruby|講|ㄍㆲˋ}}{{ruby|得|ㄉㄧㆵ}}。悶得～。(台){{ruby|翕|ㄏㄧㆴ}}{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}[[File:fa49.png|20px]]<rt>ㆠㆤㆷ</rt>{{ruby|/|ㆠㄨㆤㆷ}}{{ruby|死|·ㄒㄧˋ}}({{ruby|去|·ㄎㄧ˪}})。亂得～。(台){{ruby|真|ㄐㄧㄣ}}{{ruby|誠|ㄐㄧㆩˊ}}{{ruby|亂|ㄌㄨㄢ˫}}。
+: [後狀]詞尾。表「很」字的意思。多表極端難忍受的程度。(台){{ruby|用|ㄧㆲ˫}}[狀＋{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}{{ruby|<mark>&#xffa45;</mark>|ㆠㆤ˫/ㆠㄨㆤ˫}}{{ruby|講|ㄍㆲˋ}}{{ruby|→|ㄍㆲ}}{{ruby|得|ㄉㄧㆵ}}]。「……{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}[[File:fa49.png|20px]]<rt>ㆠㆤㆷ/ㆠㄨㆤㆷ</rt>{{ruby|死|ㄒㄧˋ}}」。句型。例：累得～。(台){{ruby|懶|ㄌㄢˋ}}{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}{{ruby|<mark>&#xffa45;</mark>|ㆠㆤ˫/ㆠㄨㆤ˫}}{{ruby|講|ㄍㆲˋ}}{{ruby|得|ㄉㄧㆵ}}。悶得～。(台){{ruby|翕|ㄏㄧㆴ}}{{ruby|<mark>&#xffa42;</mark>|ㄍㄚㆷ}}[[File:fa49.png|20px]]<rt>ㆠㆤㆷ/ㆠㄨㆤㆷ</rt>{{ruby|死|·ㄒㄧˋ}}({{ruby|去|·ㄎㄧ˪}})。亂得～。(台){{ruby|真|ㄐㄧㄣ}}{{ruby|誠|ㄐㄧㆩˊ}}{{ruby|亂|ㄌㄨㄢ˫}}。
     

@@ -108,7 +108,7 @@ def recode(s):
 
     s = match_apply(k_re, lambda x: k3(k2(k1(x))), s)
     s = match_apply(k4_re, lambda x: unichr(0x245f + ord(x) - 0xfc6a0), s)
-    return k6(k5(s))
+    return k6(k5(s)).replace("</rt>/<rt>","/")
 
 
 re_special_chars = re.compile(ur"~[a-z0-9]+;",re.U)

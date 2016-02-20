@@ -10,6 +10,7 @@ re_rt = re.compile(ur"([^\)>])(·?)<rt>([^<]+)</rt>")
 re_rtmark = re.compile(ur"(<mark>[^<]*?</mark>)(·?)<rt>([^<]+?)</rt>")
 re_rtpar = re.compile(ur"(\([^\)>]\))(·?)<rt>([^<]+)</rt>")
 def zhuyin_to_ruby(s):
+    s = s.replace("</rt>/<rt>","/")
     for re in [re_rt, re_rtmark, re_rtpar]:
         s = re.sub("{{ruby|\\1|\\2\\3}}",s)
     return s

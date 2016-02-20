@@ -187,7 +187,7 @@ def parse_one_word(lines):
         if def_matchs:
             nh = def_matchs.group('nhomonym')
             if nh is None:
-                nh = '1'
+                nh = ''
             pos = def_matchs.group('POS')
             if pos is None:
                 pos = 'None'
@@ -197,7 +197,7 @@ def parse_one_word(lines):
                 'entry': replace_privates(entry),
                 'nh': nh,
                 'POS': pos,
-                'body': replace_privates(body),
+                'body': nh +" "+ pos + replace_privates(body),
                 }
             return e
         print "PB"

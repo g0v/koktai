@@ -29,7 +29,7 @@ def word_to_wiki(w):
 ==='''『%(entry)s』'''===
 :%(content)s
     """ % ({"entry": img_to_wiki(zhuyin_to_ruby(w[u"項"])),
-        "content": img_to_wiki(zhuyin_to_ruby(w[u"本文"])).replace("\n","\n:")})
+        "content": img_to_wiki(zhuyin_to_ruby(w[u"本文"])).strip().replace("\n","\n:")})
 
 
 
@@ -54,13 +54,15 @@ if __name__ == "__main__":
     MATCH (c:章) RETURN c
     """
     for row in GRAPH.cypher.execute(req_chpt):
-        print row["c"]["SID"]
         #TODO: correct DB for zhuyin vertical yi
-        filename = row["c"][u"注音"].strip().replace('<img src="img/m3/8ed5.png" />',u"一").replace("/","-") +".wiki"
-        with open(("/tmp/" + filename).encode("utf8"),"w") as F:
+        filename = row["c"][u"注音"].strip().replace('<img src="img/m3/8ed5.png" />',u"一").replace("/","-")
+        if "img" in filename:
+            print "coding issue with", row["c"]["SID"].encode("utf8")
+            continue
+        with open((u"./國臺對照活用辭典/" + filename).encode("utf8"),"w") as F:
             req = """
-            MATCH (c:章 {SID:{id}}) --> (n:字) --> (r:音),
-            (n) --> (w:詞)
+            MATCH (c:章 {SID:{id}}) --> (n:字) --> (r:音)
+            OPTIONAL MATCH (n) --> (w:詞)
             RETURN n,collect(DISTINCT r) as readings, collect(DISTINCT w) as words LIMIT 10
             """
             for row_ji in GRAPH.cypher.execute(req, {"id": row[u"c"][u"SID"]}):

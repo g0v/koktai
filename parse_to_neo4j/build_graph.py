@@ -12,6 +12,20 @@ re_zhuyin = re.compile("<rt>.*?</rt>")
 def remove_zhuyin(s):
     return re_zhuyin.sub("",s)
 
+def correct_chapters(s):
+    mapping = {'8ed5': u'\u3127',
+ 'fa4e': u'\u312b',
+ 'fa6a': u'\u3120',
+ 'fa6f': u'\u31ac',
+ 'fa71': u'\u3122',
+ 'fa72.': u'\u3123',
+ 'fa76': u'\u31ad',
+ 'faa5': u'\u31b6'}
+    for k,v in mapping.items():
+        img = "<img src=\"img/m3/%s.png\" />" % (k)
+        s = s.replace(img, v)
+    return s
+
 def encode_dict(d):
     for k,v in d.items():
         if type(v) is unicode:
@@ -24,8 +38,8 @@ def extract_chapter_props(chpt):
     global chpt_id
     chpt_id += 1
     return encode_dict({u"SID": u"Koktai-chpt-%s-%s-%d" %(chpt.zhuyin, chpt.pinyin,chpt_id),
-            u"label": chpt.zhuyin, 
-            u"注音": chpt.zhuyin,
+            u"label": correct_chapters(chpt.zhuyin), 
+            u"注音": correct_chapters(chpt.zhuyin),
             u"pinyin": chpt.pinyin,
             u"本文": u"".join(chpt.content)})
 

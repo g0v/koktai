@@ -76,19 +76,19 @@ def recode(s):
     def k2(s):
         def f(sub):
             code = "%04x" %(ord(sub) - 0xF0000,)
-            if code in private_to_unicode:
-                return private_to_unicode[code]
             if code in k_mapping:
                 return "<rt>%s</rt>" % (k_mapping[code],)
+            if sub in private_to_unicode:
+                return private_to_unicode[sub]
             return "<mark>&#xf%s;</mark>" % (code,)
         return match_apply(k2_re, f, s)
     def k3(s):
         def f(sub):
             code = "%04x" % (ord(sub) - 0xF0000,)
-            if code in private_to_unicode:
-                return private_to_unicode[code]
             if code in k_mapping:
                 return "<rt>%s</rt>" % (k_mapping[code],)
+            if sub in private_to_unicode:
+                return private_to_unicode[sub]
             return "<img src=\"img/k/%s.png\" />" % (sub,)
         return match_apply(k3_re, f, s)
     def k5(s):

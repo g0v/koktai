@@ -74,7 +74,7 @@ def extract_word_props(word):
             u"詞類": w["POS"],
             u"本文": w["body"]}
 
-def create_reading(tx, char_ID, reading):
+def create_reading(tx, char_ID, reading, order):
     req = u"""
     MATCH (char:字:Koktai {SID:{id}})
     CREATE (im:音:Koktai)
@@ -82,6 +82,7 @@ def create_reading(tx, char_ID, reading):
     CREATE (char) -[:唸]-> (im)
     """
     props = extract_reading_props(char_ID, reading)
+    props["order"] = order
     tx.append(req, {"props":props, "id": char_ID})
 
 
@@ -94,6 +95,7 @@ def create_word(tx, char_ID, word):
     CREATE (char) -[:屬於]-> (w)
     """
     props = extract_word_props(word)
+    props["order"] = word_id 
     tx.append(req, {"props":props, "id": char_ID})
 
 
@@ -106,9 +108,10 @@ def create_char(tx, chpt_ID, char):
     CREATE (chpt) -[r:含]-> (ji)
     """
     props = extract_char_props(char)
+    props["order"] = char_id
     tx.append(req, {"props":props, "id": unicode(chpt_ID)})
-    for r in char.readings:
-        create_reading(tx, props["SID"], r)
+    for i, r in enumerate(char.readings):
+        create_reading(tx, props["SID"], r, i)
     for w in char.words:
         create_word(tx, props["SID"], w)
 

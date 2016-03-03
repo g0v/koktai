@@ -81,15 +81,16 @@ def replace_by_ids(s,regex, mapping, dbg_msg=""):
         directory = m.groups()[0]
         if not directory:
             directory = "k"
-            # TODO: continue here
         images_to_upload.add((directory,code))
+        output.append(s[:begin])
         if code in mapping:
-            output.append(s[:begin])
-            output.append("(%s)%s" %(code,mapping[code]))
+            output.append("[[File:Koktai_dictionary_missing_char_k-"+ str(code)+".png|20px]]")
+            output.append("(%s)" %(mapping[code],))
             print dbg_msg, "ids found for code", code
         else:
             print dbg_msg, "IDS not found for code", code
-            output.append(s[:end])
+            output.append("[[File:Koktai_dictionary_missing_char_k-"+ str(code)+".png|20px]]")
+            #output.append(s[:end])
         s = s[end:]
         m = regex.search(s)
     output.append(s)
@@ -99,7 +100,7 @@ def replace_by_ids(s,regex, mapping, dbg_msg=""):
 re_img = re.compile(ur"<img src=\"img/(m3|k)/([^\"]+).png\" />")
 def img_to_wiki(s):
     s = replace_by_ids(s, re_img, ids_mapping, "img" )
-    return re_img.sub("[[File:\\1 \\2.png|20px]]",s)
+    return re_img.sub("[[File:Koktai_dictionary_missing_char_k-\\2.png|20px]]",s)
 
 re_mark = re.compile(ur"<mark(X?)>&#xf(....);</mark>")
 def mark_to_wiki(s):
@@ -142,7 +143,7 @@ if __name__ == "__main__":
         if "img" in filename:
             print "coding issue with", row["c"]["SID"].encode("utf8")
             continue
-        with open((u"./國臺對照活用辭典/" + filename).encode("utf8"),"w") as F:
+        with open((u"./Wiki/" + filename).encode("utf8"),"w") as F:
             req = """
             MATCH (c:章 {SID:{id}}) -[l]-> (n:字) -[l2]-> (r:音)
             OPTIONAL MATCH (n) --> (w:詞)

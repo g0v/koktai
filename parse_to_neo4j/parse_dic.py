@@ -30,6 +30,10 @@ Word = namedtuple('Word', "content")
 private_to_unicode = json.load(open(os.path.dirname(__file__) + "/mapping.json"))
 m3_mapping = json.load(open(os.path.dirname(__file__) + "/m3.json"))
 k_mapping = json.load(open(os.path.dirname(__file__) + "/k.json"))
+missing_mapping = json.load(open(os.path.dirname(__file__) + "/missings.json"))
+
+m3_mapping.update(missing_mapping)
+
 
 re_fk = re.compile(ur"<k>.*?</k>", re.U)
 re_change_font = re.compile(ur"~fk[a-z0-9]*;(.*?)~fm3[a-z0-9]*;",re.U)

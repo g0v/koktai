@@ -8,7 +8,7 @@
   "description_zh": "test",
   "repository": {
     "type": "git",
-    "url": "https://github.com/g0v/datasmith"
+    "url": "https://github.com/g0v/koktai"
   },
   "licenses": [
     {
@@ -21,9 +21,5 @@
   "products": [
     "website"
   ],
-  "contributors": [
-    "a",
-    "b",
-    "c"
-  ]
+  "contributors": ["audreyt", "a-tsioh", "sih4sing5hong5", "ya20110911", "alexsh", "MGdesigner"]
 }

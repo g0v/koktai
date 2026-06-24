@@ -6,7 +6,7 @@ use FindBin '$Bin';
 
 my $k = decode_json(scalar slurp("$Bin/k.json"));
 my $m3 = decode_json(scalar slurp("$Bin/m3.json"));
-my $mapping = decode_json(slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
+my $mapping = decode_json(scalar slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
 
 while (<>) {
     Encode::_utf8_on($_);

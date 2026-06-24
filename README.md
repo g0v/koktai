@@ -1,5 +1,15 @@
 # 國臺對照活用辭典
 
+## 轉換步驟
+
+### 原列印檔轉 HTML
+
+1. Makefile: change python -> python2
+2. install perl dependencies
+3. `source ~/.bashrc` (for bash) if first using CPAN
+4. `npm install jade`, then in Makefile: change `jade` at line start -> `npx jade`
+5. `make gen`
+
 ## 吳家原註
 
 感謝所有協助我們完成將《國臺對照活用辭典》上線公開的朋友。

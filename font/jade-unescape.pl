@@ -1,3 +1,4 @@
+use utf8;
 use strict;
 use JSON qw[decode_json];
 use File::Slurp qw[slurp];
@@ -19,6 +20,8 @@ while (<>) {
             : $m3->{$code} ? qq[<rt>$m3->{$code}</rt>]
             : qq[<img src="img/m3/$code.png">]
     |eg;
+    # neutral tone mark: non-ruby prefix or in-ruby tone position -> move to in-ruby prefix
+    s|[˙·]<rt>|<rt>˙|g;
     Encode::_utf8_off($_);
     s/^html$/html(lang="zh-Hant-TW")/;
     print;

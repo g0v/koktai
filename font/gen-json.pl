@@ -1,5 +1,6 @@
 use strict;
 use utf8;
+binmode STDOUT, ":utf8";
 my %seen;
 my $bpmf = {
   "1"=> "ㄅ", "q"=> "ㄆ", "a"=> "ㄇ", "z"=> "ㄈ", 
@@ -26,20 +27,24 @@ my $bpmf = {
   "&"=> "ㆨ"
 };
 
+# neutral tone mark: non-ruby prefix or in-ruby tone position -> move to in-ruby prefix
+my @tones_prefix;
+@tones_prefix[15] = "˙";
+
 my @tones = ('', '',
-    "ˊ",   "ˇ",   "ˋ ",
+    "ˊ",   "ˇ",   "ˋ",
     "˪",   "˫",   "ㆷ",  "ㆷ ͘",
     "ㆴ",  "ㆴ ͘", "ㆶ",  "ㆶ ͘",
-    "ㆵ",  "ㆵ ͘", "˙",
+    "ㆵ",  "ㆵ ͘", "",
 );
 
+my $font_target = $ARGV[0];
 local @ARGV = 'usrfont.lst';
 while (<>) {
     next if /^\./;
     /^(m3|k) +(\S)(\S) +(.+),(\d+)/ or exit print $_;
     my ($font, $hi, $lo, $keys, $tone) = ($1, sprintf("%02x", ord $2), sprintf("%02x", ord $3), $4, $5);
-    next unless $font eq 'k';
-    next unless $hi =~ /8c|8d/;
+    next unless $font eq $font_target;
     $keys = join '', map { $bpmf->{$_} } split //, $keys;
-    print qq!"$hi$lo": "$keys$tones[$tone]",\n!;
+    print qq!"$hi$lo": "$tones_prefix[$tone]$keys$tones[$tone]",\n!;
 }

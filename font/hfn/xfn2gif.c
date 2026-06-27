@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <dir.h>
+#include <dirent.h>
 
 #include "bitmap.h"
 #include "convert.h"

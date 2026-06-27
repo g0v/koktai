@@ -6,9 +6,30 @@
 
 1. Makefile: change python -> python2
 2. install perl dependencies
-3. `source ~/.bashrc` (for bash) if first using CPAN
+3. `source ~/.bashrc` (for bash) if first time using CPAN
 4. `npm install jade`, then in Makefile: change `jade` at line start -> `npx jade`
 5. `make gen`
+
+### 補字形圖檔
+
+Example: Use the m3 font for private-use big5 codepoint FA47 (ㄉ with voicing loop)
+
+Steps 1 to 3 are needed if first time using `xfn2gif`.
+
+1. in `font/hfn/xfn2gif.c`: change `<dir.h>` -> `<dirent.h>`
+2. recompile `xfn2gif`
+
+```sh
+cd font/hfn/gd1.3
+make clean all
+cd ..
+gcc --include stdlib.h xfn2gif.c xfn.c convert.c tai.c bitmap.c gd1.3/libgd.a -o xfn2gif
+cd ..
+```
+
+3. in `font/`, make a directory for the font: `mkdir m3`
+4. generate GIF: `hfn/xfn2gif -i etp.xfn -o m3/fa47.GIF -t m3 -c fa47`
+5. convert all the font's GIFs into PNGs: `python ../a-tsioh_sandbox/gif_to_png.py m3 ../img/m3`
 
 ## 吳家原註
 

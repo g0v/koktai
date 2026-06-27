@@ -7,18 +7,17 @@ use FindBin '$Bin';
 my $k = decode_json(scalar slurp("$Bin/k.json"));
 my $m3 = decode_json(scalar slurp("$Bin/m3.json"));
 my $mapping = decode_json(scalar slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
+my $m3_noruby = decode_json(scalar slurp("$Bin/m3_noruby.json"));
 
 while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
     s|([\x{Fc6a1}-\x{Fc6a9}])(?!</mark>)(?!</rt>)|chr(0x245f + ord($1) - 0xFc6a0)|eg;
-    s|([\x{Fc000}-\x{Fcfff}])(?!</mark>)(?!</rt>)|
-        my $code = sprintf('%04x', ord($1) - 0xF0000);
-        $m3->{$code} ? qq[$m3->{$code}] : qq[<img src="img/m3/$code.png">]
-    |eg;
     s|([\x{F0000}-\x{Fffff}])(?!</mark>)(?!</rt>)|
         my $code = sprintf('%04x', ord($1) - 0xF0000);
-        $m3->{$code} ? qq[<rt>$m3->{$code}</rt>] : qq[<img src="img/m3/$code.png">]
+        $m3_noruby->{$code} ? qq[$m3_noruby->{$code}]
+            : $m3->{$code} ? qq[<rt>$m3->{$code}</rt>]
+            : qq[<img src="img/m3/$code.png">]
     |eg;
     Encode::_utf8_off($_);
     s/^html$/html(lang="zh-Hant-TW")/;

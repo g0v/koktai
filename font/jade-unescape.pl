@@ -39,7 +39,7 @@ sub k {
     !eg;
     $str =~ s!([\x{F0000}-\x{F7fff}\x{Fb000}-\x{Fefff}])!
         my $code = sprintf('%04x', ord($1) - 0xF0000);
-        $mapping->{$1} || ($k->{$code} ? qq[<rt>$k->{$code}</rt>] : qq[<img src="img/k/$1.png">])
+        $mapping->{$1} || ($k->{$code} ? qq[<rt>$k->{$code}</rt>] : qq[<img src="img/k/$code.png">])
     !eg;
     return $str;
 }

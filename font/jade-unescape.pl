@@ -1,6 +1,6 @@
 use utf8;
 use strict;
-use JSON qw[decode_json];
+use JSON;
 use File::Slurp qw[slurp];
 use Encode;
 use FindBin '$Bin';
@@ -10,21 +10,16 @@ use FindBin '$Bin';
 # otherwise use `ruby-position: over;`
 my $use_hruby = grep(/^--hruby$/, @ARGV);
 
-my $k = decode_json(scalar slurp("$Bin/k.json"));
-my $m3 = decode_json(scalar slurp("$Bin/m3.json"));
-my $mapping = decode_json(scalar slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
-my $m3_noruby = decode_json(scalar slurp("$Bin/m3_noruby.json"));
+my $json_utf16 = JSON->new->utf8(1);
+my $k = $json_utf16->decode(scalar slurp("$Bin/k.json"));
+my $m3 = $json_utf16->decode(scalar slurp("$Bin/m3.json"));
+my $mapping = $json_utf16->decode(scalar slurp("$Bin/../a-tsioh_sandbox/mapping.json"));
+my $m3_noruby = $json_utf16->decode(scalar slurp("$Bin/m3_noruby.json"));
 
 while (<>) {
     Encode::_utf8_on($_);
     s{<k>(.*?)</k>}{k($1)}eg;
-    s|([\x{Fc6a1}-\x{Fc6a9}])(?!</mark>)(?!</rt>)|chr(0x245f + ord($1) - 0xFc6a0)|eg;
-    s|([\x{F0000}-\x{Fffff}])(?!</mark>)(?!</rt>)|
-        my $code = sprintf('%04x', ord($1) - 0xF0000);
-        $m3_noruby->{$code} ? qq[$m3_noruby->{$code}]
-            : $m3->{$code} ? qq[<rt>] . orient_rt($m3->{$code}) . qq[</rt>]
-            : qq[<img src="img/m3/$code.png">]
-    |eg;
+    s{([\x{F0000}-\x{Fffff}])(?!</mark>)}{m3($1)}eg;
     # neutral tone mark: non-ruby prefix or in-ruby tone position -> move to in-ruby prefix
     s|[˙·]<rt>|<rt>˙|g;
 
@@ -100,6 +95,21 @@ sub k {
         my $code = sprintf('%04x', ord($1) - 0xF0000);
         $mapping->{$1} || ($k->{$code} ? qq[<rt>] . orient_rt($k->{$code}) . qq[</rt>] : qq[<img src="img/k/$code.png">])
     !eg;
+    return $str;
+}
+
+sub m3 {
+    my ($str, $no_inner_m3) = @_;
+    my $inner_m3 = $no_inner_m3 ? sub { @_[0] } : sub { m3(@_[0], 1) }; # for expanding m3_noruby within expanded m3
+    $str =~ s|([\x{Fc6a1}-\x{Fc6a9}])(?!</mark>)|chr(0x245f + ord($1) - 0xFc6a0)|eg;
+    $str =~ s|([\x{F0000}-\x{Fffff}])(?!</mark>)|
+        my $code = sprintf('%04x', ord($1) - 0xF0000);
+        ($m3_noruby->{$code}) ? 
+            ($m3_noruby->{$code} =~ /〾/) ? qq[<img src="img/m3/$code.png">] # use image if containing 〾
+                : (qq[$m3_noruby->{$code}])
+            : $m3->{$code} ? qq[<rt>] . orient_rt($inner_m3->($m3->{$code})) . qq[</rt>]
+            : qq[<img src="img/m3/$code.png">]
+    |eg;
     return $str;
 }
 

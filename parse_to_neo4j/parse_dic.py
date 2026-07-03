@@ -27,12 +27,12 @@ Chapter = namedtuple('Chapter',"zhuyin pinyin content chars words")
 Char = namedtuple('Char', "hanji details readings content words")
 Word = namedtuple('Word', "content")
 
-private_to_unicode = json.load(open(os.path.dirname(__file__) + "/mapping.json"))
-m3_mapping = json.load(open(os.path.dirname(__file__) + "/m3.json"))
-k_mapping = json.load(open(os.path.dirname(__file__) + "/k.json"))
-missing_mapping = json.load(open(os.path.dirname(__file__) + "/missings.json"))
+private_to_unicode = json.load(open(os.path.dirname(__file__) + "/../a-tsioh_sandbox/mapping.json"))
+m3_mapping = json.load(open(os.path.dirname(__file__) + "/../font/m3.json"))
+k_mapping = json.load(open(os.path.dirname(__file__) + "/../font/k.json"))
+m3_noruby_mapping = json.load(open(os.path.dirname(__file__) + "/../font/m3_noruby.json"))
 
-m3_mapping.update(missing_mapping)
+m3_mapping.update(m3_noruby_mapping)
 
 
 re_fk = re.compile(ur"<k>.*?</k>", re.U)
@@ -105,6 +105,8 @@ def recode(s):
     def k6(s):
         def f(sub):
             code = "%04x" %(ord(sub) - 0xF0000,)
+            if code in m3_noruby_mapping:
+                return m3_mapping[code]
             if code in m3_mapping:
                 return "<rt>%s</rt>" % (m3_mapping[code],)
             return "<img src=\"img/m3/%s.png\" />" % (code,)

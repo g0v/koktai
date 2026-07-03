@@ -8,23 +8,36 @@ import fileinput
 from collections import defaultdict
 import json
 
+import analyse_chapter
 import analyse_word_entry
 #import wsl_to_kaulo
 
-def process_buffer(buf,list_of_results):
-    entry = analyse_word_entry.parse_one("".join(buf))
-    if entry:
-        if len(list_of_results) > 0 and list_of_results[-1]['entry'] == entry['entry']:
-            list_of_results[-1]['heteronyms'].append(entry)
+def process_buffer(buf,list_of_results,inside):
+    if inside == 'chapter':
+        entry = analyse_chapter.parse_one("".join(buf))
+        if entry:
+            list_of_results.append({'entry':entry['entry'], 'chapter':entry})
         else:
-            list_of_results.append({'entry':entry['entry'], 'heteronyms':[entry]})
+            print "unanalyzed chapter", "".join(buf).encode("utf8")
+    elif inside == 'word':
+        entry = analyse_word_entry.parse_one("".join(buf))
+        if entry:
+            if len(list_of_results) > 0 and list_of_results[-1]['entry'] == entry['entry']:
+                list_of_results[-1]['heteronyms'].append(entry)
+            else:
+                list_of_results.append({'entry':entry['entry'], 'heteronyms':[entry]})
+        else:
+            print "unanalyzed word", "".join(buf).encode("utf8")
     else:
         print "unanalyzed", "".join(buf).encode("utf8")
 
 def print_results(list_of_results):
     for entry in list_of_results:
-        for h in entry['heteronyms']:
-            print analyse_word_entry.html_of_entry(h).encode("utf8")
+        if 'chapter' in entry:
+            print analyse_chapter.html_of_entry(entry['chapter']).encode("utf8")
+        else:
+            for h in entry['heteronyms']:
+                print analyse_word_entry.html_of_entry(h).encode("utf8")
 def main():
     print """
 doctype html
@@ -36,24 +49,30 @@ html
     lor = []        
     i = 0
     buf = []
-    inside = False
+    inside = None
     for line in fileinput.input():
         i += 1
         # not sure about the proper encoding to use
         # Perl actually does a better job on this, original encoding is CP950
         try:
             line = line.decode('utf8').strip()
-            if line.startswith('~t96;'): 
+            if line.startswith(u".章首"):
+                # new chapter
+                if len(buf)>0:
+                    process_buffer(buf, lor, inside)
+                buf = []
+                inside = 'chapter'
+            elif line.startswith('~t96;'):
                 # new word
                 if len(buf)>0:
-                    process_buffer(buf, lor)
+                    process_buffer(buf, lor, inside)
                 buf = [line]
-                inside = True
+                inside = 'word'
             elif line.startswith(u".本文"):
                 if len(buf)>0:
-                    process_buffer(buf, lor)
+                    process_buffer(buf, lor, inside)
                 buf = []
-                inside = False
+                inside = None
             elif inside:
                 buf.append(line)
 
@@ -61,7 +80,7 @@ html
         except UnicodeDecodeError:
             print >>sys.stderr,"encoding error on line", i
     if len(buf)>0:
-        process_buffer(buf,lor)
+        process_buffer(buf,lor,inside)
     print_results(lor)
 
 if __name__ == "__main__":

@@ -1,5 +1,9 @@
 use strict;
 use utf8;
+use JSON;
+use File::Slurp qw[slurp];
+use FindBin '$Bin';
+binmode STDOUT, ":utf8";
 my %seen;
 my $bpmf = {
   "1"=> "ㄅ", "q"=> "ㄆ", "a"=> "ㄇ", "z"=> "ㄈ", 
@@ -26,20 +30,42 @@ my $bpmf = {
   "&"=> "ㆨ"
 };
 
+# neutral tone mark: non-ruby prefix or in-ruby tone position -> move to in-ruby prefix
+my @tones_prefix;
+@tones_prefix[15] = "˙";
+
 my @tones = ('', '',
-    "ˊ",   "ˇ",   "ˋ ",
-    "˪",   "˫",   "ㆷ",  "ㆷ ͘",
-    "ㆴ",  "ㆴ ͘", "ㆶ",  "ㆶ ͘",
-    "ㆵ",  "ㆵ ͘"
+    "ˊ",   "ˇ",   "ˋ",
+    "˪",   "˫",   "ㆷ",  "ㆷ̇",
+    "ㆴ",  "ㆴ̇", "ㆶ",  "ㆶ̇",
+    "ㆵ",  "ㆵ̇", "",
 );
 
+my $m3_noruby = decode_json(scalar slurp("$Bin/m3_noruby.json"));
+my %char_to_m3 = reverse %$m3_noruby;
+my $json_ascii_escape = JSON->new->ascii(1);
+
+my $font_target = $ARGV[0];
 local @ARGV = 'usrfont.lst';
 while (<>) {
     next if /^\./;
     /^(m3|k) +(\S)(\S) +(.+),(\d+)/ or exit print $_;
     my ($font, $hi, $lo, $keys, $tone) = ($1, sprintf("%02x", ord $2), sprintf("%02x", ord $3), $4, $5);
-    next unless $font eq 'k';
-    next unless $hi =~ /8c|8d/;
-    $keys = join '', map { $bpmf->{$_} } split //, $keys;
-    print qq!"$hi$lo": "$keys$tones[$tone]",\n!;
+    next unless $font eq $font_target;
+    $keys = join '', map { map_bpmf($_) } split //, $keys;
+    print qq!"$hi$lo": "$tones_prefix[$tone]$keys$tones[$tone]",\n!;
+}
+
+
+sub map_bpmf {
+    my $key = shift;
+    my $char = $bpmf->{$key};
+    if ($char =~ /〾/ && $char_to_m3{$char}) {
+        $char = chr(hex($char_to_m3{$char}) + 0xF0000);
+        my $escaped = JSON->new->ascii(1)->encode($char);
+        $escaped =~ s/^"(.*)"$/$1/;
+        return $escaped;
+    } else {
+        return $char;
+    }
 }

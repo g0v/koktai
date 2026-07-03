@@ -1,5 +1,35 @@
 # 國臺對照活用辭典
 
+## 轉換步驟
+
+### 原列印檔轉 HTML
+
+1. Makefile: change python -> python2
+2. install perl dependencies
+3. `source ~/.bashrc` (for bash) if first time using CPAN
+4. `npm install jade`, then in Makefile: change `jade` at line start -> `npx jade`
+5. `make gen`
+
+### 補字形圖檔
+
+Steps 1 and 2 are needed if first time using `xfn2gif`.
+
+1. in `font/hfn/xfn2gif.c`: change `<dir.h>` -> `<dirent.h>`
+2. recompile `xfn2gif`
+
+```sh
+cd font/hfn/gd1.3
+make clean all
+cd ..
+gcc --include stdlib.h xfn2gif.c xfn.c convert.c tai.c bitmap.c gd1.3/libgd.a -o xfn2gif
+cd ..
+```
+
+3. `python -m pip install pillow`, if first time converting to png
+4. in the project root, `make gen` to update HTMLs
+5. in `font/`, run `make missings_to_png`
+6. move the PNG files within `font/k` and/or `font/m3` into respectively `img/k` and/or `img/m3`
+
 ## 吳家原註
 
 感謝所有協助我們完成將《國臺對照活用辭典》上線公開的朋友。

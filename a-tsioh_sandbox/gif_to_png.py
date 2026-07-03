@@ -6,7 +6,7 @@ from PIL import Image
 def main(sources, target_dir):
     for s in sources:
         im = Image.open(s)
-        im.convert("1").save(os.path.join(target_dir,os.path.basename(s).replace(".GIF",".png")))
+        im.convert("RGBA").save(os.path.join(target_dir,os.path.basename(s).replace(".GIF",".png")))
 
 
 

@@ -194,7 +194,18 @@ function accumulateSinogramStats(entry: SinogramEntry, stats: ExtractStats): voi
   }
 }
 
+const extractVolumeCache = new Map<string, ExtractResult>();
+
 export function extractVolume(root: string, volume: string): ExtractResult {
+  const key = `${root}\0${volume}`;
+  const hit = extractVolumeCache.get(key);
+  if (hit) return hit;
+  const result = extractVolumeUncached(root, volume);
+  extractVolumeCache.set(key, result);
+  return result;
+}
+
+function extractVolumeUncached(root: string, volume: string): ExtractResult {
   const s = loadSyllables(root);
   const dicPath = resolveVolumeDic(root, volume);
   const blocks = splitVolume(recodeDicFile(dicPath));

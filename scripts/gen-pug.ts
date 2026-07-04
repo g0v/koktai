@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 /**
  * Regenerate `pug/*.pug` from `.dic` / appendix sources.
- * Orchestrates Perl recode, TS analyse (default), Perl jade-unescape via `lib/dic/pipeline.ts`.
- * Parity gate: `bun run diff:pug`; py3 oracle: `bun run parity:stage analyse`.
+ * Pure TypeScript pipeline (`lib/dic/pipeline.ts`): recode → analyse → unescape.
+ * Parity gate: `bun run diff:pug`; legacy oracle: `bun run parity:stage <stage>`.
  */
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";

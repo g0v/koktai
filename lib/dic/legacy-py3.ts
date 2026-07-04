@@ -20,5 +20,5 @@ export function py3PreFromDicText(root: string, recodedDicText: string): string 
 
 /** Legacy: recode + analyse in one call (kept for parity scripts). */
 export function py3PreFromDicFile(root: string, dicPath: string): string {
-  return py3PreFromDicText(root, recodeDicFile(root, dicPath));
+  return py3PreFromDicText(root, recodeDicFile(dicPath));
 }

@@ -2,60 +2,36 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { recodeDicFile } from "./cp950.ts";
 import { dicTextToPugBody } from "./dic2pug.ts";
-import { py3PreFromDicText } from "./legacy-py3.ts";
-import { defaultPipelineMode } from "./stages.ts";
-import type { PipelineMode } from "./stages.ts";
 import { txtTextToPugBody } from "./txt2pug.ts";
-import { perlUnescapeDocument } from "./unescape.ts";
-
-export { defaultPipelineMode };
+import { unescapeDocument } from "./unescape.ts";
 
 export interface GeneratedPug {
   /** Final pug source written to `pug/<base>.pug`. */
   text: string;
 }
 
-function runRecode(root: string, dicPath: string, mode: PipelineMode): string {
-  return recodeDicFile(root, dicPath); // shadow/ts added in Phase 3
-}
-
-function runAnalyse(root: string, recoded: string, mode: PipelineMode): string {
-  if (mode.analyse === "ts") {
-    return dicTextToPugBody(recoded, root);
-  }
-  return py3PreFromDicText(root, recoded);
-}
-
-function runUnescape(root: string, pre: string, mode: PipelineMode): string {
-  return perlUnescapeDocument(root, pre); // shadow/ts added in Phase 4
-}
-
 /**
- * Full pipeline: CP950 file → committed-style pug document.
- * Default: Perl recode → TS analyse (`dic2pug.ts`) → Perl jade-unescape → finalize (TS).
- * Legacy py3 analyse via `py3PreFromDicText` when `mode.analyse === "legacy"` (parity oracle).
+ * Full pipeline, pure TypeScript: CP950 file → committed-style pug document.
+ * Stages: recode (`cp950.ts`) → analyse (`dic2pug.ts`) → unescape + finalize
+ * (`unescape.ts`). Parity gate vs the committed corpus: `bun run diff:pug`.
  */
 export function generatePugFromDicFile(
   root: string,
   dicPath: string,
-  mode: PipelineMode = defaultPipelineMode,
 ): GeneratedPug {
-  const recoded = runRecode(root, dicPath, mode);
-  const pre = runAnalyse(root, recoded, mode);
-  const text = runUnescape(root, pre, mode);
-  return { text };
+  const recoded = recodeDicFile(dicPath);
+  const pre = dicTextToPugBody(recoded, root);
+  return { text: unescapeDocument(root, pre) };
 }
 
 /** Appendix / preface text file (CP950) → pug. */
 export function generatePugFromTxtFile(
   root: string,
   txtPath: string,
-  mode: PipelineMode = defaultPipelineMode,
 ): GeneratedPug {
-  const utf8 = runRecode(root, txtPath, mode);
+  const utf8 = recodeDicFile(txtPath);
   const pre = txtTextToPugBody(utf8, root);
-  const text = runUnescape(root, pre, mode);
-  return { text };
+  return { text: unescapeDocument(root, pre) };
 }
 
 export const VOLUME_IDS = Array.from({ length: 26 }, (_, i) =>

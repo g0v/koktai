@@ -17,7 +17,7 @@ export function listPugPages(root: string): string[] {
     .map((f) => f.replace(/\.pug$/, ""));
 }
 
-/** The pug/ corpus is legacy generated output (.dic → perl → pug-syntax files);
+/** The pug/ corpus is generated output (.dic → `lib/dic/` TS pipeline → pug-syntax files);
  *  Pug 3 compiles it directly. Verified equivalent to Jade 1.11 (2026-07-04). */
 export function compilePugFile(root: string, base: string): string {
   const pugDir = join(root, PUG_DIR);

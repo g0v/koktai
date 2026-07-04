@@ -1,8 +1,13 @@
 #!/usr/bin/env bun
 /**
- * Stage-level parity: legacy vs TS for recode / analyse / unescape.
+ * Stage-level parity oracle: legacy Perl/Python vs the pure-TS production
+ * pipeline, for recode / analyse / unescape. The production build never runs
+ * these interpreters — this script exists to re-verify the port against the
+ * historical chain on a machine that has perl (with JSON + File::Slurp for
+ * the unescape stage) and python3.
  * Usage: bun run scripts/parity-stage.ts <stage> [volumeOrAppendix]
  */
+import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -14,17 +19,42 @@ import { recodeDicFile } from "../lib/dic/cp950.ts";
 import { py3PreFromDicText } from "../lib/dic/legacy-py3.ts";
 import { dicTextToPugBody } from "../lib/dic/dic2pug.ts";
 import { txtTextToPugBody } from "../lib/dic/txt2pug.ts";
-import {
-  perlUnescapeDocument,
-  jadeUnescapeDocument,
-  loadFontMaps,
-} from "../lib/dic/unescape.ts";
-import { STAGE_NAMES } from "../lib/dic/stages.ts";
-import type { StageName } from "../lib/dic/stages.ts";
+import { unescapeDocument, finalizePugDocument } from "../lib/dic/unescape.ts";
+
+const STAGE_NAMES = ["recode", "analyse", "unescape"] as const;
+type StageName = (typeof STAGE_NAMES)[number];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const stageArg = process.argv[2];
 const scope = process.argv[3];
+
+function perlRecodeFile(path: string): string {
+  const r = spawnSync(
+    "perl",
+    [join(root, "a-tsioh_sandbox/recode_utf8.pl"), path],
+    { cwd: root, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 },
+  );
+  if (r.status !== 0) {
+    throw new Error(`recode_utf8.pl failed: ${r.stderr?.slice(0, 400)}`);
+  }
+  return r.stdout ?? "";
+}
+
+function perlUnescapeDocument(body: string): string {
+  const unesc = spawnSync("perl", [join(root, "font/jade-unescape.pl")], {
+    cwd: root,
+    input: body,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  if (unesc.status !== 0) {
+    throw new Error(`jade-unescape.pl failed: ${unesc.stderr?.slice(0, 400)}`);
+  }
+  let out = finalizePugDocument(unesc.stdout ?? "");
+  if (!out.startsWith("\n")) out = "\n" + out;
+  if (!out.endsWith("\n")) out += "\n";
+  return out;
+}
 
 function parseStage(arg: string | undefined): StageName | null {
   if (!arg) return null;
@@ -100,12 +130,21 @@ async function checkOne(
 }
 
 function checkRecode(path: string): boolean {
-  console.log(`recode ${path}: deferred (TS port not implemented)`);
+  const perl = perlRecodeFile(path);
+  const ts = recodeDicFile(path);
+  const d = firstDrift(perl, ts);
+  if (d.line === undefined && perl.length === ts.length) {
+    console.log(`recode ${path}: OK`);
+    return true;
+  }
+  console.log(
+    `recode ${path}: drift line ${d.line ?? "-"} bytes ${ts.length} vs ${perl.length}`,
+  );
   return false;
 }
 
 function checkAnalyseDic(dicPath: string): boolean {
-  const recoded = recodeDicFile(root, dicPath);
+  const recoded = recodeDicFile(dicPath);
   const py = py3PreFromDicText(root, recoded);
   const ts = dicTextToPugBody(recoded, root);
   const d = firstDrift(py, ts);
@@ -126,12 +165,12 @@ function checkAnalyseTxt(path: string): boolean {
 }
 
 function checkUnescape(path: string, isDic: boolean): boolean {
-  const recoded = recodeDicFile(root, path);
+  const recoded = recodeDicFile(path);
   const pre = isDic
     ? py3PreFromDicText(root, recoded)
     : txtTextToPugBody(recoded, root);
-  const perl = perlUnescapeDocument(root, pre);
-  const ts = jadeUnescapeDocument(pre, loadFontMaps(root));
+  const perl = perlUnescapeDocument(pre);
+  const ts = unescapeDocument(root, pre);
   const d = firstDrift(perl, ts);
   if (d.line === undefined && perl.length === ts.length) {
     console.log(`unescape ${path}: OK`);

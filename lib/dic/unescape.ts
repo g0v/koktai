@@ -1,6 +1,5 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { spawnSync } from "node:child_process";
 
 export interface FontMaps {
   k: Record<string, string>;
@@ -131,12 +130,13 @@ export function jadeUnescapeLine(line: string, maps: FontMaps, useHruby = false)
 
   const kcharQ =
     "(?:<mark>&#xf[0-9a-f]*;</mark>|<img src=\"img/k/[0-9a-f]+.png\">)";
-  const altQ = `(?:.|${kcharQ})(?:[:：](?:.|${kcharQ})*?)?`;
+  // Wrap like Perl's qr// so a trailing `?` quantifies the whole alternative.
+  const altQ = `(?:(?:.|${kcharQ})(?:[:：](?:.|${kcharQ})*?)?)`;
   const altsQ = `\\*|\\*?(?:[(（]${altQ}?(?:[/／]${altQ})+[)）])+`;
 
   const kRuby = new RegExp(
     `(${kcharQ})(${altsQ})?<rt>(.*?)</rt>(?!</ruby>)`,
-    "g",
+    "gu",
   );
   s = s.replace(kRuby, (_full, rb: string, alts: string | undefined, rt: string) => {
     const hexM = rb.match(/xf([0-9a-f]+)/i) ?? rb.match(/img\/k\/([0-9a-f]+)/i);
@@ -201,11 +201,11 @@ export function jadeUnescapeStages(
   }
   const kcharQ =
     "(?:<mark>&#xf[0-9a-f]*;</mark>|<img src=\"img/k/[0-9a-f]+.png\">)";
-  const altQ = `(?:.|${kcharQ})(?:[:：](?:.|${kcharQ})*?)?`;
+  const altQ = `(?:(?:.|${kcharQ})(?:[:：](?:.|${kcharQ})*?)?)`;
   const altsQ = `\\*|\\*?(?:[(（]${altQ}?(?:[/／]${altQ})+[)）])+`;
   const kRuby = new RegExp(
     `(${kcharQ})(${altsQ})?<rt>(.*?)</rt>(?!</ruby>)`,
-    "g",
+    "gu",
   );
   s = s.replace(kRuby, (_full, rb: string, alts: string | undefined, rt: string) => {
     const hexM = rb.match(/xf([0-9a-f]+)/i) ?? rb.match(/img\/k\/([0-9a-f]+)/i);
@@ -247,24 +247,22 @@ export function finalizePugDocument(text: string): string {
 }
 
 
-/** Production unescape: `font/jade-unescape.pl` + `finalizePugDocument`. TS `jadeUnescapeLine` parity TBD. */
-export function perlUnescapeDocument(root: string, body: string): string {
-  const unesc = spawnSync("perl", [join(root, "font/jade-unescape.pl")], {
-    cwd: root,
-    input: body,
-    encoding: "utf8",
-    maxBuffer: 256 * 1024 * 1024,
-  });
-  if (unesc.status !== 0) {
-    throw new Error(`jade-unescape.pl failed: ${unesc.stderr?.slice(0, 400)}`);
-  }
-  let out = finalizePugDocument(unesc.stdout ?? "");
-  if (!out.startsWith("\n")) out = "\n" + out;
-  if (!out.endsWith("\n")) out += "\n";
-  return out;
-}
-
 export function jadeUnescapeDocument(body: string, maps: FontMaps): string {
   const lines = body.split("\n").map((l) => jadeUnescapeLine(l, maps));
   return finalizePugDocument(lines.join("\n"));
+}
+
+const fontMapsCache = new Map<string, FontMaps>();
+
+/** Production unescape: TS port of `font/jade-unescape.pl` + `finalizePugDocument`. */
+export function unescapeDocument(root: string, body: string): string {
+  let maps = fontMapsCache.get(root);
+  if (!maps) {
+    maps = loadFontMaps(root);
+    fontMapsCache.set(root, maps);
+  }
+  let out = jadeUnescapeDocument(body, maps);
+  if (!out.startsWith("\n")) out = "\n" + out;
+  if (!out.endsWith("\n")) out += "\n";
+  return out;
 }

@@ -1,7 +1,8 @@
-import { loadFontMaps } from "../dic/unescape.ts";
+import { legacyPlainText } from "./legacy-text.ts";
 import type { Reading, SinogramEntry, Token, WordRecord } from "../extract/types.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
 import type { Corpus } from "./corpus.ts";
+
 
 export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number];
 
@@ -15,29 +16,6 @@ export type FulltextDoc = {
 };
 
 const K_TAG = /<\/?k>/g;
-const ASTRAL_PUA = /[\u{f0000}-\u{fffff}]/gu;
-const fontMaps = loadFontMaps(process.cwd());
-
-function puaCode(ch: string): string {
-  return (ch.codePointAt(0)! - 0xf0000).toString(16).padStart(4, "0");
-}
-
-function plainPua(ch: string): string {
-  const code = puaCode(ch);
-  return fontMaps.m3Noruby[code] ?? fontMaps.m3[code] ?? fontMaps.k[code] ?? fontMaps.mapping[ch] ?? "□";
-}
-
-function legacyPlainText(text: string): string {
-  let out = text;
-  for (let i = 0; i < 8; i += 1) {
-    ASTRAL_PUA.lastIndex = 0;
-    if (!ASTRAL_PUA.test(out)) break;
-    ASTRAL_PUA.lastIndex = 0;
-    out = out.replace(ASTRAL_PUA, plainPua);
-  }
-  ASTRAL_PUA.lastIndex = 0;
-  return out.replace(ASTRAL_PUA, "□");
-}
 
 export function stripHeadwordMarkup(t: string): string {
   return t.replace(K_TAG, "");

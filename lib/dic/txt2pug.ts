@@ -14,17 +14,17 @@ html
 `;
 
 function formatLine(line: string): string {
-  return `      ${line}`;
+  return `      | ${line}`;
 }
 
 function paragraphToPug(lines: string[], mapping: Record<string, string>): string {
   const out = [
-    '    p(style="white-space: pre-wrap; font-family: monospace; font-size: 1rem").',
+    '    p(style="white-space: pre-wrap; font-family: monospace; font-size: 1rem")',
   ];
   for (const raw of lines) {
     let l = wrapKaiFont(raw);
     l = stripPe2Tags(l);
-    l = replacePrivates(l, mapping).trim();
+    l = replacePrivates(l, mapping).trimEnd();
     out.push(formatLine(l));
   }
   if (lines.length <= 1) out.push("");

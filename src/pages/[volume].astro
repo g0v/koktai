@@ -68,7 +68,7 @@ const volNo = isVolume ? Number(base) : 0;
 const volName = isVolume ? `卷${chineseNumeral(volNo)}` : "";
 const range =
   sections.length > 0
-    ? `${sections[0].syllable}—${sections[sections.length - 1].syllable}`
+    ? `${sections[0].syllable}～${sections[sections.length - 1].syllable}`
     : "";
 
 const pad = (n: number) => String(n).padStart(2, "0");

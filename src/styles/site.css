@@ -6,14 +6,21 @@
 
 @font-face {
   font-family: "Iansui";
-  src: url("/font/iansui-koktai.woff2") format("woff2");
+  src: url("/koktai/font/iansui-koktai.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "koktai-k";
-  src: url("/font/koktai-k.woff") format("woff");
+  src: url("/koktai/font/koktai-k.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans Mono CJK TC File";
+  src: url("/koktai/font/noto-sans-mono-cjk-tc-file.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -460,13 +467,13 @@ html[data-theme="dark"] .doc img {
   color: var(--ink-2);
 }
 
-/* prose appendices (preface, phsource): PE2 manuscript — Menlo throughout */
+/* prose appendices: read like the manuscript text; PE2 directives stay fixed-width */
 .doc-prose .doc {
   max-width: 50em;
 }
 .doc-prose p[style] {
-  font-family: Menlo, var(--font-mono) !important;
-  font-size: 0.92rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 1rem !important;
   line-height: 1.72;
   white-space: pre-wrap;
   tab-size: 8;
@@ -487,11 +494,11 @@ html[data-theme="dark"] .doc img {
   margin-bottom: 2rem;
 }
 .file-plate p[style] {
-  font-family: Menlo, var(--font-mono) !important;
+  font-family: "Noto Sans Mono CJK TC File", "Noto Sans Mono CJK TC", Menlo, var(--font-mono) !important;
   color: #d9e0ff;
   font-size: 0.92rem !important;
   line-height: 1.72;
-  white-space: pre-wrap;
+  white-space: pre !important;
   tab-size: 8;
   -moz-tab-size: 8;
   margin: 0;

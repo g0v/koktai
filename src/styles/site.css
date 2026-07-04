@@ -271,7 +271,7 @@ html[data-theme="dark"] .theme-btn .when-light {
   border-radius: 999px;
   background: var(--paper-2, var(--paper));
   color: var(--ink);
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 0.95rem;
   line-height: 1.3;
 }

@@ -6,6 +6,7 @@ public/han.min.*
 public/font/
 public/img/
 .cache/
+.worktrees/
 
 *.swp
 __pycache__/

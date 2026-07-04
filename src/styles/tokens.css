@@ -23,7 +23,7 @@
   --brass:      #9C7E4E;  /* 銅 — 文武線 rules, thumb-notch rims           */
   --brass-soft: #C9B89A;  /* pale brass — soft rules, tab rims             */
   --brass-ink:  #77613C;  /* brass darkened for small text on paper        */
-  --cinnabar:   #B23A2E;  /* 硃 — the seal, ::selection, micro accents     */
+  --cinnabar:   #B23A2E;  /* 硃 — ::selection, micro accents               */
 
   /* ── type ── */
   --font-display: "Iansui", "Kaiti TC", "BiauKai", "DFKai-SB", serif;

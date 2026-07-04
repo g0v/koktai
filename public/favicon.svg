@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <rect x="2" y="2" width="60" height="60" rx="9" fill="#B23A2E"/>
   <rect x="7.5" y="7.5" width="49" height="49" rx="5" fill="none" stroke="#F2EFE8" stroke-width="2"/>
-  <text x="32" y="45" text-anchor="middle" font-family="Kaiti TC, BiauKai, DFKai-SB, serif" font-size="34" fill="#F2EFE8">臺</text>
+  <text x="32" y="45" text-anchor="middle" font-family="Kaiti TC, BiauKai, DFKai-SB, serif" font-size="34" fill="#F2EFE8">台</text>
 </svg>

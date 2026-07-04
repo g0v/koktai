@@ -26,9 +26,9 @@ function chapterSectionIndex(result: ExtractResult): Map<string, number> {
       order.push(s.chapterZhuyin);
     }
   }
-  const m = new Map<string, number>();
-  order.forEach((ch, i) => m.set(ch, i + 1));
-  return m;
+  const sections = new Map<string, number>();
+  order.forEach((ch, i) => sections.set(ch, i + 1));
+  return sections;
 }
 
 export function getCorpus(root: string): Corpus {
@@ -36,9 +36,9 @@ export function getCorpus(root: string): Corpus {
   const volumes = new Map<string, ExtractResult>();
   const sectionMaps = new Map<string, Map<string, number>>();
   for (const vol of VOLUME_IDS) {
-    const r = extractVolume(root, vol);
-    volumes.set(vol, r);
-    sectionMaps.set(vol, chapterSectionIndex(r));
+    const result = extractVolume(root, vol);
+    volumes.set(vol, result);
+    sectionMaps.set(vol, chapterSectionIndex(result));
   }
   const corpus = {
     volumes,

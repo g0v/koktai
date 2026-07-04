@@ -10,6 +10,7 @@ import {
 import { renderStructuredSection } from "../../lib/site/structured-render.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import { getCorpus } from "../../lib/site/corpus.ts";
+import { legacyPlainText } from "../../lib/site/structured-render.ts";
 
 export function getStaticPaths() {
   return listPugPages(process.cwd()).map((base) => ({
@@ -82,6 +83,7 @@ const range =
   railSections.length > 0
     ? `${railSections[0]!.syllable}～${railSections[railSections.length - 1]!.syllable}`
     : "";
+const rangeText = legacyPlainText(range);
 const pad = (n: number) => String(n).padStart(2, "0");
 const prev = isVolume && volNo > 1 ? pad(volNo - 1) : null;
 const next = isVolume && volNo < 26 ? pad(volNo + 1) : null;
@@ -95,10 +97,10 @@ const linkCtx = isVolume
   ? { resolver: getCorpus(root).resolver, hrefBase: baseUrl }
   : undefined;
 const title = isVolume
-  ? `${volName} ${range}・國臺對照活用辭典`
+  ? `${volName} ${rangeText}・國臺對照活用辭典`
   : `${meta?.zh ?? base}・國臺對照活用辭典`;
 const description = isVolume
-  ? `國臺對照活用辭典${volName}（${range}），共 ${(structuredVolume?.entryCount ?? entries).toLocaleString("en-US")} 條目。`
+  ? `國臺對照活用辭典${volName}（${rangeText}），共 ${(structuredVolume?.entryCount ?? entries).toLocaleString("en-US")} 條目。`
   : (meta?.desc ?? "國臺對照活用辭典附錄。");
 ---
 
@@ -114,8 +116,8 @@ const description = isVolume
               {railSections.map((s) => (
                 <li>
                   <a href={`#${s.id}`} data-spy={s.id}>
-                    <span>{s.syllable}</span>
-                    {s.roman && <span class="r">{s.roman}</span>}
+                    <span>{legacyPlainText(s.syllable)}</span>
+                    {s.roman && <span class="r">{legacyPlainText(s.roman)}</span>}
                   </a>
                 </li>
               ))}
@@ -128,7 +130,7 @@ const description = isVolume
             <p class="vol-eyebrow">辭典本文</p>
             <h1 class="vol-title">
               {volName}
-              <span class="range">{range}</span>
+              <span class="range">{rangeText}</span>
             </h1>
             <p class="vol-meta">
               {railSections.length} 音節・{(structuredVolume?.entryCount ?? entries).toLocaleString("en-US")} 條目
@@ -171,8 +173,8 @@ const description = isVolume
             {railSections.map((s) => (
               <li>
                 <a href={`#${s.id}`} data-spy={s.id}>
-                  <span>{s.syllable}</span>
-                  {s.roman && <span class="r">{s.roman}</span>}
+                  <span>{legacyPlainText(s.syllable)}</span>
+                  {s.roman && <span class="r">{legacyPlainText(s.roman)}</span>}
                 </a>
               </li>
             ))}

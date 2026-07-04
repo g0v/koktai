@@ -2,7 +2,9 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { getCorpus } from "../../lib/site/corpus.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
+import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 import {
+  renderLegacyText,
   renderSinogramEntry,
   renderStructuredEntry,
   renderStructuredVolumeBody,
@@ -87,6 +89,7 @@ describe("structured dictionary render", () => {
     expect(html).toContain('class="kk"');
     expect(html).toMatch(/lane-mandarin">[^<]*<a class="kk" href="[^"]+\.html#w-/);
   });
+
   test("renderStructuredEntry without ctx matches prior output shape", () => {
     const { entry } = entryGerRen();
     const html = renderStructuredEntry(entry);
@@ -99,22 +102,46 @@ describe("structured dictionary render", () => {
     expect(html).toContain("entry-spine");
   });
 
-
   test("renderStructuredToken generates variant-chip and usage-geo", () => {
     const token = {
       kind: "variant",
       alternatives: [[{ kind: "prose", text: "A" }]],
-      usages: { register: [], geo: ["漳"], other: [] }
-    } as any;
+      usages: { register: [], geo: ["漳"], other: [] },
+      text: "A",
+    } satisfies StructuredToken;
     const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
     expect(html).toContain("variant-chip");
     expect(html).toContain("usage-geo");
   });
 
-  test("site.css defines char-card and src-badge", () => {
+  test("structured renderer converts bare legacy PUA glyphs in han tokens", () => {
+    const pua = String.fromCodePoint(0xf8d44);
+    const token = { kind: "syl", han: pua, readings: [] } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('class="token-han"');
+    expect(html).not.toContain(pua);
+    expect(html).toContain("ㄗㄨㄥ");
+  });
+
+  test("legacy text consumes k tags and emits horizontal zhuyin ruby", () => {
+    const kai = String.fromCodePoint(0xf8d44);
+    const horizontalI = String.fromCodePoint(0xf8265);
+    const html = renderLegacyText(`祀<k>${kai}</k>人${horizontalI}`);
+
+    expect(html).not.toContain("&lt;k&gt;");
+    expect(html).not.toContain("&lt;/k&gt;");
+    expect(html).toContain('<ruby class="zhuyin">');
+    expect(html).toContain("<rt>ㄗㄨㄧ</rt>");
+    expect(html).not.toContain("ㄗㄨ丨");
+  });
+
+  test("site.css defines char-card and src-badge and aligns outside ruby", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
     expect(css).toContain(".char-card");
     expect(css).toContain(".src-badge");
+    expect(css).toMatch(/ruby:not\(\.zhuyin\)\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

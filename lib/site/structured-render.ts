@@ -1,3 +1,5 @@
+import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
+export { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 import type { LinkTarget, RenderCtx } from "./linkify.ts";
 import type {
   StructuredEntry,
@@ -25,6 +27,7 @@ function escapeHtml(text: string): string {
     .replaceAll('"', "&quot;");
 }
 
+
 function sameTarget(a: LinkTarget, b: RenderCtx["self"]): boolean {
   return !!b && a.v === b.v && a.l === b.l && (!b.k || a.k === b.k);
 }
@@ -38,42 +41,42 @@ function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): str
   let effective = target;
   if (sameTarget(target, ctx.self)) {
     const alt = ctx.resolver.alternate(target);
-    if (!alt) return escapeHtml(text);
+    if (!alt) return renderLegacyText(text);
     effective = alt;
   }
   const href = targetHref(effective, ctx.hrefBase);
-  return `<a class="kk" href="${escapeHtml(href)}" data-kk="${effective.k}:${effective.v}:${effective.l}">${escapeHtml(text)}</a>`;
+  return `<a class="kk" href="${escapeHtml(href)}" data-kk="${effective.k}:${effective.v}:${effective.l}">${renderLegacyText(text)}</a>`;
 }
 
 function renderLinkedText(text: string, ctx?: RenderCtx): string {
-  if (!ctx) return escapeHtml(text);
+  if (!ctx) return renderLegacyText(text);
   return ctx.resolver
     .segment(text)
     .map((seg) =>
-      seg.target ? renderTargetLink(seg.text, seg.target, ctx) : escapeHtml(seg.text),
+      seg.target ? renderTargetLink(seg.text, seg.target, ctx) : renderLegacyText(seg.text),
     )
     .join("");
 }
 
 function renderCharLink(han: string, ctx?: RenderCtx): string {
-  if (!ctx) return escapeHtml(han);
+  if (!ctx) return renderLegacyText(han);
   const target = ctx.resolver.char(han);
-  return target ? renderTargetLink(han, target, ctx) : escapeHtml(han);
+  return target ? renderTargetLink(han, target, ctx) : renderLegacyText(han);
 }
 
 export function renderReadingChip(reading: StructuredReading): string {
   const badges: string[] = [];
   for (const v of reading.register) {
-    badges.push(`<span class="usage-register">${escapeHtml(v)}</span>`);
+    badges.push(`<span class="usage-register">${renderLegacyText(v)}</span>`);
   }
   for (const v of reading.geo) {
-    badges.push(`<span class="usage-geo">${escapeHtml(v)}</span>`);
+    badges.push(`<span class="usage-geo">${renderLegacyText(v)}</span>`);
   }
   for (const v of reading.other) {
-    badges.push(`<span class="usage-other">${escapeHtml(v)}</span>`);
+    badges.push(`<span class="usage-other">${renderLegacyText(v)}</span>`);
   }
   const labels = badges.length ? `<span class="reading-labels">${badges.join("")}</span>` : "";
-  return `<span class="reading-chip"><span class="reading-zhuyin">${escapeHtml(reading.zhuyin)}</span>${labels}</span>`;
+  return `<span class="reading-chip"><span class="reading-zhuyin">${escapeHtml(legacyPlainText(reading.zhuyin))}</span>${labels}</span>`;
 }
 
 export function renderReadingChips(readings: StructuredReading[]): string {
@@ -97,11 +100,9 @@ export function renderStructuredToken(token: StructuredToken, ctx?: RenderCtx): 
         .map((alt) => alt.map((t) => renderStructuredToken(t, ctx)).join(""))
         .join('<span class="variant-sep">/</span>');
       const usageBadges = [
-        ...token.usages.register.map(
-          (v) => `<span class="usage-register">${escapeHtml(v)}</span>`,
-        ),
-        ...token.usages.geo.map((v) => `<span class="usage-geo">${escapeHtml(v)}</span>`),
-        ...token.usages.other.map((v) => `<span class="usage-other">${escapeHtml(v)}</span>`),
+        ...token.usages.register.map((v) => `<span class="usage-register">${renderLegacyText(v)}</span>`),
+        ...token.usages.geo.map((v) => `<span class="usage-geo">${renderLegacyText(v)}</span>`),
+        ...token.usages.other.map((v) => `<span class="usage-other">${renderLegacyText(v)}</span>`),
       ].join("");
       return `<span class="variant-chip"><span class="variant-body">(/${alts})</span>${usageBadges}</span>`;
     }
@@ -115,7 +116,7 @@ export function renderTaigiLane(tokens: StructuredToken[], ctx?: RenderCtx): str
 export function renderStructuredSense(sense: StructuredSense, ctx?: RenderCtx): string {
   const pos =
     sense.pos && sense.pos !== "None"
-      ? `<dd class="pos">${escapeHtml(sense.pos)}</dd>`
+      ? `<dd class="pos">${renderLegacyText(sense.pos)}</dd>`
       : "";
   const mandarin = sense.mandarin
     .map(
@@ -131,7 +132,7 @@ export function renderStructuredSense(sense: StructuredSense, ctx?: RenderCtx): 
 }
 
 function renderSinogramReadingLine(line: StructuredReadingLine, ctx?: RenderCtx): string {
-  const badge = `<dt><span class="src-badge">${escapeHtml(line.source)}</span></dt>`;
+  const badge = `<dt><span class="src-badge">${renderLegacyText(line.source)}</span></dt>`;
   if (!line.parsed) {
     const note = line.note ?? "";
     return `${badge}<dd class="reading-line-note">${renderLinkedText(note, ctx)}</dd>`;
@@ -146,7 +147,7 @@ function renderSinogramReadingLine(line: StructuredReadingLine, ctx?: RenderCtx)
 export function renderSinogramEntry(s: StructuredSinogram, ctx?: RenderCtx): string {
   const head = s.han.length > 0 ? renderCharLink(s.han, ctx) : "□";
   const headChip = s.headZhuyin
-    ? `<span class="reading-chip char-head-zhuyin"><span class="reading-zhuyin">${escapeHtml(s.headZhuyin)}</span></span>`
+    ? `<span class="reading-chip char-head-zhuyin"><span class="reading-zhuyin">${escapeHtml(legacyPlainText(s.headZhuyin))}</span></span>`
     : "";
   const fanqie = s.fanqie
     ? `<span class="char-fanqie">${renderLinkedText(s.fanqie, ctx)}</span>`
@@ -162,7 +163,7 @@ export function renderSinogramEntry(s: StructuredSinogram, ctx?: RenderCtx): str
 
 export function renderStructuredEntry(entry: StructuredEntry, ctx?: RenderCtx): string {
   const headHtml = entry.head.map((t) => renderStructuredToken(t, ctx)).join("");
-  const title = headHtml || renderCharLink(entry.headword, ctx);
+  const title = headHtml || renderLinkedText(entry.headword, ctx);
   const senses = entry.senses.map((s) => renderStructuredSense(s, ctx)).join("");
   return `<div class="entry entry-card" id="w-${entry.line}"><h3 class="entry-spine">【${title}】</h3><dl class="sense-grid">${senses}</dl></div>`;
 }
@@ -173,9 +174,9 @@ export function renderStructuredSection(
   ctx?: RenderCtx,
 ): string {
   const roman = meta.roman
-    ? `<span class="syl-rom">${escapeHtml(meta.roman)}</span>`
+    ? `<span class="syl-rom">${renderLegacyText(meta.roman)}</span>`
     : "";
-  const note = meta.note ? `<p class="syl-note">${escapeHtml(meta.note)}</p>` : "";
+  const note = meta.note ? `<p class="syl-note">${renderLegacyText(meta.note)}</p>` : "";
   const sinograms = section.sinograms
     .map((s) =>
       renderSinogramEntry(
@@ -186,12 +187,15 @@ export function renderStructuredSection(
     .join("");
   const entries = section.entries
     .map((e) =>
-      renderStructuredEntry(e, ctx ? { ...ctx, self: { k: "w", v: e.volume, l: e.line } } : undefined),
+      renderStructuredEntry(
+        e,
+        ctx ? { ...ctx, self: { k: "w", v: e.volume, l: e.line } } : undefined,
+      ),
     )
     .join("");
   return (
     `<section class="syl" id="${escapeHtml(meta.id)}">` +
-    `<div class="syl-head"><h2><b class="syl-zi">${escapeHtml(meta.syllable)}</b>${roman}</h2>${note}</div>` +
+    `<div class="syl-head"><h2><b class="syl-zi">${renderLegacyText(meta.syllable)}</b>${roman}</h2>${note}</div>` +
     sinograms +
     entries +
     `</section>`

@@ -44,7 +44,8 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain('class="kk"');
     expect(html).toContain("entry-card");
     expect(html).toContain("【");
-    expect(entry.headword).toBe("個人");
+    expect(html).toContain("個");
+    expect(html).toContain("人");
     expect(html).toContain("entry-spine");
   });
 

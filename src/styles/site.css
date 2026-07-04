@@ -424,22 +424,23 @@ u.lg-t {
 }
 
 /* ruby / zhuyin — the annotation voice */
+ruby:not(.zhuyin) {
+  vertical-align: middle;
+}
+
 rt {
   font-family: "Iansui", var(--font-ui);
   font-size: 0.55em;
   line-height: 1;
   color: color-mix(in srgb, var(--ink) 76%, transparent);
   letter-spacing: -0.01em;
+  vertical-align: middle;
 }
 rt.rt-l {
   font-size: 0.46em;
   letter-spacing: -0.04em;
 }
 
-/* prose examples: align rt-outside ruby to middle of line */
-ruby.rt-outside {
-  vertical-align: middle;
-}
 
 /* rare-glyph kai font & bitmap 造字 */
 mark {

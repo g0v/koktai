@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import {
   renderStructuredEntry,
@@ -45,6 +46,12 @@ describe("structured dictionary render", () => {
     const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
     expect(html).toContain("variant-chip");
     expect(html).toContain("usage-geo");
+  });
+
+  test("outside ruby fragments align with surrounding prose", () => {
+    const css = readFileSync("src/styles/site.css", "utf8");
+    expect(css).toMatch(/ruby:not\(\.zhuyin\)\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

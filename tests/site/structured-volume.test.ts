@@ -58,4 +58,12 @@ describe("structured volume view model", () => {
     expect(sec!.sinograms.some((g) => g.han === "八")).toBe(true);
   });
 
+  test("volume 01 preserves bitmap PUA sinogram head glyphs", () => {
+    const vol = getStructuredVolume(root, "01");
+    const glyph = vol.sections.flatMap((s) => s.sinograms).find((g) => g.line === 309);
+    expect(glyph).toBeDefined();
+    expect(glyph!.han).not.toBe("");
+    expect(glyph!.han).not.toBe("□");
+  });
+
 });

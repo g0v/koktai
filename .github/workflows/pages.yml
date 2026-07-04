@@ -36,6 +36,9 @@ jobs:
       - name: Build site
         run: bun run build
 
+      - name: Search dist gate
+        run: bun run check:search-dist
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

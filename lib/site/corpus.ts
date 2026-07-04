@@ -1,11 +1,13 @@
 import { extractVolume } from "../extract/extract.ts";
 import type { ExtractResult } from "../extract/extract.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
+import { buildResolver, type LinkResolver } from "./linkify.ts";
 
 let cache: { root: string; corpus: Corpus } | undefined;
 
 export interface Corpus {
   volumes: Map<string, ExtractResult>;
+  resolver: LinkResolver;
   sectionOf(vol: string, chapterZhuyin: string): number;
 }
 
@@ -38,12 +40,14 @@ export function getCorpus(root: string): Corpus {
     volumes.set(vol, result);
     sectionMaps.set(vol, chapterSectionIndex(result));
   }
-  const corpus: Corpus = {
+  const corpus = {
     volumes,
-    sectionOf(vol, chapterZhuyin) {
+    resolver: undefined as unknown as LinkResolver,
+    sectionOf(vol: string, chapterZhuyin: string) {
       return sectionMaps.get(vol)?.get(chapterZhuyin) ?? 0;
     },
-  };
+  } satisfies Corpus;
+  corpus.resolver = buildResolver(corpus);
   cache = { root, corpus };
   return corpus;
 }

@@ -1,0 +1,45 @@
+---
+interface Props {
+  baseUrl: string;
+}
+const { baseUrl } = Astro.props;
+---
+<div class="search-wrap" data-koktai-search data-base={baseUrl} data-open="false">
+  <button
+    class="search-toggle"
+    type="button"
+    aria-label="開啟搜尋"
+    aria-expanded="false"
+    aria-controls="koktai-search-popup"
+  >
+    <span aria-hidden="true">搜</span>
+  </button>
+  <div class="search-field">
+    <label class="search-label" for="koktai-search-input">辭典搜尋</label>
+    <input
+      id="koktai-search-input"
+      class="search-input"
+      type="search"
+      name="q"
+      autocomplete="off"
+      spellcheck="false"
+      enterkeyhint="search"
+      placeholder="字詞或注音"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="koktai-search-popup"
+    />
+    <div
+      id="koktai-search-popup"
+      class="search-popup"
+      role="listbox"
+      hidden
+    >
+      <div class="search-list"></div>
+      <button class="search-fulltext" type="button" hidden>
+        全文檢索
+      </button>
+    </div>
+  </div>
+</div>

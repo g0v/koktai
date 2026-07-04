@@ -1,5 +1,6 @@
 ---
 import "../styles/tokens.css";
+import SearchBox from "../components/SearchBox.astro";
 import "../styles/site.css";
 
 interface Props {
@@ -46,6 +47,7 @@ const href = (path = "") => `${baseUrl}${path}`;
         <span class="brand-zh">國臺對照活用辭典</span>
         <span class="brand-rom">KOK-TÂI TUÌ-TSIÀU</span>
       </a>
+      <SearchBox baseUrl={baseUrl} />
       <nav class="head-nav" aria-label="站內">
         <a href={href("#volumes")}>卷目</a>
         <a href={href("#appendix")}>附錄</a>
@@ -94,5 +96,7 @@ const href = (path = "") => `${baseUrl}${path}`;
         } catch {}
       });
     </script>
+
+    <script type="module" src={new URL("../client/search-box.ts", import.meta.url)}></script>
   </body>
 </html>

@@ -55,7 +55,7 @@ function expandK(str: string, maps: FontMaps, useHruby: boolean): string {
     if (mapped) return mapped;
     const code = astralCode(ch);
     const rt = maps.k[code];
-    return rt ? `<rt>${orientRt(rt, useHruby)}</rt>` : `<mark>&#xf${code};</mark>`;
+    return rt ? `<rt>${orientRt(rt, useHruby)}</rt>` : `<img src="img/k/${code}.png">`;
   });
   const lo = /[\u{f0000}-\u{f7fff}\u{fb000}-\u{fefff}]/gu;
   str = str.replace(lo, (ch) => {

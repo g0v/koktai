@@ -49,7 +49,7 @@ export function legacyPlainText(text: string): string {
 }
 
 export function renderLegacyText(text: string): string {
-  return jadeUnescapeLine(escapeHtml(text), fontMaps);
+  return jadeUnescapeLine(text, fontMaps, true);
 }
 
 export function renderReadingChip(reading: StructuredReading): string {

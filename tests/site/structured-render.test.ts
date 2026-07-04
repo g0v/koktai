@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 import {
+  renderLegacyText,
   renderStructuredEntry,
   renderStructuredVolumeBody,
 } from "../../lib/site/structured-render.ts";
@@ -58,6 +59,18 @@ describe("structured dictionary render", () => {
     expect(html).toContain('class="token-han"');
     expect(html).not.toContain(pua);
     expect(html).toContain("ㄗㄨㄥ");
+  });
+
+  test("legacy text consumes k tags and emits horizontal zhuyin ruby", () => {
+    const kai = String.fromCodePoint(0xf8d44);
+    const horizontalI = String.fromCodePoint(0xf8265);
+    const html = renderLegacyText(`祀<k>${kai}</k>人${horizontalI}`);
+
+    expect(html).not.toContain("&lt;k&gt;");
+    expect(html).not.toContain("&lt;/k&gt;");
+    expect(html).toContain('<ruby class="zhuyin">');
+    expect(html).toContain("<rt>ㄗㄨㄧ</rt>");
+    expect(html).not.toContain("ㄗㄨ丨");
   });
 
   test("outside ruby fragments align with surrounding prose", () => {

@@ -51,4 +51,11 @@ describe("structured volume view model", () => {
     expect(firstAlt.some((t) => t.kind === "syl" && t.han === "域")).toBe(true);
   });
 
+  test("volume 01 ㄅㄚ section includes sinogram 八 before word entries", () => {
+    const vol = getStructuredVolume(root, "01");
+    const sec = vol.sections.find((s) => s.chapterZhuyin === "ㄅㄚ");
+    expect(sec).toBeDefined();
+    expect(sec!.sinograms.length).toBeGreaterThan(0);
+    expect(sec!.sinograms.some((g) => g.han === "八")).toBe(true);
+  });
 });

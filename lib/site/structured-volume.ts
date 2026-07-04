@@ -1,5 +1,13 @@
-import { extractVolume } from "../extract/extract.ts";
-import type { Reading, Token, Usage, WordRecord, WordSense } from "../extract/types.ts";
+import { getCorpus } from "./corpus.ts";
+import type {
+  Reading,
+  ReadingLine,
+  SinogramEntry,
+  Token,
+  Usage,
+  WordRecord,
+  WordSense,
+} from "../extract/types.ts";
 
 export interface StructuredReading {
   zhuyin: string;
@@ -33,10 +41,26 @@ export interface StructuredEntry {
   senses: StructuredSense[];
 }
 
+export interface StructuredReadingLine {
+  source: string;
+  readings: StructuredReading[];
+  note: string | null;
+  parsed: boolean;
+}
+
+export interface StructuredSinogram {
+  han: string;
+  line: number;
+  fanqie: string | null;
+  headZhuyin: string | null;
+  readingLines: StructuredReadingLine[];
+}
+
 export interface StructuredSection {
   id: string;
   chapterZhuyin: string;
   entries: StructuredEntry[];
+  sinograms: StructuredSinogram[];
 }
 
 export interface StructuredVolume {
@@ -65,7 +89,7 @@ function bucketUsages(usages: Usage[]): { register: string[]; geo: string[]; oth
   return { register, geo, other };
 }
 
-function bucketReading(r: Reading): StructuredReading {
+export function bucketReading(r: Reading): StructuredReading {
   const register: string[] = [];
   const geo: string[] = [];
   const other: string[] = [];
@@ -114,7 +138,6 @@ function mapToken(t: Token): StructuredToken {
   }
 }
 
-
 function mapTokens(tokens: Token[]): StructuredToken[] {
   return tokens.map(mapToken);
 }
@@ -137,23 +160,54 @@ function mapEntry(w: WordRecord): StructuredEntry {
   };
 }
 
+function mapReadingLine(l: ReadingLine): StructuredReadingLine {
+  return {
+    source: l.source,
+    readings: l.readings.map(bucketReading),
+    note: l.note,
+    parsed: l.parsed,
+  };
+}
+
+function mapSinogram(g: SinogramEntry): StructuredSinogram {
+  return {
+    han: g.han,
+    line: g.line,
+    fanqie: g.fanqie,
+    headZhuyin: g.headZhuyin,
+    readingLines: g.readingLines.map(mapReadingLine),
+  };
+}
+
 export function getStructuredVolume(root: string, base: string): StructuredVolume {
-  const { words } = extractVolume(root, base);
+  const { words, sinograms } = getCorpus(root).volumes.get(base)!;
   const sectionOrder: string[] = [];
+  const seen = new Set<string>();
   const byChapter: Record<string, StructuredEntry[]> = {};
+  const byChapterSinograms: Record<string, StructuredSinogram[]> = {};
+
   for (const w of words) {
     const ch = w.chapterZhuyin;
-    if (!byChapter[ch]) {
-      byChapter[ch] = [];
+    if (!seen.has(ch)) {
+      seen.add(ch);
       sectionOrder.push(ch);
     }
-    byChapter[ch].push(mapEntry(w));
+    (byChapter[ch] ??= []).push(mapEntry(w));
+  }
+  for (const g of sinograms) {
+    const ch = g.chapterZhuyin;
+    if (!seen.has(ch)) {
+      seen.add(ch);
+      sectionOrder.push(ch);
+    }
+    (byChapterSinograms[ch] ??= []).push(mapSinogram(g));
   }
 
   const sections: StructuredSection[] = sectionOrder.map((chapterZhuyin, i) => ({
     id: `s-${i + 1}`,
     chapterZhuyin,
-    entries: byChapter[chapterZhuyin]!,
+    entries: byChapter[chapterZhuyin] ?? [],
+    sinograms: byChapterSinograms[chapterZhuyin] ?? [],
   }));
 
   return {

@@ -834,11 +834,6 @@ html[data-theme="dark"] .doc img {
 .colophon a:hover {
   color: var(--eten);
 }
-.seal {
-  flex: none;
-  rotate: -2.5deg;
-  opacity: 0.93;
-}
 
 /* ── responsive ── */
 
@@ -963,8 +958,7 @@ html[data-theme="dark"] .doc img {
   .rail,
   .rail-sheet,
   .vol-nav,
-  .theme-btn,
-  .seal {
+  .theme-btn {
     display: none !important;
   }
   body {

@@ -31,6 +31,20 @@ describe("structured dictionary render", () => {
     expect(html).toContain("usage-register");
     expect(html).toContain("lane-mandarin");
     expect(html).toContain("lane-taigi");
+    expect(html).toContain("entry-spine");
+    expect(html).toContain("sense-grid");
+    expect(html).toContain("reading-zhuyin");
+  });
+
+  test("renderStructuredToken generates variant-chip and usage-geo", () => {
+    const token = {
+      kind: "variant",
+      alternatives: [[{ kind: "prose", text: "A" }]],
+      usages: { register: [], geo: ["漳"], other: [] }
+    } as any;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+    expect(html).toContain("variant-chip");
+    expect(html).toContain("usage-geo");
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

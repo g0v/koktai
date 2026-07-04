@@ -94,7 +94,7 @@ export function renderStructuredEntry(entry: StructuredEntry): string {
   const headHtml = entry.head.map(renderStructuredToken).join("");
   const title = headHtml || escapeHtml(entry.headword);
   const senses = entry.senses.map(renderStructuredSense).join("");
-  return `<div class="entry entry-card"><h3>【${title}】</h3><dl>${senses}</dl></div>`;
+  return `<div class="entry entry-card"><h3 class="entry-spine">【${title}】</h3><dl class="sense-grid">${senses}</dl></div>`;
 }
 
 export function renderStructuredSection(

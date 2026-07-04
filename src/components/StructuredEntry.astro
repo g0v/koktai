@@ -10,14 +10,14 @@ const { entry } = Astro.props;
 ---
 
 <div class="entry entry-card">
-  <h3>
+  <h3 class="entry-spine">
     【
     {entry.head.length > 0
       ? entry.head.map((t) => <StructuredToken token={t} />)
       : entry.headword}
     】
   </h3>
-  <dl>
+  <dl class="sense-grid">
     {
       entry.senses.map((sense) => (
         <>

@@ -17,6 +17,8 @@ export interface SectionRailMeta {
   syllable: string;
   roman: string;
   note: string;
+  /** Estimated block height (px) for content-visibility intrinsic size. */
+  intrinsicPx?: number;
 }
 
 function escapeHtml(text: string): string {
@@ -236,15 +238,10 @@ export function renderStructuredEntry(entry: StructuredEntry, ctx?: RenderCtx): 
   return `<div class="entry entry-card" id="w-${entry.line}"><h3 class="entry-spine">【${title}】</h3><dl class="sense-grid">${senses}</dl></div>`;
 }
 
-export function renderStructuredSection(
+export function renderStructuredSectionBody(
   section: StructuredSection,
-  meta: SectionRailMeta,
   ctx?: RenderCtx,
 ): string {
-  const roman = meta.roman
-    ? `<span class="syl-rom">${renderLegacyText(meta.roman)}</span>`
-    : "";
-  const note = meta.note ? `<p class="syl-note">${renderLegacyText(meta.note)}</p>` : "";
   const sinograms = section.sinograms
     .map((s) =>
       renderSinogramEntry(
@@ -261,11 +258,27 @@ export function renderStructuredSection(
       ),
     )
     .join("");
+  return sinograms + entries;
+}
+
+export function renderStructuredSection(
+  section: StructuredSection,
+  meta: SectionRailMeta,
+  ctx?: RenderCtx,
+): string {
+  const roman = meta.roman
+    ? `<span class="syl-rom">${renderLegacyText(meta.roman)}</span>`
+    : "";
+  const note = meta.note ? `<p class="syl-note">${renderLegacyText(meta.note)}</p>` : "";
+  const body = renderStructuredSectionBody(section, ctx);
+  const cv =
+    meta.intrinsicPx && meta.intrinsicPx > 0
+      ? ` style="contain-intrinsic-size: auto ${meta.intrinsicPx}px"`
+      : "";
   return (
-    `<section class="syl" id="${escapeHtml(meta.id)}">` +
+    `<section class="syl" id="${escapeHtml(meta.id)}"${cv}>` +
     `<div class="syl-head"><h2><b class="syl-zi">${renderLegacyText(meta.syllable)}</b>${roman}</h2>${note}</div>` +
-    sinograms +
-    entries +
+    body +
     `</section>`
   );
 }

@@ -6,6 +6,8 @@
     "compile": "bun run scripts/compile-pug.ts",
     "sync": "bun run scripts/sync-static.ts",
     "precache": "bun run scripts/precache-pug.ts",
+    "measure:sections": "bun run scripts/measure-section-sizes.ts",
+    "volume:stats": "bun run scripts/volume-stats.ts",
     "build:site": "bun run compile && bun run sync",
     "dev": "astro dev",
     "start": "bun run sync && astro dev",

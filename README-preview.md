@@ -37,6 +37,17 @@ bun run preview    # 預覽 build 結果
   （`.TL`、`.PO` ……）以等寬字顯示；表格類（`ph-comp` 等）整頁等寬，置於
   倚天藍「原始檔」面板。
 
+## 卷頁效能（實測與界線）
+
+- **已量到的負載**：例如 `dist/02.html` 約 **5.9 MiB** 原始 HTML、**65** 個 `section.syl`、**1500+** 個 `.entry`（`bun run volume:stats` 可列出 26 卷）。
+- **`.entry` 早就有** `content-visibility: auto`（略過視窗外條目的排版／繪製）。
+- **`section.syl` 亦設** `content-visibility: auto`＋`contain-intrinsic-size`（略過整段音節區塊的排版；`intrinsicPx` 可選用 `bun run measure:sections` 產生的 `section-sizes.json` 讓捲動估高較準）。
+- **CV 做不到的事**：不減少下載量、不減少 HTML 解析與完整 DOM 建樹成本。若卡頓主要在**第一次開卷**（白屏／可互動時間），瓶頸多半是 **5 MiB 級 payload + parse**，需靠**拆頁**（例如每音節一個靜態 URL，仍保留 Ctrl+F／無 JS／kk 卡片抓整卷 HTML）而非 fetch 注入空殼。
+- **怎麼驗證**（需本機瀏覽器，headless 無法代表體感）：
+  1. DevTools → **Performance**：錄製重新載入 `02.html`，看 **Scripting / Parse HTML / Layout** 哪段最長。
+  2. DevTools → **Network**：看 **Transferred** 與 **DOMContentLoaded**。
+  3. 若 **Parse HTML** 主導 → 規劃音節拆頁；若 **Layout/Paint** 在長卷捲動時主導 → CV 分層有幫助。
+
 ## 平行建置
 
 `bun run precache`（`build` 會自動先跑）用 Bun worker 依核心數平行編譯 31 個

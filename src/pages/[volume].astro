@@ -11,6 +11,8 @@ import { renderStructuredSection } from "../../lib/site/structured-render.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import { getCorpus } from "../../lib/site/corpus.ts";
 import { legacyPlainText } from "../../lib/site/structured-render.ts";
+import { buildRailSections } from "../../lib/site/volume-rail.ts";
+import { loadSectionSizes, estimateSectionPx } from "../../lib/site/section-sizes.ts";
 
 export function getStaticPaths() {
   return listPugPages(process.cwd()).map((base) => ({
@@ -68,15 +70,8 @@ const isVolume = /^\d\d$/.test(base);
 const html =
   isAppendix && APPENDIX[base] ? wrapPe2Directives(raw.html) : raw.html;
 const structuredVolume = isVolume ? getStructuredVolume(root, base) : null;
-const horizontalI = (s: string) => s.replaceAll("丨", "ㄧ");
-const railSections =
-  structuredVolume?.sections.map((sec, i) => {
-    const syllable = horizontalI(sec.chapterZhuyin);
-    const pugSec = sections.find(
-      (s) => s.syllable === syllable || s.syllable === sec.chapterZhuyin,
-    );
-    return { id: `s-${i + 1}`, syllable, roman: pugSec?.roman ?? "" };
-  }) ?? sections;
+const railSections = isVolume ? buildRailSections(root, base) : sections;
+const sectionSizes = isVolume ? loadSectionSizes(root) : {};
 const volNo = isVolume ? Number(base) : 0;
 const volName = isVolume ? `卷${chineseNumeral(volNo)}` : "";
 const range =
@@ -151,7 +146,14 @@ const description = isVolume
                     id: rail.id,
                     syllable: rail.syllable,
                     roman: rail.roman ?? "",
-                    note: "",
+                    note: rail.note ?? "",
+                    intrinsicPx: estimateSectionPx(
+                      sectionSizes,
+                      base,
+                      rail.id,
+                      rail.entryCount,
+                      rail.sinogramCount,
+                    ),
                   }, linkCtx)}
                 />
               );

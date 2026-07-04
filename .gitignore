@@ -5,6 +5,7 @@ public/style.css
 public/han.min.*
 public/font/
 public/img/
+public/sections/
 .cache/
 .worktrees/
 

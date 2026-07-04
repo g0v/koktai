@@ -606,6 +606,19 @@ section.syl,
 .entry {
   scroll-margin-top: calc(var(--header-h) + 3.5rem);
 }
+
+section.syl {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
+@media print {
+  section.syl {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+}
+
 .syl-head {
   position: sticky;
   top: var(--header-h);

@@ -1,10 +1,10 @@
-import { legacyPlainText } from "./legacy-text.ts";
+import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 import type { Reading, SinogramEntry, Token, WordRecord } from "../extract/types.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
 import type { Corpus } from "./corpus.ts";
 
 
-export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number];
+export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number, h?: string];
 
 export type FulltextDoc = {
   t: string;
@@ -28,6 +28,13 @@ const K_TAG = /<\/?k>/g;
 
 export function stripHeadwordMarkup(t: string): string {
   return t.replace(K_TAG, "");
+}
+
+function headwordFields(raw: string): { text: string; html?: string } {
+  const stripped = stripHeadwordMarkup(raw);
+  const text = legacyPlainText(stripped);
+  const html = renderLegacyText(stripped);
+  return html.includes("<img") ? { text, html } : { text };
 }
 
 export function headZhuyinForWord(w: WordRecord): string {
@@ -85,26 +92,32 @@ export function buildSuggestRows(corpus: Corpus): SuggestRow[] {
     const result = corpus.volumes.get(vol);
     if (!result) continue;
     for (const w of result.words) {
+      const head = headwordFields(w.headword);
       const s = corpus.sectionOf(vol, w.chapterZhuyin);
-      rows.push([
-        stripHeadwordMarkup(w.headword),
+      const row: SuggestRow = [
+        head.text,
         headZhuyinForWord(w),
         vol,
         w.line,
         0,
         s,
-      ]);
+      ];
+      if (head.html) row.push(head.html);
+      rows.push(row);
     }
     for (const g of result.sinograms) {
+      const head = g.han === "" ? { text: "□" } : headwordFields(g.han);
       const s = corpus.sectionOf(vol, g.chapterZhuyin);
-      rows.push([
-        g.han === "" ? "□" : g.han,
+      const row: SuggestRow = [
+        head.text,
         g.headZhuyin ?? "",
         vol,
         g.line,
         1,
         s,
-      ]);
+      ];
+      if (head.html) row.push(head.html);
+      rows.push(row);
     }
   }
   rows.sort(compareSuggestRows);
@@ -119,7 +132,7 @@ export function buildFulltextDocs(corpus: Corpus): FulltextDoc[] {
     for (const w of result.words) {
       const s = corpus.sectionOf(vol, w.chapterZhuyin);
       docs.push({
-        t: stripHeadwordMarkup(w.headword),
+        t: legacyPlainText(stripHeadwordMarkup(w.headword)),
         v: vol,
         l: w.line,
         k: 0,
@@ -130,7 +143,7 @@ export function buildFulltextDocs(corpus: Corpus): FulltextDoc[] {
     for (const g of result.sinograms) {
       const s = corpus.sectionOf(vol, g.chapterZhuyin);
       docs.push({
-        t: g.han === "" ? "□" : g.han,
+        t: g.han === "" ? "□" : legacyPlainText(g.han),
         v: vol,
         l: g.line,
         k: 1,

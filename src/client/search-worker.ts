@@ -61,7 +61,7 @@ async function ensureIndex(base: string): Promise<Fuse<FulltextDoc>> {
       includeMatches: true,
       ignoreLocation: true,
       threshold: 0.25,
-      minMatchCharLength: 2,
+      minMatchCharLength: 1,
     });
     post({ type: "status", phase: "ready" });
   })();
@@ -73,10 +73,6 @@ self.addEventListener("message", (event: MessageEvent<ToWorker>) => {
   const msg = event.data;
   if (!msg || msg.type !== "query") return;
   const q = msg.q.trim();
-  if (q.length < 2) {
-    post({ type: "results", q, items: [] });
-    return;
-  }
   void (async () => {
     try {
       const index = await ensureIndex(msg.base);

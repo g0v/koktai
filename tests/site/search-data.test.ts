@@ -38,13 +38,13 @@ describe("search-data", () => {
   );
 
   test(
-    "han empty sinogram uses □ and head zhuyin",
+    "bitmap PUA sinogram head is searchable as its mapped glyph",
     () => {
       const rows = buildSuggestRows(getCorpus(root));
-      const blank = rows.find((r) => r[2] === "01" && r[3] === 309 && r[4] === 1);
-      expect(blank).toBeDefined();
-      expect(blank![0]).toBe("□");
-      expect(blank![1]).toBe("ㄅㆤ");
+      const ba = rows.find((r) => r[2] === "01" && r[3] === 309 && r[4] === 1);
+      expect(ba).toBeDefined();
+      expect(ba![0]).toBe("巴");
+      expect(ba![1]).toBe("ㄅㆤ");
     },
     30_000,
   );
@@ -76,7 +76,7 @@ describe("search-data", () => {
     "fulltext doc for 八 contains fanqie gloss and ㄅㄚㆵ",
     () => {
       const docs = buildFulltextDocs(getCorpus(root));
-      const ba = docs.find((d) => d.t === "八" && d.v === "01" && d.k === 1);
+      const ba = docs.find((d) => d.t === "八" && d.v === "01" && d.l === 9 && d.k === 1);
       expect(ba).toBeDefined();
       expect(ba!.d).toContain("布拔切");
       expect(ba!.d).toContain("ㄅㄚㆵ");
@@ -88,7 +88,7 @@ describe("search-data", () => {
     "compact fulltext rows preserve sinogram readings and stay under 9MiB",
     () => {
       const rows = buildFulltextRows(getCorpus(root));
-      const ba = rows.find((r) => r[0] === "八" && r[1] === "01" && r[3] === 1);
+      const ba = rows.find((r) => r[0] === "八" && r[1] === "01" && r[2] === 9 && r[3] === 1);
       expect(ba).toBeDefined();
       expect(ba![4]).toContain("布拔切");
       expect(ba![4]).toContain("ㄅㄚㆵ");

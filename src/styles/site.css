@@ -67,12 +67,13 @@ a {
 
 /* inner-text dictionary links */
 a.kk {
-  text-decoration-style: dotted;
-  text-underline-offset: 0.15em;
+  color: inherit;
+  text-decoration: none;
 }
 a.kk:hover,
 a.kk:focus-visible {
-  background: var(--eten-glow);
+  color: inherit;
+  background: transparent;
 }
 
 /* kk hover card */
@@ -162,16 +163,12 @@ a.kk:focus-visible {
 /* ── header ── */
 
 .site-head {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.7rem var(--gutter) 0.8rem;
   box-shadow: var(--wenwu-down);
   background: var(--paper);
-  min-height: var(--header-h);
 }
 
 .brand {
@@ -339,6 +336,12 @@ html[data-theme="dark"] .theme-btn .when-light {
   color: var(--ink);
 }
 
+.search-term img {
+  height: 1.15em;
+  width: auto;
+  vertical-align: -0.15em;
+}
+
 .search-zhuyin,
 .search-snippet {
   color: var(--ink-2);
@@ -394,25 +397,36 @@ html[data-theme="dark"] .theme-btn .when-light {
 }
 
 @media (max-width: 720px) {
-  :root {
-    --header-h: 7rem;
-  }
-
   .site-head {
     flex-wrap: wrap;
     align-items: center;
   }
 
   .search-wrap {
-    order: 3;
-    flex: 1 1 100%;
-    max-width: none;
-    display: none;
+    position: fixed;
+    z-index: 1001;
+    top: 0.42rem;
+    right: var(--gutter);
+    width: 2.1rem;
+    max-width: calc(100vw - var(--gutter) * 2);
+    display: block;
+    flex: none;
   }
 
   .search-wrap[data-open="true"] {
+    width: min(22rem, calc(100vw - var(--gutter) * 2));
+  }
+
+  .search-field {
+    display: none;
+  }
+
+  .search-wrap[data-open="true"] .search-field {
     display: block;
-    padding-block: 0.35rem 0.15rem;
+  }
+
+  .search-wrap[data-open="true"] .search-toggle {
+    display: none;
   }
 
   .search-toggle {
@@ -443,7 +457,7 @@ html[data-theme="dark"] .theme-btn .when-light {
   }
 
   .search-popup {
-    position: static;
+    position: absolute;
     max-height: min(20rem, 55vh);
     margin-top: 0.35rem;
   }
@@ -1132,26 +1146,25 @@ html[data-theme="dark"] .doc img {
 
 .structured-doc .entry-card {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.8rem;
   padding: 1.5rem 0;
   border-bottom: 1px solid color-mix(in srgb, var(--brass) 16%, transparent);
 }
 
 .structured-doc .entry-spine {
-  flex: 0 0 3.2rem;
+  flex: auto;
+  width: fit-content;
   margin: 0;
-  padding: 1.2rem 0;
-  writing-mode: vertical-rl;
+  padding: 0.4rem 1rem;
   text-align: center;
   background: var(--paper-deep);
   color: var(--ink);
   font-family: var(--font-display);
   border-radius: var(--radius);
   box-shadow: var(--wenwu-down);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  line-height: 1.2;
+  display: block;
+  line-height: 1.6;
   font-size: var(--fs-h3);
 }
 

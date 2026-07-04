@@ -17,4 +17,4 @@ export type FromWorker =
   | { type: "status"; phase: "fetching" | "indexing" | "ready" }
   | { type: "results"; q: string; items: FulltextHit[] };
 
-export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number];
+export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number, h?: string];

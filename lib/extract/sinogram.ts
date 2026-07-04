@@ -4,7 +4,7 @@ import { classifyLabel } from "./labels.ts";
 import { classifyPua, isPua } from "./syllables.ts";
 import type { Reading, ReadingLine, SinogramEntry, Syllables, Usage } from "./types.ts";
 
-const CHAR_LINE = /^~(?:fm7|fk|fm3)t168/;
+const CHAR_LINE = /^~(?:fm7|fk|fm3)t168[a-z0-9]*;/;
 const READING_SOURCE = /^~fm7;([^~]+)/;
 
 const PUNCT_ONLY = /^[\s，。、；：「」（）∥]+$/u;
@@ -23,9 +23,9 @@ function parseCharLine(charLine: string, s: Syllables): {
   headZhuyin: string | null;
   fanqie: string | null;
 } {
-  const stripped = stripPe2Tags(charLine);
-  const m = stripped.match(CHAR_LINE);
-  const rest = m ? stripped.slice(m[0].length) : stripped;
+  const m = charLine.match(CHAR_LINE);
+  const stripped = stripPe2Tags(m ? charLine.slice(m[0].length) : charLine);
+  const rest = stripped;
   let han = "";
   let headZhuyin: string | null = null;
   let fanqie: string | null = null;
@@ -36,12 +36,17 @@ function parseCharLine(charLine: string, s: Syllables): {
     i += ch.length;
     if (isPua(ch)) {
       const zy = readingZhuyin(ch, s);
-      if (zy && headZhuyin === null) {
-        headZhuyin = zy;
+      if (zy) {
+        headZhuyin ??= zy;
+        continue;
+      }
+      if (!zy && han === "") {
+        han = ch;
         continue;
       }
       break;
     }
+    if (!han && ch === "/") continue;
     if (ch === "\u3000") {
       fanqie = rest.slice(i).trim() || null;
       break;
@@ -80,9 +85,10 @@ function parseReadingBody(
   let tm = BODY_TOKEN.exec(body);
   while (tm) {
     const t = tm[0];
+    const quotedGlyph = body[tm.index - 1] === "「" && body[BODY_TOKEN.lastIndex] === "」";
     if (t === "/") tokens.push({ kind: "slash", text: t });
     else if (t.startsWith("(") && t.endsWith(")")) tokens.push({ kind: "label", text: t.slice(1, -1) });
-    else if (t.length === 1 || (t.codePointAt(0)! >= 0xf0000 && t.codePointAt(0)! <= 0xfffff)) {
+    else if (!quotedGlyph && (t.length === 1 || (t.codePointAt(0)! >= 0xf0000 && t.codePointAt(0)! <= 0xfffff))) {
       if (readingZhuyin(t, s)) tokens.push({ kind: "reading", text: t });
       else tokens.push({ kind: "prose", text: t });
     } else tokens.push({ kind: "prose", text: t });
@@ -168,7 +174,7 @@ export function parseSinogram(
     line: block.line,
     chapterZhuyin,
     han,
-    headZhuyin,
+    headZhuyin: headZhuyin ?? chapterZhuyin,
     fanqie,
     readingLines,
   };

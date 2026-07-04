@@ -43,8 +43,8 @@ describe("structured dictionary render", () => {
 
   test("renderSinogramEntry 八 vol 01 shows fanqie and reading chips", () => {
     const vol = getStructuredVolume(root, "01");
-    const sec = vol.sections.find((s) => s.sinograms.some((g) => g.han === "八"));
-    const eight = sec!.sinograms.find((g) => g.han === "八")!;
+    const sec = vol.sections.find((s) => s.sinograms.some((g) => g.han === "八" && g.line === 9));
+    const eight = sec!.sinograms.find((g) => g.han === "八" && g.line === 9)!;
     const html = renderSinogramEntry(eight);
     expect(html).toContain('id="c-');
     expect(html).toContain("布拔切");

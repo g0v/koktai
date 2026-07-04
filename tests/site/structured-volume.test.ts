@@ -58,11 +58,12 @@ describe("structured volume view model", () => {
     expect(sec!.sinograms.some((g) => g.han === "八")).toBe(true);
   });
 
-  test("volume 01 ㄅㄚ section includes sinogram 八 before word entries", () => {
+  test("volume 01 preserves bitmap PUA sinogram head glyphs", () => {
     const vol = getStructuredVolume(root, "01");
-    const sec = vol.sections.find((s) => s.chapterZhuyin === "ㄅㄚ");
-    expect(sec).toBeDefined();
-    expect(sec!.sinograms.length).toBeGreaterThan(0);
-    expect(sec!.sinograms.some((g) => g.han === "八")).toBe(true);
+    const glyph = vol.sections.flatMap((s) => s.sinograms).find((g) => g.line === 309);
+    expect(glyph).toBeDefined();
+    expect(glyph!.han).not.toBe("");
+    expect(glyph!.han).not.toBe("□");
   });
+
 });

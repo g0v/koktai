@@ -95,25 +95,11 @@ async function entryHtml(t: Target): Promise<string> {
   return html;
 }
 
-function homographs(t: Target, title: string): string {
-  const rows = window.__koktaiSuggest;
-  if (!rows) return "";
-  const matches = rows.filter((r) => r[0] === title && (r[2] !== t.v || r[3] !== t.l));
-  if (matches.length === 0) return "";
-  const links = matches
-    .slice(0, 8)
-    .map((r) => {
-      const target: Target = { k: r[4] === 0 ? "w" : "c", v: r[2], l: r[3] };
-      return `<a href="${targetHref(target)}" data-kk="${target.k}:${target.v}:${target.l}" class="kk">${r[2]}:${r[3]}</a>`;
-    })
-    .join(" ");
-  return `<footer class="kk-card-seealso">另見 ${links}</footer>`;
-}
 
 function showShell(anchor: HTMLAnchorElement, t: Target, body: string): void {
   const el = ensureCard();
   const title = anchor.textContent?.trim() || "詞目";
-  el.innerHTML = `<header class="kk-card-head"><a href="${targetHref(t)}">${pinned ? `前往【${title}】→` : title}</a></header><div class="kk-card-body">${body}</div>${homographs(t, title)}`;
+  el.innerHTML = `<header class="kk-card-head"><a href="${targetHref(t)}">${pinned ? `前往【${title}】→` : title}</a></header><div class="kk-card-body">${body}</div>`;
   el.hidden = false;
   positionCard(anchor);
 }

@@ -15,8 +15,7 @@ declare global {
 type ListItem =
   | { kind: "suggest"; row: SuggestRow }
   | { kind: "fulltext"; hit: FulltextHit }
-  | { kind: "status"; label: string }
-  | { kind: "fulltext-action"; query: string };
+  | { kind: "status"; label: string };
 
 function initSearchBox(root: HTMLElement): void {
   const base = root.dataset.base ?? "/";
@@ -54,13 +53,11 @@ function initSearchBox(root: HTMLElement): void {
       if (item.kind === "status") {
         el.classList.add("search-option-status");
         el.textContent = item.label;
-      } else if (item.kind === "fulltext-action") {
-        el.classList.add("search-option-action");
-        el.textContent = `全文檢索 “${item.query}”`;
       } else if (item.kind === "suggest") {
-        const [t, z, v, , k] = item.row;
+        const [t, z, v, , k, , html] = item.row;
         const q = input.value.trim();
-        el.innerHTML = `<span class="search-term">${highlightMatch(t, q)}</span><span class="search-zhuyin">${highlightMatch(z, q)}</span><span class="search-vol">${formatVolumeLabel(v)}${k === 1 ? " 字" : ""}</span>`;
+        const term = html ?? highlightMatch(t, q);
+        el.innerHTML = `<span class="search-term">${term}</span><span class="search-zhuyin">${highlightMatch(z, q)}</span><span class="search-vol">${formatVolumeLabel(v)}${k === 1 ? " 字" : ""}</span>`;
       } else {
         const { hit } = item;
         el.innerHTML = `<span class="search-term">${highlightMatch(hit.t, input.value.trim())}</span><span class="search-snippet">${hit.snippet}</span><span class="search-vol">${formatVolumeLabel(hit.v)}</span>`;
@@ -102,7 +99,6 @@ function initSearchBox(root: HTMLElement): void {
     const q = input.value.trim();
     const ranked = rankSuggestRows(rows, q);
     items = ranked.map((row) => ({ kind: "suggest", row }));
-    if (q) items.push({ kind: "fulltext-action", query: q });
     active = items.length > 0 ? 0 : -1;
     render();
   };
@@ -139,7 +135,6 @@ function initSearchBox(root: HTMLElement): void {
 
   const runFulltext = (q: string) => {
     const query = q.trim();
-    if (query.length < 2) return;
     mode = "fulltext";
     pendingQuery = query;
     items = [{ kind: "status", label: "建立全文索引…" }];
@@ -154,10 +149,6 @@ function initSearchBox(root: HTMLElement): void {
   const navigateActive = () => {
     const item = items[active];
     if (!item) return;
-    if (item.kind === "fulltext-action") {
-      runFulltext(item.query);
-      return;
-    }
     if (item.kind === "status") return;
     const vol = item.kind === "suggest" ? item.row[2] : item.hit.v;
     const line = item.kind === "suggest" ? item.row[3] : item.hit.l;

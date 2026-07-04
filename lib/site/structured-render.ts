@@ -153,28 +153,28 @@ export function renderStructuredSense(sense: StructuredSense, ctx?: RenderCtx): 
   return `${pos}${mandarin}${taigi}`;
 }
 
-function renderSinogramReadingLine(line: StructuredReadingLine, ctx?: RenderCtx): string {
+function renderSinogramReadingLine(line: StructuredReadingLine): string {
   const badge = `<dt><span class="src-badge">${renderLegacyText(line.source)}</span></dt>`;
   if (!line.parsed) {
     const note = line.note ?? "";
-    return `${badge}<dd class="reading-line-note">${renderLinkedText(note, ctx)}</dd>`;
+    return `${badge}<dd class="reading-line-note">${renderLegacyText(note)}</dd>`;
   }
   const chips = renderReadingChips(line.readings);
   const note = line.note
-    ? `<span class="reading-line-note">${renderLinkedText(line.note, ctx)}</span>`
+    ? `<span class="reading-line-note">${renderLegacyText(line.note)}</span>`
     : "";
   return `${badge}<dd class="reading-line-body">${chips}${note}</dd>`;
 }
 
 export function renderSinogramEntry(s: StructuredSinogram, ctx?: RenderCtx): string {
-  const head = s.han.length > 0 ? renderCharLink(s.han, ctx) : "□";
+  const head = s.han.length > 0 ? renderLegacyText(s.han) : "□";
   const headChip = s.headZhuyin
     ? `<span class="reading-chip char-head-zhuyin"><span class="reading-zhuyin">${escapeHtml(legacyPlainText(s.headZhuyin))}</span></span>`
     : "";
   const fanqie = s.fanqie
-    ? `<span class="char-fanqie">${renderLinkedText(s.fanqie, ctx)}</span>`
+    ? `<span class="char-fanqie">${renderLegacyText(s.fanqie)}</span>`
     : "";
-  const lines = s.readingLines.map((l) => renderSinogramReadingLine(l, ctx)).join("");
+  const lines = s.readingLines.map(renderSinogramReadingLine).join("");
   return (
     `<div class="entry char-card" id="c-${s.line}">` +
     `<h3 class="char-head">${head}${headChip}${fanqie}</h3>` +

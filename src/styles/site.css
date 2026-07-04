@@ -162,12 +162,16 @@ a.kk:focus-visible {
 /* ── header ── */
 
 .site-head {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.7rem var(--gutter) 0.8rem;
   box-shadow: var(--wenwu-down);
   background: var(--paper);
+  min-height: var(--header-h);
 }
 
 .brand {
@@ -390,6 +394,10 @@ html[data-theme="dark"] .theme-btn .when-light {
 }
 
 @media (max-width: 720px) {
+  :root {
+    --header-h: 7rem;
+  }
+
   .site-head {
     flex-wrap: wrap;
     align-items: center;
@@ -466,9 +474,9 @@ main {
 
 .rail {
   position: sticky;
-  top: 0;
+  top: var(--header-h);
   align-self: start;
-  max-height: 100dvh;
+  max-height: calc(100dvh - var(--header-h));
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -580,12 +588,13 @@ main {
 }
 
 /* syllable sections & sticky guide plates (書眉) */
-section.syl {
-  scroll-margin-top: 0.25rem;
+section.syl,
+.entry {
+  scroll-margin-top: calc(var(--header-h) + 3.5rem);
 }
 .syl-head {
   position: sticky;
-  top: 0;
+  top: var(--header-h);
   z-index: 6;
   background: var(--paper);
   box-shadow: var(--wenwu-down);
@@ -1427,7 +1436,7 @@ html[data-theme="dark"] .variant-chip {
     color: var(--eten);
   }
   .syl-head {
-    top: 0;
+    top: var(--header-h);
   }
 }
 

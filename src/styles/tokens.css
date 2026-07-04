@@ -45,6 +45,7 @@
   /* ── structure ── */
   --max-page: 74rem;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --header-h: 4rem;
   --rail-w: 11.5rem;
   --radius: 3px;
 

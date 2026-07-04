@@ -60,23 +60,22 @@ describe("structured dictionary render", () => {
     expect(html).toContain("□");
   });
 
-  test("with ctx, sinogram head suppresses self char kk link", () => {
+  test("with ctx, sinogram header and reading lines do not produce kk hover links", () => {
     const corpus = getCorpus(root);
     const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/" };
     const vol = getStructuredVolume(root, "01");
     const eight = vol.sections.flatMap((s) => s.sinograms).find((g) => g.han === "八");
     expect(eight).toBeDefined();
-    const selfKey = `c:${eight!.volume}:${eight!.line}`;
-    const withSelf = renderSinogramEntry(eight!, {
+    const html = renderSinogramEntry(eight!, {
       ...ctx,
       self: { k: "c", v: eight!.volume, l: eight!.line },
     });
-    const head = withSelf.match(/<h3 class="char-head">([\s\S]*?)<\/h3>/)?.[1] ?? "";
-    expect(head.includes(`data-kk="${selfKey}"`)).toBe(false);
-    const withoutSelf = renderSinogramEntry(eight!, ctx);
-    const headLinked = withoutSelf.match(/<h3 class="char-head">([\s\S]*?)<\/h3>/)?.[1] ?? "";
-    expect(headLinked).toContain('class="kk"');
-    expect(headLinked).toContain(`data-kk="${selfKey}"`);
+    const head = html.match(/<h3 class="char-head">([\s\S]*?)<\/h3>/)?.[1] ?? "";
+    const readingLines = html.match(/<dl class="reading-lines">([\s\S]*?)<\/dl>/)?.[1] ?? "";
+    expect(head).not.toContain('class="kk"');
+    expect(head).not.toContain("data-kk=");
+    expect(readingLines).not.toContain('class="kk"');
+    expect(readingLines).not.toContain("data-kk=");
   });
 
   test("with ctx, entry contains a.kk cross-volume href", () => {

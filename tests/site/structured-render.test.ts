@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
+import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 import {
   renderStructuredEntry,
   renderStructuredVolumeBody,
@@ -41,11 +42,22 @@ describe("structured dictionary render", () => {
     const token = {
       kind: "variant",
       alternatives: [[{ kind: "prose", text: "A" }]],
-      usages: { register: [], geo: ["漳"], other: [] }
-    } as any;
+      usages: { register: [], geo: ["漳"], other: [] },
+      text: "A",
+    } satisfies StructuredToken;
     const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
     expect(html).toContain("variant-chip");
     expect(html).toContain("usage-geo");
+  });
+
+  test("structured renderer converts bare legacy PUA glyphs in han tokens", () => {
+    const pua = String.fromCodePoint(0xf8d44);
+    const token = { kind: "syl", han: pua, readings: [] } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('class="token-han"');
+    expect(html).not.toContain(pua);
+    expect(html).toContain("ㄗㄨㄥ");
   });
 
   test("outside ruby fragments align with surrounding prose", () => {

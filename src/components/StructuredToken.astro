@@ -1,4 +1,5 @@
 ---
+import { renderLegacyText } from "../../lib/site/structured-render.ts";
 import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 import ReadingChips from "./ReadingChips.astro";
 
@@ -12,7 +13,7 @@ const { token } = Astro.props;
 {
   token.kind === "syl" ? (
     <span class="token-syl">
-      <span class="token-han">{token.han}</span>
+      <span class="token-han" set:html={renderLegacyText(token.han)} />
       <ReadingChips readings={token.readings} />
     </span>
   ) : token.kind === "reading" ? (
@@ -20,7 +21,7 @@ const { token } = Astro.props;
       <ReadingChips readings={token.readings} />
     </span>
   ) : token.kind === "prose" ? (
-    <span class="token-prose">{token.text}</span>
+    <span class="token-prose" set:html={renderLegacyText(token.text)} />
   ) : (
     <span class="variant-chip">
       <span class="variant-body">

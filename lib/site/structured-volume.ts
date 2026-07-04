@@ -1,5 +1,5 @@
 import { extractVolume } from "../extract/extract.ts";
-import type { Reading, Token, Usage, WordRecord, WordSense } from "../extract/types.ts";
+import type { Reading, SinogramEntry, Token, Usage, WordRecord, WordSense } from "../extract/types.ts";
 
 export interface StructuredReading {
   zhuyin: string;
@@ -36,6 +36,7 @@ export interface StructuredEntry {
 export interface StructuredSection {
   id: string;
   chapterZhuyin: string;
+  sinograms: SinogramEntry[];
   entries: StructuredEntry[];
 }
 
@@ -138,7 +139,7 @@ function mapEntry(w: WordRecord): StructuredEntry {
 }
 
 export function getStructuredVolume(root: string, base: string): StructuredVolume {
-  const { words } = extractVolume(root, base);
+  const { sinograms, words } = extractVolume(root, base);
   const sectionOrder: string[] = [];
   const byChapter: Record<string, StructuredEntry[]> = {};
   for (const w of words) {
@@ -149,11 +150,19 @@ export function getStructuredVolume(root: string, base: string): StructuredVolum
     }
     byChapter[ch].push(mapEntry(w));
   }
+  const sinogramsByChapter: Record<string, SinogramEntry[]> = {};
+  for (const s of sinograms) {
+    (sinogramsByChapter[s.chapterZhuyin] ??= []).push(s);
+    if (!byChapter[s.chapterZhuyin] && !sectionOrder.includes(s.chapterZhuyin)) {
+      sectionOrder.push(s.chapterZhuyin);
+    }
+  }
 
   const sections: StructuredSection[] = sectionOrder.map((chapterZhuyin, i) => ({
     id: `s-${i + 1}`,
     chapterZhuyin,
-    entries: byChapter[chapterZhuyin]!,
+    sinograms: sinogramsByChapter[chapterZhuyin] ?? [],
+    entries: byChapter[chapterZhuyin] ?? [],
   }));
 
   return {

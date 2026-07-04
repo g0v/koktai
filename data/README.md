@@ -10,6 +10,7 @@ Regenerate:
 
 ```bash
 bun run extract:readings
+bun run export:tei
 ```
 
 Optional full token streams (gitignored):
@@ -23,3 +24,4 @@ Files:
 - `koktai-word-readings.jsonl` — word entries (reduced taigi)
 - `extract-stats.json` — corpus counters
 - `extract-anomalies.jsonl` — parse/roundtrip issues
+- `koktai-pron.tei.xml` — TEI pronunciation/usg layer for sinogram blocks

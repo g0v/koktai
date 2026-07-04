@@ -10,6 +10,10 @@ const {
   title = "國臺對照活用辭典",
   description = "吳守禮《國臺對照活用辭典》線上版——臺灣華語與臺灣台語對照，以臺灣方音符號詳注廈門、漳州、泉州音。",
 } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const href = (path = "") => `${baseUrl}${path}`;
 ---
 
 <!doctype html>
@@ -22,7 +26,7 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={href("favicon.svg")} type="image/svg+xml" />
     <script is:inline>
       (() => {
         try {
@@ -38,14 +42,14 @@ const {
     <a class="skip-link" href="#main">跳到內文</a>
 
     <header class="site-head">
-      <a class="brand" href="/">
+      <a class="brand" href={href()}>
         <span class="brand-zh">國臺對照活用辭典</span>
         <span class="brand-rom">KOK-TÂI TUÌ-TSIÀU</span>
       </a>
       <nav class="head-nav" aria-label="站內">
-        <a href="/#volumes">卷目</a>
-        <a href="/#appendix">附錄</a>
-        <a href="/#about">關於</a>
+        <a href={href("#volumes")}>卷目</a>
+        <a href={href("#appendix")}>附錄</a>
+        <a href={href("#about")}>關於</a>
         <button class="theme-btn" type="button" aria-label="切換深淺色">
           <span class="when-light" aria-hidden="true">夜</span>
           <span class="when-dark" aria-hidden="true">晝</span>

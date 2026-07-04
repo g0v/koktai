@@ -10,33 +10,37 @@ const volumes = Array.from({ length: 26 }, (_, i) =>
 const totalEntries = volumes.reduce((sum, v) => sum + v.entries, 0);
 const totalSections = volumes.reduce((sum, v) => sum + v.sections, 0);
 
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const href = (path = "") => `${baseUrl}${path}`;
 const appendix = [
   {
-    href: "/preface1.html",
+    href: "preface1.html",
     file: "PREFACE1.DIC",
     zh: "編輯緣起・凡例",
     desc: "吳守禮自述編纂始末（代序），附全書凡例。",
   },
   {
-    href: "/phsource.html",
+    href: "phsource.html",
     file: "PHSOURCE",
     zh: "華語台語注音符號溯源",
     desc: "注音符號與臺灣方音符號的來歷考述。",
   },
   {
-    href: "/ph-comp.html",
+    href: "ph-comp.html",
     file: "PH-COMP.TXT",
     zh: "方音音標對照表",
     desc: "漢注、華臺、TLPA、國際音標、甘典、漢閩諸系統對照。",
   },
   {
-    href: "/mytaiin8.html",
+    href: "mytaiin8.html",
     file: "MYTAIIN8",
     zh: "綜合閩方言拼音總表",
     desc: "閩方言拼音系統總表。",
   },
   {
-    href: "/dic-cont.html",
+    href: "dic-cont.html",
     file: "DIC-CONT.TXT",
     zh: "辭典內容說明",
     desc: "原始檔案內容一覽。",
@@ -78,7 +82,7 @@ const appendix = [
         </ul>
       </div>
 
-      <a class="specimen" href="/01.html#s-1" aria-label="從卷一第一字「八」開始">
+      <a class="specimen" href={href("01.html#s-1")} aria-label="從卷一第一字「八」開始">
         <div class="spec-side">
           <u class="lg lg-m">華語</u>
           <div class="spec-cols">
@@ -110,7 +114,7 @@ const appendix = [
         {
           volumes.map((v, i) => (
             <li>
-              <a class="tab" href={`/${v.base}.html`} style={`--i:${i}`}>
+              <a class="tab" href={href(`${v.base}.html`)} style={`--i:${i}`}>
                 <span class="tab-n">卷{chineseNumeral(i + 1)}</span>
                 <span class="tab-range">
                   {v.first}—{v.last}
@@ -132,7 +136,7 @@ const appendix = [
         {
           appendix.map((a) => (
             <li>
-              <a class="file-card" href={a.href}>
+              <a class="file-card" href={href(a.href)}>
                 <span class="bar">{a.file}</span>
                 <span class="zh">{a.zh}</span>
                 <span class="desc">{a.desc}</span>

@@ -460,16 +460,17 @@ html[data-theme="dark"] .doc img {
   color: var(--ink-2);
 }
 
-/* prose docs (preface, phonetic-history): PE2 text re-set in the book face,
-   keeping the file's own hard line breaks (pre-wrap) as the author typed
-   them; the measure is wide enough that an original line never re-wraps */
+/* prose appendices (preface, phsource): PE2 manuscript — Menlo throughout */
 .doc-prose .doc {
   max-width: 50em;
 }
 .doc-prose p[style] {
-  font-family: var(--font-body) !important;
-  font-size: clamp(0.95rem, 0.82rem + 0.5vw, 1.125rem) !important;
-  line-height: 2;
+  font-family: Menlo, var(--font-mono) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.72;
+  white-space: pre-wrap;
+  tab-size: 8;
+  -moz-tab-size: 8;
   margin: 0 0 1.05em;
 }
 
@@ -490,6 +491,9 @@ html[data-theme="dark"] .doc img {
   color: #d9e0ff;
   font-size: 0.92rem !important;
   line-height: 1.72;
+  white-space: pre-wrap;
+  tab-size: 8;
+  -moz-tab-size: 8;
   margin: 0;
   padding: 0.12em 1.2rem;
 }

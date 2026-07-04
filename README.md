@@ -2,13 +2,20 @@
 
 ## 轉換步驟
 
-### 原列印檔轉 HTML
+### `.dic`／附錄重產 `pug/`
 
-1. Makefile: change python -> python2
-2. install perl dependencies
-3. `source ~/.bashrc` (for bash) if first time using CPAN
-4. `npm install jade`, then in Makefile: change `jade` at line start -> `npx jade`
-5. `make gen`
+目前轉換入口是 Bun／TypeScript pipeline：
+
+```sh
+bun install
+bun run gen:pug     # 重產 pug/*.pug
+bun run diff:pug    # 與已提交 pug/ 做全文 byte-identical 對照
+bun run check       # tsgo --noEmit
+```
+
+Production chain：Perl `a-tsioh_sandbox/recode_utf8.pl` → TypeScript analyse
+(`lib/dic/dic2pug.ts`) → Perl `font/jade-unescape.pl` → TypeScript finalize。
+舊的 Python2 Makefile drivers 已移到 `archive/`，只作歷史參考。
 
 ### 補字形圖檔
 
@@ -26,7 +33,7 @@ cd ..
 ```
 
 3. `python -m pip install pillow`, if first time converting to png
-4. in the project root, `make gen` to update HTMLs
+4. in the project root, run `bun run gen:pug && bun run diff:pug` to update and verify `pug/`
 5. in `font/`, run `make missings_to_png`
 6. move the PNG files within `font/k` and/or `font/m3` into respectively `img/k` and/or `img/m3`
 

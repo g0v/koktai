@@ -31,6 +31,7 @@ export function isPua(ch: string): boolean {
 /** Bopomofo + extensions + tone marks (˙ ˊ ˇ ˋ ˪ ˫) + combining dot (ㆷ̇). */
 const BOPO = /^[\u3105-\u312f\u31a0-\u31bf\u02d9\u02ca\u02c7\u02cb\u02ea\u02eb\u0307\s]+$/u;
 
+/** Classify a bare PUA char (outside `<k>…</k>`). Kai contextual readings use `s.k[hex]` in Task 5 normalize, not here. */
 export function classifyPua(ch: string, s: Syllables): PuaClass {
   const cp = ch.codePointAt(0)!;
   if (cp >= 0xfc6a1 && cp <= 0xfc6a9) {
@@ -38,14 +39,8 @@ export function classifyPua(ch: string, s: Syllables): PuaClass {
   }
   const hex = puaHex(ch);
   const m3 = s.m3[hex];
-  const k = s.k[hex];
-  if (k !== undefined && BOPO.test(k) && (m3 === undefined || m3 !== k)) {
-    const m3Hex = s.m3Reverse[k];
-    return m3Hex !== undefined
-      ? { type: "kReading", zhuyin: k, m3Hex }
-      : { type: "kReading", zhuyin: k };
-  }
   if (m3 !== undefined) return { type: "reading", zhuyin: m3 };
+  const k = s.k[hex];
   if (k !== undefined) {
     if (BOPO.test(k)) {
       const m3Hex = s.m3Reverse[k];

@@ -10,14 +10,17 @@ describe("syllable inventory", () => {
     expect(classifyPua(String.fromCodePoint(0xffab6), s))
       .toEqual({ type: "reading", zhuyin: "ㄅㄚ" });
   });
-  test("k zhuyin with an exact m3 twin remaps (k \"8dd6\" = \"ㄤˇ\")", () => {
+  test("bare PUA uses m3 when hex is in both tables (8dd6)", () => {
     expect(s.k["8dd6"]).toBe("ㄤˇ");
+    expect(s.m3["8dd6"]).toBe("ㄩㄣˋ");
     expect(classifyPua(String.fromCodePoint(0xf8dd6), s))
-      .toEqual({ type: "kReading", zhuyin: "ㄤˇ", m3Hex: s.m3Reverse["ㄤˇ"]! });
+      .toEqual({ type: "reading", zhuyin: "ㄩㄣˋ" });
   });
-  test("k zhuyin without an m3 twin is still a reading (k \"8d44\" = \"˙ㆤ\")", () => {
+  test("bare PUA uses m3 when hex is in both tables (8d44)", () => {
+    expect(s.k["8d44"]).toBe("˙ㆤ");
+    expect(s.m3["8d44"]).toBe("ㄗㄨㄥ");
     expect(classifyPua(String.fromCodePoint(0xf8d44), s))
-      .toEqual({ type: "kReading", zhuyin: "˙ㆤ" });
+      .toEqual({ type: "reading", zhuyin: "ㄗㄨㄥ" });
   });
   test("circled digit is a symbol", () => {
     expect(classifyPua(String.fromCodePoint(0xfc6a1), s)).toEqual({ type: "symbol", text: "①" });

@@ -10,3 +10,4 @@ public/img/
 *.swp
 __pycache__/
 docs/
+data/koktai-full.jsonl

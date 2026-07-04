@@ -53,6 +53,7 @@ export function splitVolume(recoded: string): VolumeBlocks {
   let sinogram: RawSinogramBlock | null = null;
   let wordBuf: string[] = [];
   let wordStartLine = 0;
+  let pendingReadingLines: { line: number; text: string }[] = [];
 
   const flushWord = () => {
     if (wordBuf.length === 0) return;
@@ -90,20 +91,23 @@ export function splitVolume(recoded: string): VolumeBlocks {
 
     if (trimmed.startsWith(ENTRY)) {
       flushWord();
-      flushSinogram();
+      if (!sinogram || sinogram.readingLines.length > 0) flushSinogram();
       continue;
     }
 
     if (CHAR_LINE.test(trimmed)) {
       flushWord();
       flushSinogram();
-      sinogram = { line: lineNo, charLine: raw, readingLines: [] };
+      sinogram = { line: lineNo, charLine: raw, readingLines: pendingReadingLines };
+      pendingReadingLines = [];
       continue;
     }
 
     if (trimmed.startsWith("~fm7;")) {
       if (sinogram) {
         sinogram.readingLines.push({ line: lineNo, text: raw });
+      } else {
+        pendingReadingLines.push({ line: lineNo, text: raw });
       }
       continue;
     }

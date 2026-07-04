@@ -126,7 +126,8 @@ function completeArrows(text: string, s: Syllables): string {
   let out = text;
   const chars = [...out];
   let ci = chars.length;
-  while (ci > 0) {
+  let iterations = 0;
+  while (ci > 0 && iterations++ < chars.length * 4 + 20) {
     ci--;
     if (chars[ci] !== "→") continue;
     const arrowStart = chars.slice(0, ci).join("").length;
@@ -165,11 +166,16 @@ function completeArrows(text: string, s: Syllables): string {
     for (let k = 0; k < n; k++) {
       const unit = units[k]!;
       const reading = chars[ci + 1 + k]!;
-      chunks.push(dropLastCodePoint(unit));
+      const fallbackBase = lastN[k]?.hans.filter((h) => !h.includes("→")).at(-1) ?? bases.filter((h) => !h.includes("→")).at(-1);
+      let base = unit.includes("→") && fallbackBase ? fallbackBase : dropLastCodePoint(unit);
+      if (base.includes("→")) base = bases.find((h) => !h.includes("→")) ?? base.replaceAll("→", "");
+      chunks.push(base);
       chunks.push(reading);
     }
     chunks.push(out.slice(afterStart));
-    out = chunks.join("");
+    const next = chunks.join("");
+    if (next === out) continue;
+    out = next;
     chars.length = 0;
     chars.push(...out);
     ci = chars.length;

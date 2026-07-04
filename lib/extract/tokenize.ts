@@ -34,8 +34,13 @@ export function serializeTokens(input: string, tokens: Token[]): string {
   return tokens.map((t) => input.slice(t.span[0], t.span[1])).join("");
 }
 
+interface ParsedSyllableChunk {
+  han: string;
+  readings: Reading[];
+}
+
 /** Collect slash-separated reading PUAs at end of segment; prose parens on rest; last han is base. */
-function parseSyllableChunk(chunk: string, s: Syllables): { han: string; readings: Reading[] } | null {
+function parseSyllableChunk(chunk: string, s: Syllables): ParsedSyllableChunk | null {
   const chars = [...chunk];
   const rds: string[] = [];
   let end = chars.length;
@@ -72,6 +77,7 @@ function reconcile(input: string, raw: Token[]): Token[] {
   const out: Token[] = [];
   let c = 0;
   for (const t of sorted) {
+    if (t.span[1] <= c) continue;
     let a = Math.max(t.span[0], c);
     const b = t.span[1];
     if (a > c) out.push({ kind: "prose", text: input.slice(c, a), span: [c, a] });
@@ -143,7 +149,10 @@ class Scanner {
       else if (ch === ")") d--;
       if (d > 0) this.take();
     }
-    if (d) throw new Error("unbalanced (");
+    if (d) {
+      this.rewind(start);
+      return null;
+    }
     const ie = this.pos;
     this.take();
     return { inner: this.input.slice(is, ie), start, end: this.pos };
@@ -151,9 +160,11 @@ class Scanner {
   suffixLabels(syl: HanSyllable): HanSyllable {
     const readings = syl.readings.map((r) => ({ ...r, usages: [...r.usages] }));
     let prefix: Usage[] = [];
+
     for (;;) {
       const pg = this.readParen();
       if (!pg) break;
+
       const zipParts = pg.inner.split(/[／/]/).map((p) => p.trim()).filter(Boolean);
       if (zipParts.length === readings.length && zipParts.length > 1) {
         const rows: Usage[][] = [];
@@ -174,16 +185,16 @@ class Scanner {
             };
           }
           prefix = [];
-          if (this.peek() === "/") {
+          if (this.peek() === "/" && isPua(this.cps[this.i + 1] ?? "") && zyFromPua(this.cps[this.i + 1]!, this.s)) {
             this.take();
-            const zy = zyFromPua(this.take(), this.s);
-            if (!zy) throw new Error("bad /reading");
+            const zy = zyFromPua(this.take(), this.s)!;
             readings.push({ zhuyin: zy, usages: [] });
             continue;
           }
           break;
         }
       }
+
       const labs = classifyLabel(pg.inner);
       if (!labs) {
         this.rewind(pg.start);
@@ -199,10 +210,9 @@ class Scanner {
         usages: [...prefix, ...readings[last]!.usages, ...labs],
       };
       prefix = [];
-      if (this.peek() === "/") {
+      if (this.peek() === "/" && isPua(this.cps[this.i + 1] ?? "") && zyFromPua(this.cps[this.i + 1]!, this.s)) {
         this.take();
-        const zy = zyFromPua(this.take(), this.s);
-        if (!zy) throw new Error("bad /reading");
+        const zy = zyFromPua(this.take(), this.s)!;
         readings.push({ zhuyin: zy, usages: [] });
         continue;
       }
@@ -333,7 +343,16 @@ class Scanner {
       if (this.input.slice(this.pos).startsWith("<k>")) {
         flush();
         const kt = this.bareOrK();
-        if (!kt) continue;
+        if (!kt) {
+          const close = this.input.indexOf("</k>", this.pos);
+          if (close >= 0) {
+            const end = close + 4;
+            while (this.pos < end) this.take();
+          } else {
+            this.take();
+          }
+          continue;
+        }
         const prev = out.at(-1);
         if (prev?.kind === "syl" && kt.kind === "reading") {
           prev.readings.push(...kt.readings);
@@ -371,9 +390,10 @@ class Scanner {
         flush();
         let endI = this.i;
         while (endI < this.cps.length && isPua(this.cps[endI]!) && zyFromPua(this.cps[endI]!, this.s)) endI++;
-        let parsed: ReturnType<typeof parseSyllableChunk> = null;
+        let parsed: ParsedSyllableChunk | null = null;
         let st = 0;
-        for (let k = 0; k <= this.i; k++) {
+        const lookbackStart = Math.max(0, this.i - 24);
+        for (let k = lookbackStart; k <= this.i; k++) {
           const p = parseSyllableChunk(this.cps.slice(k, endI).join(""), this.s);
           if (p) {
             parsed = p;
@@ -407,13 +427,26 @@ class Scanner {
   }
   bareOrK(): Token | null {
     const a = this.pos;
-    const m = /^<k>([\u{F0000}-\u{FFFFF}])<\/k>/u.exec(this.input.slice(a));
+    const slice = this.input.slice(a);
+    const m = /^<k>([\u{F0000}-\u{FFFFF}])<\/k>/u.exec(slice);
     if (m) {
       const full = m[0];
       this.i += [...full].length;
       this.pos += full.length;
       const zy = kZy(m[1]!, this.s);
       if (zy) return { kind: "reading", readings: [{ zhuyin: zy, usages: [] }], span: [a, this.pos] };
+      return { kind: "syl", han: full, readings: [], span: [a, this.pos] };
+    }
+    const mg = /^<k>(.*?)<\/k>/u.exec(slice);
+    if (mg) {
+      const full = mg[0];
+      const inner = mg[1]!;
+      this.i += [...full].length;
+      this.pos += full.length;
+      if ([...inner].length === 1) {
+        const zy = kZy(inner, this.s);
+        if (zy) return { kind: "reading", readings: [{ zhuyin: zy, usages: [] }], span: [a, this.pos] };
+      }
       return { kind: "syl", han: full, readings: [], span: [a, this.pos] };
     }
     if (isPua(this.peek()!) && zyFromPua(this.peek()!, this.s)) {

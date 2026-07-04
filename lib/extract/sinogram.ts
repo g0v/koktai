@@ -126,7 +126,8 @@ function parseReadingBody(
 
   const note = noteParts.join("").trim() || null;
   if (readings.length === 0) {
-    return { readings: [], note: body || null, parsed: false };
+    const noteOnly = body.trim();
+    return { readings: [], note: body || null, parsed: noteOnly.startsWith("未收") };
   }
   return { readings, note, parsed: true };
 }

@@ -1,0 +1,22 @@
+{
+  "name": "koktai",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compile": "bun run scripts/compile-pug.ts",
+    "sync": "bun run scripts/sync-static.ts",
+    "precache": "bun run scripts/precache-pug.ts",
+    "build:site": "bun run compile && bun run sync",
+    "dev": "astro dev",
+    "start": "bun run sync && astro dev",
+    "build": "bun run sync && bun run precache && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.7.10",
+    "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/pug": "^2.0.10"
+  }
+}

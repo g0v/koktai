@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+public/style.css
+public/han.min.*
+public/font/
+public/img/
+.cache/
+
+*.swp
+__pycache__/

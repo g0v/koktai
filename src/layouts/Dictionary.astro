@@ -1,0 +1,130 @@
+---
+import "../styles/tokens.css";
+import "../styles/site.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "國臺對照活用辭典",
+  description = "吳守禮《國臺對照活用辭典》線上版——臺灣華語與臺灣台語對照，以臺灣方音符號詳注廈門、漳州、泉州音。",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (() => {
+        try {
+          const s = localStorage.getItem("koktai-theme");
+          const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+          if (s === "dark" || (!s && dark))
+            document.documentElement.dataset.theme = "dark";
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到內文</a>
+
+    <header class="site-head">
+      <a class="brand" href="/">
+        <span class="brand-zh">國臺對照活用辭典</span>
+        <span class="brand-rom">KOK-TÂI TUÌ-TSIÀU</span>
+      </a>
+      <nav class="head-nav" aria-label="站內">
+        <a href="/#volumes">卷目</a>
+        <a href="/#appendix">附錄</a>
+        <a href="/#about">關於</a>
+        <button class="theme-btn" type="button" aria-label="切換深淺色">
+          <span class="when-light" aria-hidden="true">夜</span>
+          <span class="when-dark" aria-hidden="true">晝</span>
+        </button>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="colophon">
+      <div class="colophon-in">
+        <div>
+          <p>
+            《國臺對照活用辭典——分析、詳注廈漳泉音》吳守禮（1909–2005）編著。
+            辭典電子原始檔由吳守禮家族授權中華民國維基媒體協會，以
+            <a
+              href="https://creativecommons.org/licenses/by-sa/3.0/tw/"
+              rel="license">創用 CC 姓名標示—相同方式分享 3.0 臺灣</a
+            >條款釋出；本站之轉換格式與重新編排衍生著作同條款授權。
+          </p>
+          <p>
+            原稿以 PE2 於倚天中文系統寫成；臺灣方音符號與罕用字採原書造字字形。
+            網站標題與注音字型為
+            <a href="https://fonts.google.com/specimen/Iansui">芫荽 Iansui</a>
+            （SIL OFL 授權子集）。
+          </p>
+        </div>
+        <svg
+          class="seal"
+          width="58"
+          height="58"
+          viewBox="0 0 58 58"
+          role="img"
+          aria-label="守禮印"
+        >
+          <rect x="1" y="1" width="56" height="56" rx="6" fill="#B23A2E"
+          ></rect>
+          <rect
+            x="5.5"
+            y="5.5"
+            width="47"
+            height="47"
+            rx="3"
+            fill="none"
+            stroke="#F2EFE8"
+            stroke-width="1.6"></rect>
+          <text
+            x="29"
+            y="26"
+            text-anchor="middle"
+            font-family="Iansui, Kaiti TC, serif"
+            font-size="19"
+            fill="#F2EFE8">守</text
+          >
+          <text
+            x="29"
+            y="48"
+            text-anchor="middle"
+            font-family="Iansui, Kaiti TC, serif"
+            font-size="19"
+            fill="#F2EFE8">禮</text
+          >
+        </svg>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.querySelector(".theme-btn");
+      btn?.addEventListener("click", () => {
+        const root = document.documentElement;
+        const dark = root.dataset.theme === "dark";
+        if (dark) delete root.dataset.theme;
+        else root.dataset.theme = "dark";
+        try {
+          localStorage.setItem("koktai-theme", dark ? "light" : "dark");
+        } catch {}
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,982 @@
+/* ────────────────────────────────────────────────────────────────────────
+   site.css — 國臺對照活用辭典. Reads tokens.css.
+   Content DOM (from pug transform): section.syl > .syl-head > h2,
+   div.entry > h3(ruby) + dl > dd.pos / dd.lbl(u.lg) / dd(defs).
+   ──────────────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Iansui";
+  src: url("/font/iansui-koktai.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "koktai-k";
+  src: url("/font/koktai-k.woff") format("woff");
+  font-display: swap;
+}
+
+/* ── base ── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.8;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--cinnabar);
+  color: #f6f2ec;
+}
+
+:focus-visible {
+  outline: 2px solid var(--eten);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--eten);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -100vw;
+  top: 0;
+  z-index: 100;
+  padding: 0.5em 1em;
+  background: var(--eten);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+.skip-link:focus-visible {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.wenwu {
+  border: 0;
+  height: 4px;
+  margin: 0;
+  border-top: 2px solid var(--brass);
+  border-bottom: 1px solid var(--brass);
+  background: transparent;
+}
+
+/* ── header ── */
+
+.site-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem var(--gutter) 0.8rem;
+  box-shadow: var(--wenwu-down);
+  background: var(--paper);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8em;
+  color: var(--ink);
+  text-decoration: none;
+  min-width: 0;
+}
+.brand-zh {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.brand-rom {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  color: var(--brass-ink);
+  white-space: nowrap;
+}
+.brand:hover .brand-zh {
+  color: var(--eten);
+}
+
+.head-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+.head-nav a {
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 0.2em 0.1em;
+}
+.head-nav a:hover {
+  color: var(--eten);
+}
+
+.theme-btn {
+  inline-size: 2.1rem;
+  block-size: 2.1rem;
+  border: 1px solid var(--brass-soft);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.theme-btn:hover {
+  border-color: var(--eten);
+  color: var(--eten);
+}
+.theme-btn .when-dark {
+  display: none;
+}
+html[data-theme="dark"] .theme-btn .when-dark {
+  display: inline;
+}
+html[data-theme="dark"] .theme-btn .when-light {
+  display: none;
+}
+
+/* ── page scaffold ── */
+
+.page {
+  max-width: var(--max-page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main {
+  display: block;
+}
+
+/* ── volume layout: rail + column ── */
+
+.vol-layout {
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  gap: calc(var(--gutter) * 1.4);
+  max-width: var(--max-page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 1.1rem 0.15rem 2.5rem 0;
+}
+.rail-tag {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  color: var(--brass-ink);
+  margin: 0 0 0.6rem 0.8rem;
+}
+.rail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rail a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6em;
+  padding: 0.24em 0.55em 0.24em 0.75em;
+  border-left: 2px solid transparent;
+  color: var(--ink-2);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+}
+.rail a .r {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--brass-ink);
+  letter-spacing: 0.03em;
+}
+.rail a:hover {
+  color: var(--eten);
+  background: var(--eten-glow);
+}
+.rail a[aria-current="true"] {
+  color: var(--eten);
+  border-left-color: var(--cinnabar);
+  background: linear-gradient(90deg, var(--eten-glow), transparent 78%);
+}
+
+/* mobile syllable sheet */
+.rail-sheet {
+  display: none;
+}
+
+/* ── volume masthead ── */
+
+.vol-head {
+  padding: 2rem 0 1.1rem;
+}
+.vol-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--brass-ink);
+  margin: 0 0 0.35rem;
+}
+.vol-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+.vol-title .range {
+  font-size: 1.05rem;
+  color: var(--ink-2);
+}
+.vol-meta {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-2);
+  letter-spacing: 0.05em;
+}
+.vol-nav {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.1rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+.vol-nav a {
+  text-decoration: none;
+  color: var(--ink-2);
+  border: 1px solid var(--brass-soft);
+  border-radius: 999px;
+  padding: 0.28em 0.95em;
+  background: var(--paper-lift);
+}
+.vol-nav a:hover {
+  color: var(--eten);
+  border-color: var(--eten);
+}
+
+/* ── dictionary text ── */
+
+.doc {
+  max-width: var(--measure);
+  padding-bottom: 4rem;
+}
+
+/* syllable sections & sticky guide plates (書眉) */
+section.syl {
+  scroll-margin-top: 0.25rem;
+}
+.syl-head {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: var(--paper);
+  box-shadow: var(--wenwu-down);
+  margin: 0 0 0.4em;
+}
+.syl-head h2 {
+  margin: 0;
+  padding: 0.55em 0.1em 0.3em;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.syl-zi {
+  font-family: var(--font-display);
+  font-size: var(--fs-plate);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
+.syl-rom {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--brass-ink);
+  margin-left: 0.9em;
+  letter-spacing: 0.06em;
+}
+.syl-note {
+  margin: -0.1em 0 0;
+  padding: 0 0.15em 0.5em;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+
+/* PE2 typesetting directives inside prose docs — the fixed-width voice */
+.pe2 {
+  font-family: Menlo, var(--font-mono); /* user-specified: PE2 directives in Menlo */
+  font-size: 0.78em;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+}
+
+/* entries */
+.entry {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 9rem;
+  padding: 0.85em 0 0.8em;
+  border-bottom: 1px solid color-mix(in srgb, var(--brass) 16%, transparent);
+}
+.entry h3 {
+  margin: 0 0 0.12em;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 2;
+}
+
+.entry dl {
+  margin: 0;
+}
+.entry dd {
+  margin: 0 0 0.1em;
+  line-height: var(--leading-def);
+}
+
+/* part of speech — bracket tag */
+dd.pos {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-2);
+  letter-spacing: 0.08em;
+  margin: 0 0 0.2em;
+  line-height: 1.6;
+}
+
+/* language chips: 國語 = 陽刻 (outline), 台 = 陰刻 (solid) */
+dd.lbl {
+  float: left;
+  clear: left;
+  width: 3.9em;
+  margin: 0.28em 0 0;
+  line-height: 1;
+}
+dd.lbl + dd {
+  display: flow-root;
+  margin-bottom: 0.3em;
+}
+u.lg {
+  display: inline-block;
+  min-width: 3.4em;
+  padding: 0.32em 0.3em 0.26em;
+  border-radius: 2px;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  line-height: 1;
+}
+u.lg-m {
+  color: var(--ink-2);
+  box-shadow: inset 0 0 0 1px var(--ink-2);
+  background: transparent;
+}
+u.lg-t {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+/* ruby / zhuyin — the annotation voice */
+rt {
+  font-family: "Iansui", var(--font-ui);
+  font-size: 0.55em;
+  line-height: 1;
+  color: color-mix(in srgb, var(--ink) 76%, transparent);
+  letter-spacing: -0.01em;
+}
+rt.rt-l {
+  font-size: 0.46em;
+  letter-spacing: -0.04em;
+}
+
+/* rare-glyph kai font & bitmap 造字 */
+mark {
+  background: transparent;
+  color: inherit;
+  font-family: "koktai-k", var(--font-display);
+}
+.doc img {
+  width: 1em;
+  height: 1em;
+  border: 0;
+  vertical-align: -0.1em;
+  mix-blend-mode: multiply;
+}
+html[data-theme="dark"] .doc img {
+  filter: invert(0.9) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+
+/* ── appendix documents ── */
+
+.doc-note {
+  max-width: var(--measure);
+  margin: 1.4rem 0 1.2rem;
+  padding: 0.75em 1em;
+  background: var(--paper-deep);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+
+/* prose docs (preface, phonetic-history): PE2 text re-set in the book face,
+   keeping the file's own hard line breaks (pre-wrap) as the author typed
+   them; the measure is wide enough that an original line never re-wraps */
+.doc-prose .doc {
+  max-width: 50em;
+}
+.doc-prose p[style] {
+  font-family: var(--font-body) !important;
+  font-size: clamp(0.95rem, 0.82rem + 0.5vw, 1.125rem) !important;
+  line-height: 2;
+  margin: 0 0 1.05em;
+}
+
+/* file docs (comparison tables): the ETen screen, kept monospace */
+.doc-file .doc {
+  max-width: none;
+}
+.file-plate {
+  background: var(--eten-deep);
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  overflow-x: auto;
+  padding: 1.1rem 0.4rem;
+  margin-bottom: 2rem;
+}
+.file-plate p[style] {
+  font-family: Menlo, var(--font-mono) !important;
+  color: #d9e0ff;
+  font-size: 0.92rem !important;
+  line-height: 1.72;
+  margin: 0;
+  padding: 0.12em 1.2rem;
+}
+.file-plate rt {
+  color: rgb(217 224 255 / 0.62);
+}
+.file-plate img {
+  filter: invert(0.88) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+.file-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin: 1.6rem 0 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+.file-bar::before {
+  content: "▍";
+  color: var(--eten);
+}
+
+/* ── index: hero ── */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  gap: calc(var(--gutter) * 1.6);
+  align-items: center;
+  padding-block: clamp(2.6rem, 7vh, 4.8rem) clamp(2rem, 5vh, 3.4rem);
+}
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.34em;
+  color: var(--brass-ink);
+  margin: 0 0 0.8rem;
+}
+.mast {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-mast);
+  line-height: 1.16;
+  letter-spacing: 0.055em;
+}
+.mast-rom {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--brass-ink);
+}
+.lede {
+  max-width: 34em;
+  margin: 1.3rem 0 0;
+  color: var(--ink-2);
+  font-size: 1.02rem;
+  line-height: 2;
+}
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-stats .n {
+  font-family: var(--font-mono);
+  font-size: 1.06rem;
+  color: var(--ink);
+}
+.hero-stats .k {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-2);
+}
+
+/* the 對照 specimen — one glyph, two voices */
+.specimen {
+  justify-self: center;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: clamp(1.1rem, 2.4vw, 2.2rem);
+  padding: clamp(1.4rem, 2.5vw, 2.4rem) clamp(1.6rem, 3vw, 2.8rem);
+  background: var(--paper-lift) var(--speckle);
+  box-shadow:
+    var(--wenwu-down),
+    var(--wenwu-up),
+    0 14px 34px -22px rgb(16 27 94 / 0.35);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+}
+.spec-zi {
+  font-family: var(--font-body);
+  font-size: clamp(5.6rem, 11vw, 8.2rem);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--eten); /* the glyph as it lived on the ETen screen */
+}
+.spec-side {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+}
+.spec-cols {
+  display: flex;
+  gap: 0.55rem;
+}
+.spec-read {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: "Iansui", var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.22em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.spec-reg {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--brass-ink);
+  margin-top: 0.2rem;
+}
+.spec-cap {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.spec-cap:hover {
+  color: var(--eten);
+}
+
+/* ── index: sections ── */
+
+.sect {
+  padding-block: 2.2rem 2.8rem;
+}
+.sect-h {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 0 0 1.3rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
+.sect-h .tail {
+  flex: 1;
+  height: 4px;
+  border-top: 2px solid var(--brass);
+  border-bottom: 1px solid var(--brass);
+}
+.sect-h .n {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--brass-ink);
+  letter-spacing: 0.2em;
+}
+
+/* the fore-edge shelf: 26 thumb-index tabs */
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 0.65rem 1.1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.65em;
+  padding: 0.8em 1em 0.8em 1.5em;
+  background: var(--paper-lift) var(--speckle);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brass) 42%, transparent);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+  mask-image: radial-gradient(circle 9px at 0 50%, transparent 97%, #000);
+  transition:
+    translate 0.16s var(--ease),
+    box-shadow 0.16s var(--ease);
+}
+.tab:hover,
+.tab:focus-visible {
+  translate: 5px 0;
+  box-shadow: inset 0 0 0 1px var(--eten);
+}
+.tab-n {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  color: var(--brass-ink);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.tab:hover .tab-n {
+  color: var(--eten);
+}
+.tab-range {
+  font-family: var(--font-display);
+  font-size: 1.04rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-count {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--ink-2);
+}
+
+@keyframes tab-rise {
+  from {
+    opacity: 0;
+    translate: 0 7px;
+  }
+}
+.shelf .tab {
+  animation: tab-rise 0.45s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 18ms);
+}
+
+/* appendix file cards */
+.files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.file-card {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--paper-lift);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--brass-soft);
+  transition: box-shadow 0.16s var(--ease);
+}
+.file-card:hover,
+.file-card:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--eten);
+}
+.file-card .bar {
+  display: block;
+  background: var(--eten-deep);
+  color: #d9e0ff;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  padding: 0.42em 0.9em;
+}
+.file-card .bar::before {
+  content: "▍ ";
+  color: #8fa3ff;
+}
+.file-card .zh {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
+  padding: 0.75em 0.95em 0.2em;
+}
+.file-card .desc {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-2);
+  padding: 0 1.05em 1em;
+  line-height: 1.7;
+}
+
+/* about */
+.about-cols {
+  columns: 2;
+  column-gap: 3.2rem;
+  max-width: 62rem;
+}
+.about-cols p {
+  margin: 0 0 1.05em;
+  break-inside: avoid;
+  font-size: 0.98rem;
+  line-height: 2.05;
+  color: color-mix(in srgb, var(--ink) 88%, transparent);
+}
+
+/* ── colophon ── */
+
+.colophon {
+  margin-top: 3.5rem;
+  box-shadow: var(--wenwu-up);
+  background: var(--paper-deep) var(--speckle);
+}
+.colophon-in {
+  max-width: var(--max-page);
+  margin-inline: auto;
+  padding: 2.1rem var(--gutter) 2.8rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.colophon p {
+  margin: 0 0 0.45em;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+.colophon a {
+  color: inherit;
+  text-decoration-color: var(--brass-ink);
+}
+.colophon a:hover {
+  color: var(--eten);
+}
+.seal {
+  flex: none;
+  rotate: -2.5deg;
+  opacity: 0.93;
+}
+
+/* ── responsive ── */
+
+@media (max-width: 920px) {
+  .vol-layout {
+    grid-template-columns: 1fr;
+  }
+  .rail {
+    display: none;
+  }
+  .rail-sheet {
+    display: block;
+    position: fixed;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    z-index: 40;
+    max-width: min(22rem, calc(100vw - 1.8rem));
+  }
+  .rail-sheet[open] {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 0.6rem;
+  }
+  .rail-sheet summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    float: right;
+    padding: 0.55em 1.1em;
+    border-radius: 999px;
+    background: var(--eten);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    box-shadow: 0 6px 18px -6px rgb(16 27 94 / 0.5);
+  }
+  .rail-sheet summary::-webkit-details-marker {
+    display: none;
+  }
+  .rail-sheet[open] .sheet-panel {
+    max-height: 52dvh;
+    overflow-y: auto;
+    background: var(--paper-lift);
+    border-radius: 6px;
+    box-shadow:
+      var(--wenwu-down),
+      0 12px 34px -10px rgb(0 0 0 / 0.35);
+    padding: 0.7rem 0.5rem;
+  }
+  .sheet-panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 3;
+  }
+  .sheet-panel a {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4em;
+    padding: 0.22em 0.55em;
+    text-decoration: none;
+    color: var(--ink-2);
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    break-inside: avoid;
+  }
+  .sheet-panel a .r {
+    display: none;
+  }
+  .sheet-panel a[aria-current="true"] {
+    color: var(--eten);
+  }
+  .syl-head {
+    top: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .specimen {
+    justify-self: start;
+  }
+  .about-cols {
+    columns: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-rom {
+    display: none;
+  }
+  .spec-zi {
+    font-size: 4.6rem;
+  }
+  .colophon-in {
+    flex-direction: column;
+  }
+  .sheet-panel ul {
+    columns: 2;
+  }
+}
+
+/* ── motion & print ── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .site-head,
+  .rail,
+  .rail-sheet,
+  .vol-nav,
+  .theme-btn,
+  .seal {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .syl-head {
+    position: static;
+    box-shadow: none;
+    border-bottom: 1pt solid #000;
+  }
+  .entry {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+  .colophon {
+    box-shadow: none;
+  }
+}

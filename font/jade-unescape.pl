@@ -80,7 +80,7 @@ while (<>) {
     }
     print;
     if (/^(\s*)meta\(charset='utf8'\)/) {
-        print "$1include _head.jade\n";
+        print "$1include _head.pug\n";
     }
 }
 

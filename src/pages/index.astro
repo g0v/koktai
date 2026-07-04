@@ -1,0 +1,175 @@
+---
+import Dictionary from "../layouts/Dictionary.astro";
+import { scanPugVolume, chineseNumeral } from "../../lib/compile-pug.ts";
+
+const root = process.cwd();
+const volumes = Array.from({ length: 26 }, (_, i) =>
+  String(i + 1).padStart(2, "0"),
+).map((base) => scanPugVolume(root, base));
+
+const totalEntries = volumes.reduce((sum, v) => sum + v.entries, 0);
+const totalSections = volumes.reduce((sum, v) => sum + v.sections, 0);
+
+const appendix = [
+  {
+    href: "/preface1.html",
+    file: "PREFACE1.DIC",
+    zh: "編輯緣起・凡例",
+    desc: "吳守禮自述編纂始末（代序），附全書凡例。",
+  },
+  {
+    href: "/phsource.html",
+    file: "PHSOURCE",
+    zh: "華語台語注音符號溯源",
+    desc: "注音符號與臺灣方音符號的來歷考述。",
+  },
+  {
+    href: "/ph-comp.html",
+    file: "PH-COMP.TXT",
+    zh: "方音音標對照表",
+    desc: "漢注、華臺、TLPA、國際音標、甘典、漢閩諸系統對照。",
+  },
+  {
+    href: "/mytaiin8.html",
+    file: "MYTAIIN8",
+    zh: "綜合閩方言拼音總表",
+    desc: "閩方言拼音系統總表。",
+  },
+  {
+    href: "/dic-cont.html",
+    file: "DIC-CONT.TXT",
+    zh: "辭典內容說明",
+    desc: "原始檔案內容一覽。",
+  },
+];
+---
+
+<Dictionary>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">吳守禮 編著・分析詳注廈漳泉音</p>
+        <h1 class="mast">
+          國臺對照<br />活用辭典
+          <span class="mast-rom">KOK-TÂI TUÌ-TSIÀU UA̍H-IŌNG SÛ-TIÁN</span>
+        </h1>
+        <p class="lede">
+          臺灣語文學者吳守禮（1909–2005）以數十年心力，逐字對照臺灣華語與臺灣台語：
+          每一條目並列兩種讀音，台語以臺灣方音符號詳注廈門、漳州、泉州之別。
+          原稿在 DOS 時代以 PE2 寫成，如今全文在此翻閱。
+        </p>
+        <ul class="hero-stats">
+          <li>
+            <span class="n">{totalEntries.toLocaleString("en-US")}</span>
+            <span class="k">條目</span>
+          </li>
+          <li>
+            <span class="n">{totalSections.toLocaleString("en-US")}</span>
+            <span class="k">音節</span>
+          </li>
+          <li>
+            <span class="n">26</span>
+            <span class="k">卷</span>
+          </li>
+          <li>
+            <span class="n">3</span>
+            <span class="k">方音 廈・漳・泉</span>
+          </li>
+        </ul>
+      </div>
+
+      <a class="specimen" href="/01.html#s-1" aria-label="從卷一第一字「八」開始">
+        <div class="spec-side">
+          <u class="lg lg-m">華語</u>
+          <div class="spec-cols">
+            <span class="spec-read" lang="zh-Hant-TW">ㄅㄚ</span>
+          </div>
+        </div>
+        <span class="spec-zi" aria-hidden="true">八</span>
+        <div class="spec-side">
+          <u class="lg lg-t">台</u>
+          <div class="spec-cols">
+            <span class="spec-read" lang="nan-TW">ㄅㆤㆷ</span>
+            <span class="spec-read" lang="nan-TW">ㄅㄚㆵ</span>
+          </div>
+          <div class="spec-cols">
+            <span class="spec-reg">語</span>
+            <span class="spec-reg">文</span>
+          </div>
+        </div>
+        <span class="spec-cap">卷一・第一字「八」 →</span>
+      </a>
+    </section>
+
+    <section class="sect" id="volumes">
+      <h2 class="sect-h">
+        辭典本文 <span class="n">26 卷</span>
+        <span class="tail" aria-hidden="true"></span>
+      </h2>
+      <ul class="shelf">
+        {
+          volumes.map((v, i) => (
+            <li>
+              <a class="tab" href={`/${v.base}.html`} style={`--i:${i}`}>
+                <span class="tab-n">卷{chineseNumeral(i + 1)}</span>
+                <span class="tab-range">
+                  {v.first}—{v.last}
+                </span>
+                <span class="tab-count">{v.entries.toLocaleString("en-US")}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="sect" id="appendix">
+      <h2 class="sect-h">
+        附錄・原始檔 <span class="n">PE2 / BIG-5</span>
+        <span class="tail" aria-hidden="true"></span>
+      </h2>
+      <ul class="files">
+        {
+          appendix.map((a) => (
+            <li>
+              <a class="file-card" href={a.href}>
+                <span class="bar">{a.file}</span>
+                <span class="zh">{a.zh}</span>
+                <span class="desc">{a.desc}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="sect" id="about">
+      <h2 class="sect-h">
+        關於本書
+        <span class="tail" aria-hidden="true"></span>
+      </h2>
+      <div class="about-cols">
+        <p>
+          吳守禮畢生研究臺灣閩南語文獻。自臺灣大學中文系退休後，
+          著手編纂台語字典與國臺對照辭典；一九七九年攜參考資料赴美蟄居，先成國臺對照稿，
+          其後十餘年往返增補，一九九二年全稿告成。書名初擬「國臺對照活用辭彙」，
+          後定為《國臺對照活用辭典——分析、詳注廈漳泉音》。
+        </p>
+        <p>
+          全書華語標音用注音符號，台語標音用臺灣方音符號——由音韻學家朱兆祥設計、
+          臺灣省國語推行委員會於民國三十五年審訂頒行。辭典逐條分列文讀、白話音，
+          並注明廈門、漳州、泉州腔的分歧。
+        </p>
+        <p>
+          原稿於 DOS 環境以 PE2 編輯、倚天中文系統排版。Big-5 造字區不敷使用，
+          臺灣方音符號與罕用漢字皆為自造字：本站沿用原書的楷書造字字型與
+          128×128 點陣字形圖，未經重繪。檔案格式由原始編輯者、吳守禮外孫蔡彰豪說明。
+        </p>
+        <p>
+          辭典電子原始檔由吳守禮家族授權中華民國維基媒體協會公開。謝謝所有協助
+          《國臺對照活用辭典》上線的朋友。
+        </p>
+      </div>
+    </section>
+  </div>
+</Dictionary>

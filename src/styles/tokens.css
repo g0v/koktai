@@ -1,0 +1,77 @@
+/* ────────────────────────────────────────────────────────────────────────
+   tokens.css — 國臺對照活用辭典 design tokens. All identity derives here.
+
+   Story: a Ming-print dictionary body (it was typeset for 新細明體), a
+   scholar's kai hand for chrome and zhuyin (Iansui), and a DOS-era soul —
+   the files were written in PE2 on the ETen Chinese System, so the accent
+   blue is 倚天藍 and dark mode is 倚天夜. Brass rules are 文武線, the
+   thick-thin frame lines of Chinese book pages.
+   ──────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light;
+
+  /* ── palette ── */
+  --paper:      #F2F3EE;  /* porcelain — cool stone white, not book cream  */
+  --paper-deep: #E9EAE2;  /* plaster — inset panels, plates                */
+  --paper-lift: #FAFAF7;  /* raised cards (shelf tabs)                     */
+  --ink:        #20242A;  /* iron ink — blue-black                         */
+  --ink-2:      #5A6069;  /* secondary text                                */
+  --eten:       #1D35B0;  /* 倚天藍 — links, active, interactive           */
+  --eten-deep:  #101B5E;  /* DOS file plates (appendix)                    */
+  --eten-glow:  #E7EAFB;  /* pale blue wash — hover, marks                 */
+  --brass:      #9C7E4E;  /* 銅 — 文武線 rules, thumb-notch rims           */
+  --brass-soft: #C9B89A;  /* pale brass — soft rules, tab rims             */
+  --brass-ink:  #77613C;  /* brass darkened for small text on paper        */
+  --cinnabar:   #B23A2E;  /* 硃 — the seal, ::selection, micro accents     */
+
+  /* ── type ── */
+  --font-display: "Iansui", "Kaiti TC", "BiauKai", "DFKai-SB", serif;
+  --font-body: "Songti TC", "LiSong Pro", "Noto Serif TC", "Noto Serif CJK TC",
+    "PMingLiU", serif;
+  --font-ui: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New",
+    monospace;
+
+  --fs-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-small: 0.875rem;
+  --fs-h3: 1.4em;
+  --fs-plate: 1.4rem;
+  --fs-mast: clamp(2.4rem, 1.6rem + 4vw, 4rem);
+
+  --leading-def: 1.92; /* ruby needs head-room */
+  --measure: 44rem;
+
+  /* ── structure ── */
+  --max-page: 74rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --rail-w: 11.5rem;
+  --radius: 3px;
+
+  /* 文武線 — thick outer + thin inner, as on Chinese book frames */
+  --wenwu-down: 0 1px 0 var(--brass), 0 4px 0 -2px var(--brass);
+  --wenwu-up: 0 -1px 0 var(--brass), 0 -4px 0 -2px var(--brass);
+
+  /* terrazzo speckle — brass + ink chips at whisper opacity */
+  --speckle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='%239C7E4E' fill-opacity='.08'%3E%3Ccircle cx='9' cy='14' r='1.1'/%3E%3Ccircle cx='31' cy='6' r='.8'/%3E%3Ccircle cx='55' cy='19' r='1.3'/%3E%3Ccircle cx='20' cy='39' r='.9'/%3E%3Ccircle cx='66' cy='44' r='1'/%3E%3Ccircle cx='42' cy='58' r='1.2'/%3E%3Ccircle cx='8' cy='63' r='.8'/%3E%3C/g%3E%3Cg fill='%2320242A' fill-opacity='.05'%3E%3Ccircle cx='48' cy='31' r='.9'/%3E%3Ccircle cx='14' cy='50' r='1'/%3E%3Ccircle cx='62' cy='66' r='.8'/%3E%3Ccircle cx='27' cy='22' r='.7'/%3E%3C/g%3E%3C/svg%3E");
+
+  --ease: cubic-bezier(0.25, 0.6, 0.2, 1);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 倚天夜 — the ETen screen after hours: blue-cast night, brass warmed */
+  --paper:      #131826;
+  --paper-deep: #1A2032;
+  --paper-lift: #1E2538;
+  --ink:        #E4E4DE;
+  --ink-2:      #9BA1AC;
+  --eten:       #8FA3FF;
+  --eten-deep:  #0D1440;
+  --eten-glow:  #1B2240;
+  --brass:      #A98F5F;
+  --brass-soft: #52493A;
+  --brass-ink:  #C2A778;
+  --cinnabar:   #D0574A;
+}

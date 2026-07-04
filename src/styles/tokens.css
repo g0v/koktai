@@ -45,6 +45,8 @@
   /* ── structure ── */
   --max-page: 74rem;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  /* 搜 fixed circle + gap before 晝/夜 */
+  --header-controls-reserve: calc(2.1rem + 0.5rem);
   --header-h: 0px;
   --rail-w: 11.5rem;
   --radius: 3px;

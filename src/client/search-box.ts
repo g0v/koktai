@@ -158,7 +158,7 @@ function initSearchBox(root: HTMLElement): void {
 
   input.addEventListener("focus", () => {
     void loadSuggest();
-    if (input.value.trim()) setExpanded(true);
+    setExpanded(true);
   });
   input.addEventListener("input", () => {
     mode = "suggest";
@@ -204,12 +204,10 @@ function initSearchBox(root: HTMLElement): void {
 
   toggle?.addEventListener("click", () => {
     const open = root.dataset.open !== "true";
-    root.dataset.open = open ? "true" : "false";
+    setExpanded(open);
     if (open) {
       input.focus();
       void loadSuggest();
-    } else {
-      setExpanded(false);
     }
   });
 
@@ -226,12 +224,14 @@ function initSearchBox(root: HTMLElement): void {
       return;
     }
     e.preventDefault();
+    setExpanded(true);
     input.focus();
     void loadSuggest();
   });
   document.addEventListener("keydown", (e) => {
     if (e.key.toLowerCase() !== "k" || (!e.metaKey && !e.ctrlKey)) return;
     e.preventDefault();
+    setExpanded(true);
     input.focus();
     void loadSuggest();
   });

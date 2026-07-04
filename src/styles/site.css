@@ -734,8 +734,6 @@ ruby.zhuyin-standalone {
 }
 
 .token-ruby.zhuyin > rt {
-  position: relative;
-  inset-block-start: -0.45em;
   font-size: 0.46em;
   letter-spacing: 0.04em;
   line-height: 1;
@@ -1304,6 +1302,10 @@ html[data-theme="dark"] .structured-doc img {
   border-radius: var(--radius);
   color: var(--eten-deep);
 }
+.variant-body {
+  white-space: nowrap;
+}
+
 html[data-theme="dark"] .variant-chip {
   color: var(--eten);
   background: color-mix(in srgb, var(--eten) 20%, transparent);

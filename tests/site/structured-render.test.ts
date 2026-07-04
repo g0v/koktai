@@ -170,14 +170,19 @@ describe("structured dictionary render", () => {
     expect(css).not.toMatch(/(^|\n)rt\s*\{[^}]*vertical-align:\s*middle;/s);
   });
 
-  test("site.css keeps structured token zhuyin above without lowering the base glyph", () => {
+  test("site.css keeps structured token zhuyin in native ruby flow", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
     expect(css).toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*ruby-position:\s*over;[^}]*vertical-align:\s*baseline;/s);
-    expect(css).toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*position:\s*relative;[^}]*inset-block-start:\s*-/s);
-    expect(css).not.toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*display:\s*inline-grid/s);
-    expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*vertical-align:\s*-/s);
+    expect(css).toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*white-space:\s*nowrap;[^}]*text-align:\s*center;/s);
+    expect(css).not.toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*position:\s*relative;/s);
+    expect(css).not.toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*inset-block-start:/s);
     expect(css).not.toContain("reading-zhuyin-vert .bpmf-body");
     expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*writing-mode:\s*vertical-rl/s);
+  });
+
+  test("site.css prevents variant solidus from wrapping away from its ruby", () => {
+    const css = readFileSync("src/styles/site.css", "utf8");
+    expect(css).toMatch(/\.variant-body\s*\{[^}]*white-space:\s*nowrap;/s);
   });
 
   test("site.css keeps entry headwords on one line", () => {
@@ -221,6 +226,118 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain("bpmf-body");
     expect(html).not.toContain("bpmf-tone");
     expect(html).not.toContain("reading-zhuyin-vert");
+  });
+
+  test("linked Mandarin legacy ruby keeps readings attached to base glyphs", () => {
+    const ctx = {
+      hrefBase: "/koktai/",
+      resolver: {
+        segment(text: string) {
+          const target = { k: "c" as const, v: "10", l: 1434 };
+          return text === "開" ? [{ text, target }] : [{ text }];
+        },
+        char() {
+          return undefined;
+        },
+        alternate() {
+          return undefined;
+        },
+      },
+    };
+    const entry = {
+      volume: "16",
+      line: 8482,
+      headword: "開張",
+      head: [],
+      senses: [
+        {
+          nh: "",
+          pos: "None",
+          mandarin: ['<ruby>開<rt>&thinsp;ㄎㄞ&thinsp;</rt></ruby><ruby>張<rt>&thinsp;ㄉㄧㆲ/ㄉㄧㄤ&thinsp;</rt></ruby>。'],
+          taigi: [],
+        },
+      ],
+    };
+
+    const html = renderStructuredEntry(entry, ctx);
+
+    expect(html).toContain('<ruby class="zhuyin"><a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><rt>&thinsp;ㄎㄞ&thinsp;</rt></ruby>');
+    expect(html).toContain('<ruby class="zhuyin">張<rt>&thinsp;ㄉㄧㆲ/ㄉㄧㄤ&thinsp;</rt></ruby>');
+    expect(html).not.toContain('<a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>');
+  });
+
+  test("linked Mandarin bare rt ruby keeps reading attached to its base glyph", () => {
+    const ctx = {
+      hrefBase: "/koktai/",
+      resolver: {
+        segment(text: string) {
+          const target = { k: "c" as const, v: "10", l: 1434 };
+          return text === "開" ? [{ text, target }] : [{ text }];
+        },
+        char() {
+          return undefined;
+        },
+        alternate() {
+          return undefined;
+        },
+      },
+    };
+    const entry = {
+      volume: "16",
+      line: 8420,
+      headword: "張",
+      head: [],
+      senses: [
+        {
+          nh: "",
+          pos: "None",
+          mandarin: ["按：開<rt>ㄎㄞ</rt>張"],
+          taigi: [],
+        },
+      ],
+    };
+
+    const html = renderStructuredEntry(entry, ctx);
+
+    expect(html).toContain('<ruby class="zhuyin"><a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><rt>ㄎㄞ</rt></ruby>');
+    expect(html).not.toContain('<a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>');
+  });
+
+  test("solidus before linked legacy ruby stays glued to the ruby base", () => {
+    const ctx = {
+      hrefBase: "/koktai/",
+      resolver: {
+        segment(text: string) {
+          const target = { k: "c" as const, v: "05", l: 100 };
+          return text === "從" ? [{ text, target }] : [{ text }];
+        },
+        char() {
+          return undefined;
+        },
+        alternate() {
+          return undefined;
+        },
+      },
+    };
+    const entry = {
+      volume: "16",
+      line: 19175,
+      headword: "張",
+      head: [],
+      senses: [
+        {
+          nh: "",
+          pos: "None",
+          mandarin: ['<ruby>自<rt>&thinsp;ㄗㄨ˫&thinsp;</rt></ruby>(/<ruby>從<rt>&thinsp;ㄐ丨ㄥ˫&thinsp;</rt></ruby>)'],
+          taigi: [],
+        },
+      ],
+    };
+
+    const html = renderStructuredEntry(entry, ctx);
+
+    expect(html).toContain('(/\u2060<ruby class="zhuyin"><a class="kk" href="/koktai/05.html#c-100" data-kk="c:05:100">從</a><rt>&thinsp;ㄐ丨ㄥ˫&thinsp;</rt></ruby>)');
+    expect(html).not.toContain('(/<ruby class="zhuyin"><a class="kk"');
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

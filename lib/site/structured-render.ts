@@ -48,14 +48,60 @@ function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): str
   return `<a class="kk" href="${escapeHtml(href)}" data-kk="${effective.k}:${effective.v}:${effective.l}">${renderLegacyText(text)}</a>`;
 }
 
-function renderLinkedText(text: string, ctx?: RenderCtx): string {
-  if (!ctx) return renderLegacyText(text);
+const LEGACY_RUBY_RE = /<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>/gs;
+const LEGACY_INLINE_RUBY_RE = /(\p{Script=Han})<rt>(.*?)<\/rt>|(\p{Script=Han})([\u{E000}-\u{F8FF}\u{F0000}-\u{FFFFF}]+)/gu;
+const RENDERED_RUBY_RE = /^<ruby class="zhuyin">.*?<rt>(.*?)<\/rt><\/ruby>$/s;
+
+function renderLinkedPlainText(text: string, ctx: RenderCtx): string {
   return ctx.resolver
     .segment(text)
     .map((seg) =>
       seg.target ? renderTargetLink(seg.text, seg.target, ctx) : renderLegacyText(seg.text),
     )
     .join("");
+}
+
+function renderLinkedLegacyRuby(base: string, annotation: string, ctx: RenderCtx): string {
+  return `<ruby class="zhuyin">${renderLinkedPlainText(base, ctx)}<rt>${annotation}</rt></ruby>`;
+}
+
+function renderLinkedPuaRuby(base: string, pua: string, ctx: RenderCtx): string {
+  const rendered = renderLegacyText(`${base}${pua}`);
+  const match = RENDERED_RUBY_RE.exec(rendered);
+  if (!match) return rendered;
+  return renderLinkedLegacyRuby(base, match[1]!, ctx);
+}
+
+function renderLinkedSegment(text: string, ctx: RenderCtx): string {
+  let html = "";
+  let cursor = 0;
+  for (const match of text.matchAll(LEGACY_INLINE_RUBY_RE)) {
+    const start = match.index ?? 0;
+    const base = match[1] ?? match[3]!;
+    const annotation = match[2];
+    html += renderLinkedPlainText(text.slice(cursor, start), ctx);
+    html += annotation === undefined
+      ? renderLinkedPuaRuby(base, match[4]!, ctx)
+      : renderLinkedLegacyRuby(base, annotation, ctx);
+    cursor = start + match[0].length;
+  }
+  html += renderLinkedPlainText(text.slice(cursor), ctx);
+  return html;
+}
+
+
+function renderLinkedText(text: string, ctx?: RenderCtx): string {
+  if (!ctx) return renderLegacyText(text);
+  let html = "";
+  let cursor = 0;
+  for (const match of text.matchAll(LEGACY_RUBY_RE)) {
+    const start = match.index ?? 0;
+    html += renderLinkedSegment(text.slice(cursor, start), ctx);
+    html += renderLinkedLegacyRuby(match[1]!, match[2]!, ctx);
+    cursor = start + match[0].length;
+  }
+  html += renderLinkedSegment(text.slice(cursor), ctx);
+  return html.replaceAll("/<ruby", "/\u2060<ruby");
 }
 
 function renderCharLink(han: string, ctx?: RenderCtx): string {

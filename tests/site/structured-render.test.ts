@@ -135,6 +135,16 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain("ㄗㄨ丨");
   });
 
+  test("legacy text renders high k PUA fallback as bitmap image", () => {
+    const highK = String.fromCodePoint(0xffa44);
+    const html = renderLegacyText(`<k>${highK}</k>`);
+
+    expect(html).toContain('src="img/k/fa44.png"');
+    expect(html).not.toContain("&#xffa44;");
+    expect(html).not.toContain(highK);
+  });
+
+
   test("site.css defines char-card and src-badge and aligns outside ruby", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
     expect(css).toContain(".char-card");
@@ -142,6 +152,12 @@ describe("structured dictionary render", () => {
     expect(css).toMatch(/ruby:not\(\.zhuyin\),\s*ruby\.zhuyin-standalone\s*\{[^}]*vertical-align:\s*middle;/s);
     expect(css).not.toContain("ruby.zhuyin:has(> rt:only-child)");
     expect(css).not.toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
+  });
+
+  test("site.css binds structured token zhuyin beside each base glyph", () => {
+    const css = readFileSync("src/styles/site.css", "utf8");
+    expect(css).toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*display:\s*inline-grid;[^}]*ruby-position:\s*inter-character;/s);
+    expect(css).toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*writing-mode:\s*vertical-rl;/s);
   });
 
   test("standalone zhuyin fragments get an explicit class", () => {

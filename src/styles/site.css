@@ -723,6 +723,27 @@ ruby.zhuyin-standalone {
   vertical-align: middle;
 }
 
+.token-ruby.zhuyin {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.08em;
+  align-items: center;
+  vertical-align: -0.08em;
+  ruby-position: inter-character;
+}
+
+.token-ruby.zhuyin > .token-han {
+  grid-column: 1;
+}
+
+.token-ruby.zhuyin > rt {
+  display: block;
+  grid-column: 2;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-height: 1.05;
+}
+
 rt {
   font-family: "Iansui", var(--font-ui);
   font-size: 0.55em;

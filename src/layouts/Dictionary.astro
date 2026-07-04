@@ -97,6 +97,8 @@ const href = (path = "") => `${baseUrl}${path}`;
       });
     </script>
 
-    <script type="module" src={new URL("../client/search-box.ts", import.meta.url)}></script>
+    <script>
+      import "../client/search-box.ts";
+    </script>
   </body>
 </html>

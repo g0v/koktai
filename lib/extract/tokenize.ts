@@ -154,6 +154,36 @@ class Scanner {
     for (;;) {
       const pg = this.readParen();
       if (!pg) break;
+      const zipParts = pg.inner.split(/[／/]/).map((p) => p.trim()).filter(Boolean);
+      if (zipParts.length === readings.length && zipParts.length > 1) {
+        const rows: Usage[][] = [];
+        let zipOk = true;
+        for (const p of zipParts) {
+          const l = classifyLabel(p);
+          if (!l) {
+            zipOk = false;
+            break;
+          }
+          rows.push(l);
+        }
+        if (zipOk) {
+          for (let i = 0; i < readings.length; i++) {
+            readings[i] = {
+              zhuyin: readings[i]!.zhuyin,
+              usages: [...prefix, ...readings[i]!.usages, ...rows[i]!],
+            };
+          }
+          prefix = [];
+          if (this.peek() === "/") {
+            this.take();
+            const zy = zyFromPua(this.take(), this.s);
+            if (!zy) throw new Error("bad /reading");
+            readings.push({ zhuyin: zy, usages: [] });
+            continue;
+          }
+          break;
+        }
+      }
       const labs = classifyLabel(pg.inner);
       if (!labs) {
         this.rewind(pg.start);

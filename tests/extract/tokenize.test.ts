@@ -61,4 +61,43 @@ describe("word-text tokenizer", () => {
     expect(v.usages).toEqual([{ dim: "phenomenon", value: "訓讀" }]);
     expect(serializeTokens(input, ts)).toBe(input);
   });
+  test("positional label zip — readings zip to (漳/泉) by index", () => {
+    const h1 = "fab6";
+    const h2 = "fab7";
+    const input = `煮${P(h1)}/${P(h2)}(漳/泉)`;
+    const ts = tokenizeTaigi(input, s);
+    const zhu = ts.find((t): t is HanSyllable => t.kind === "syl" && t.han === "煮")!;
+    expect(zhu.readings).toHaveLength(2);
+    expect(zhu.readings[0]).toEqual({
+      zhuyin: s.m3[h1],
+      usages: [{ dim: "geo", value: "漳" }],
+    });
+    expect(zhu.readings[1]).toEqual({
+      zhuyin: s.m3[h2],
+      usages: [{ dim: "geo", value: "泉" }],
+    });
+    expect(serializeTokens(input, ts)).toBe(input);
+  });
+  test("direct quote-scope 「我…」(文)/…(語) — register labels without corpus fixture", () => {
+    const hWen = "9b44";
+    const hYu = "98a7";
+    const input = `「我${P(hWen)}」(文)/${P(hYu)}(語)`;
+    const ts = tokenizeTaigi(input, s);
+    const wo = ts.find((t): t is HanSyllable => t.kind === "syl" && t.han === "我")!;
+    expect(wo.readings).toEqual([
+      { zhuyin: s.m3[hWen], usages: [{ dim: "register", value: "文" }] },
+      { zhuyin: s.m3[hYu], usages: [{ dim: "register", value: "語" }] },
+    ]);
+    expect(serializeTokens(input, ts)).toBe(input);
+  });
+  test("plain variant group (/濟/多) — alternatives only, usages []", () => {
+    const input = `字${P("fab6")}(/濟/多)`;
+    const ts = tokenizeTaigi(input, s);
+    const v = ts.find((t) => t.kind === "variant")!;
+    expect(v.kind).toBe("variant");
+    if (v.kind !== "variant") return;
+    expect(v.alternatives).toHaveLength(2);
+    expect(v.usages).toEqual([]);
+    expect(serializeTokens(input, ts)).toBe(input);
+  });
 });

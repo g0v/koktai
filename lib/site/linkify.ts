@@ -9,3 +9,9 @@ export interface LinkResolver {
   segment(text: string): Array<{ text: string; target?: LinkTarget }>;
   char(han: string): LinkTarget | undefined;
 }
+
+export interface RenderCtx {
+  resolver: LinkResolver;
+  hrefBase: string;
+  self?: { v: string; l: number };
+}

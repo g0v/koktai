@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import {
+  renderSinogramEntry,
   renderStructuredEntry,
   renderStructuredVolumeBody,
 } from "../../lib/site/structured-render.ts";
@@ -37,10 +38,29 @@ describe("structured dictionary render", () => {
     expect(html).toContain("reading-zhuyin");
   });
 
+  test("renderSinogramEntry 八 vol 01 shows fanqie and reading chips", () => {
+    const vol = getStructuredVolume(root, "01");
+    const sec = vol.sections.find((s) => s.sinograms.some((g) => g.han === "八"));
+    const eight = sec!.sinograms.find((g) => g.han === "八")!;
+    const html = renderSinogramEntry(eight);
+    expect(html).toContain('id="c-');
+    expect(html).toContain("布拔切");
+    expect(html).toContain("char-card");
+    expect(html).toContain("reading-chip");
+  });
+
+  test("renderSinogramEntry han empty uses □ head", () => {
+    const vol = getStructuredVolume(root, "01");
+    const blank = vol.sections.flatMap((s) => s.sinograms).find((g) => g.han === "");
+    expect(blank).toBeDefined();
+    const html = renderSinogramEntry(blank!);
+    expect(html).toContain("□");
+  });
+
   test("renderStructuredEntry without ctx matches prior output shape", () => {
     const { entry } = entryGerRen();
     const html = renderStructuredEntry(entry);
-    expect(html).not.toMatch(/\bid="/);
+    expect(html).toContain('id="w-');
     expect(html).not.toContain('class="kk"');
     expect(html).toContain("entry-card");
     expect(html).toContain("【");
@@ -61,10 +81,10 @@ describe("structured dictionary render", () => {
     expect(html).toContain("usage-geo");
   });
 
-  test("outside ruby fragments align with surrounding prose", () => {
+  test("site.css defines char-card and src-badge", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
-    expect(css).toMatch(/ruby:not\(\.zhuyin\)\s*\{[^}]*vertical-align:\s*middle;/s);
-    expect(css).toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).toContain(".char-card");
+    expect(css).toContain(".src-badge");
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

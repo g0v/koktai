@@ -1,8 +1,11 @@
+import type { RenderCtx } from "./linkify.ts";
 import type {
   StructuredEntry,
   StructuredReading,
+  StructuredReadingLine,
   StructuredSection,
   StructuredSense,
+  StructuredSinogram,
   StructuredToken,
   StructuredVolume,
 } from "./structured-volume.ts";
@@ -90,25 +93,59 @@ export function renderStructuredSense(sense: StructuredSense): string {
   return `${pos}${mandarin}${taigi}`;
 }
 
-export function renderStructuredEntry(entry: StructuredEntry): string {
+
+function renderSinogramReadingLine(line: StructuredReadingLine): string {
+  const badge = `<dt><span class="src-badge">${escapeHtml(line.source)}</span></dt>`;
+  if (!line.parsed) {
+    const note = line.note ?? "";
+    return `${badge}<dd class="reading-line-note">${escapeHtml(note)}</dd>`;
+  }
+  const chips = renderReadingChips(line.readings);
+  const note = line.note
+    ? `<span class="reading-line-note">${escapeHtml(line.note)}</span>`
+    : "";
+  return `${badge}<dd class="reading-line-body">${chips}${note}</dd>`;
+}
+
+export function renderSinogramEntry(s: StructuredSinogram, _ctx?: RenderCtx): string {
+  const head = s.han.length > 0 ? escapeHtml(s.han) : "□";
+  const headChip = s.headZhuyin
+    ? `<span class="reading-chip char-head-zhuyin"><span class="reading-zhuyin">${escapeHtml(s.headZhuyin)}</span></span>`
+    : "";
+  const fanqie = s.fanqie
+    ? `<span class="char-fanqie">${escapeHtml(s.fanqie)}</span>`
+    : "";
+  const lines = s.readingLines.map(renderSinogramReadingLine).join("");
+  return (
+    `<div class="entry char-card" id="c-${s.line}">` +
+    `<h3 class="char-head">${head}${headChip}${fanqie}</h3>` +
+    `<dl class="reading-lines">${lines}</dl>` +
+    `</div>`
+  );
+}
+
+export function renderStructuredEntry(entry: StructuredEntry, _ctx?: RenderCtx): string {
   const headHtml = entry.head.map(renderStructuredToken).join("");
   const title = headHtml || escapeHtml(entry.headword);
   const senses = entry.senses.map(renderStructuredSense).join("");
-  return `<div class="entry entry-card"><h3 class="entry-spine">【${title}】</h3><dl class="sense-grid">${senses}</dl></div>`;
+  return `<div class="entry entry-card" id="w-${entry.line}"><h3 class="entry-spine">【${title}】</h3><dl class="sense-grid">${senses}</dl></div>`;
 }
 
 export function renderStructuredSection(
   section: StructuredSection,
   meta: SectionRailMeta,
+  ctx?: RenderCtx,
 ): string {
   const roman = meta.roman
     ? `<span class="syl-rom">${escapeHtml(meta.roman)}</span>`
     : "";
   const note = meta.note ? `<p class="syl-note">${escapeHtml(meta.note)}</p>` : "";
-  const entries = section.entries.map(renderStructuredEntry).join("");
+  const sinograms = section.sinograms.map((s) => renderSinogramEntry(s, ctx)).join("");
+  const entries = section.entries.map((e) => renderStructuredEntry(e, ctx)).join("");
   return (
     `<section class="syl" id="${escapeHtml(meta.id)}">` +
     `<div class="syl-head"><h2><b class="syl-zi">${escapeHtml(meta.syllable)}</b>${roman}</h2>${note}</div>` +
+    sinograms +
     entries +
     `</section>`
   );
@@ -117,9 +154,10 @@ export function renderStructuredSection(
 export function renderStructuredVolumeBody(
   volume: StructuredVolume,
   sectionMeta: SectionRailMeta[],
+  ctx?: RenderCtx,
 ): string {
   const sections = volume.sections
-    .map((section, i) => renderStructuredSection(section, sectionMeta[i]!))
+    .map((section, i) => renderStructuredSection(section, sectionMeta[i]!, ctx))
     .join("");
   return `<div class="structured-doc">${sections}</div>`;
 }

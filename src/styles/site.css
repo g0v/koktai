@@ -993,6 +993,63 @@ html[data-theme="dark"] .variant-chip {
   background: color-mix(in srgb, var(--eten) 20%, transparent);
 }
 
+.structured-doc .char-card {
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--brass-ink) 18%, transparent);
+}
+
+.structured-doc .char-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.structured-doc .char-fanqie {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.structured-doc .reading-lines {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.75rem;
+  align-items: baseline;
+}
+
+.structured-doc .reading-lines dt {
+  margin: 0;
+}
+
+.structured-doc .reading-lines dd {
+  margin: 0;
+}
+
+.structured-doc .src-badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--brass-ink);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  background: transparent;
+}
+
+.structured-doc .reading-line-note {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+}
+
 @media (max-width: 720px) {
   .structured-doc .entry-card {
     flex-direction: column;

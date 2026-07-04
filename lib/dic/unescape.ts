@@ -157,7 +157,7 @@ export function jadeUnescapeLine(line: string, maps: FontMaps, useHruby = false)
   });
 
   if (useHruby) {
-    s = s.replace(/(<rt>[^<>]*?<\/rt>)(?!<\/ruby>)/g, `<${rubyTag}>$1</ruby>`);
+    s = s.replace(/(<rt>[^<>]*?<\/rt>)(?!<\/ruby>)/g, '<ruby class="zhuyin zhuyin-standalone">$1</ruby>');
   }
   if (!useHruby) {
     const rubyChain = new RegExp(

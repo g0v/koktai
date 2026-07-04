@@ -52,7 +52,7 @@ export function renderLegacyText(text: string): string {
   return jadeUnescapeLine(text, fontMaps, true);
 }
 
-export function renderReadingChip(reading: StructuredReading): string {
+function renderReadingBadges(reading: StructuredReading): string {
   const badges: string[] = [];
   for (const v of reading.register) {
     badges.push(`<span class="usage-register">${escapeHtml(v)}</span>`);
@@ -63,7 +63,28 @@ export function renderReadingChip(reading: StructuredReading): string {
   for (const v of reading.other) {
     badges.push(`<span class="usage-other">${escapeHtml(v)}</span>`);
   }
-  const labels = badges.length ? `<span class="reading-labels">${badges.join("")}</span>` : "";
+  return badges.join("");
+}
+
+function renderReadingAnnotations(readings: StructuredReading[]): string {
+  if (readings.length === 0) return "";
+  const rts = readings
+    .map(
+      (reading) =>
+        `<rt><span class="reading-zhuyin">${escapeHtml(legacyPlainText(reading.zhuyin))}</span></rt>`,
+    )
+    .join("");
+  const labels = readings
+    .map(renderReadingBadges)
+    .filter(Boolean)
+    .map((badges) => `<span class="reading-labels">${badges}</span>`)
+    .join("");
+  return `${rts}${labels}`;
+}
+
+export function renderReadingChip(reading: StructuredReading): string {
+  const badges = renderReadingBadges(reading);
+  const labels = badges.length ? `<span class="reading-labels">${badges}</span>` : "";
   return `<span class="reading-chip"><span class="reading-zhuyin">${escapeHtml(legacyPlainText(reading.zhuyin))}</span>${labels}</span>`;
 }
 
@@ -75,8 +96,10 @@ export function renderReadingChips(readings: StructuredReading[]): string {
 export function renderStructuredToken(token: StructuredToken): string {
   switch (token.kind) {
     case "syl": {
-      const chips = renderReadingChips(token.readings);
-      return `<span class="token-syl"><span class="token-han">${renderLegacyText(token.han)}</span>${chips}</span>`;
+      const annotations = renderReadingAnnotations(token.readings);
+      const han = `<span class="token-han">${renderLegacyText(token.han)}</span>`;
+      if (!annotations) return `<span class="token-syl">${han}</span>`;
+      return `<span class="token-syl"><ruby class="token-ruby zhuyin">${han}${annotations}</ruby></span>`;
     }
     case "reading":
       return `<span class="token-reading">${renderReadingChips(token.readings)}</span>`;

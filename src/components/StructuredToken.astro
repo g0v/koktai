@@ -1,5 +1,5 @@
 ---
-import { renderLegacyText } from "../../lib/site/structured-render.ts";
+import { legacyPlainText, renderLegacyText } from "../../lib/site/structured-render.ts";
 import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 import ReadingChips from "./ReadingChips.astro";
 
@@ -8,13 +8,41 @@ interface Props {
 }
 
 const { token } = Astro.props;
+
 ---
 
 {
   token.kind === "syl" ? (
     <span class="token-syl">
-      <span class="token-han" set:html={renderLegacyText(token.han)} />
-      <ReadingChips readings={token.readings} />
+      {token.readings.length > 0 ? (
+        <ruby class="token-ruby zhuyin">
+          <span class="token-han" set:html={renderLegacyText(token.han)} />
+          {token.readings.map((reading) => (
+            <rt>
+              <span class="reading-zhuyin">{legacyPlainText(reading.zhuyin)}</span>
+            </rt>
+          ))}
+        </ruby>
+      ) : (
+        <span class="token-han" set:html={renderLegacyText(token.han)} />
+      )}
+      {token.readings.map((reading) =>
+        reading.register.length > 0 ||
+        reading.geo.length > 0 ||
+        reading.other.length > 0 ? (
+          <span class="reading-labels">
+            {reading.register.map((v) => (
+              <span class="usage-register">{v}</span>
+            ))}
+            {reading.geo.map((v) => (
+              <span class="usage-geo">{v}</span>
+            ))}
+            {reading.other.map((v) => (
+              <span class="usage-other">{v}</span>
+            ))}
+          </span>
+        ) : null,
+      )}
     </span>
   ) : token.kind === "reading" ? (
     <span class="token-reading">

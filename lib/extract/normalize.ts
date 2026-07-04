@@ -29,7 +29,8 @@ function swapKTags(text: string, s: Syllables): string {
     const hex = puaHex(pua);
     const kVal = s.k[hex];
     if (kVal === undefined || !BOPO.test(kVal)) return `<k>${pua}</k>`;
-    const m3Hex = s.m3Reverse[kVal];
+    const m3Hex =
+      s.m3Reverse[kVal] ?? (kVal.startsWith("˙") ? s.m3Reverse[kVal.slice(1)] : undefined);
     if (m3Hex === undefined) return `<k>${pua}</k>`;
     return String.fromCodePoint(0xf0000 + Number.parseInt(m3Hex, 16));
   });
@@ -50,10 +51,14 @@ function isM3ReadingCp(cp: number, s: Syllables): boolean {
 }
 
 /** Right-to-left syllable pairs before `end` (exclusive), like 分漢字注音.分一逝. */
-function hanReadingPairsBefore(text: string, end: number, s: Syllables): { han: string; reading: string }[] {
+function hanReadingPairsBefore(
+  text: string,
+  end: number,
+  s: Syllables,
+): { hans: string[]; reading: string }[] {
   const stripped = text.slice(0, end).replace(STRIP_VARIANT_WITH_READING, "");
   const chars = [...stripped];
-  const pairs: { han: string; reading: string }[] = [];
+  const pairs: { hans: string[]; reading: string }[] = [];
   let ci = chars.length;
   while (ci > 0) {
     ci--;
@@ -74,7 +79,7 @@ function hanReadingPairsBefore(text: string, end: number, s: Syllables): { han: 
   return pairs.reverse();
 }
 
-function splitOneSyllable(segment: string): { han: string; reading: string } | null {
+function splitOneSyllable(segment: string): { hans: string[]; reading: string } | null {
   const segChars = [...segment];
   const readings: string[] = [];
   let end = segChars.length;
@@ -111,9 +116,10 @@ function splitOneSyllable(segment: string): { han: string; reading: string } | n
   }
   const bases = hanParts.reverse();
   if (bases.length === 0) return null;
-  const han = bases[bases.length - 1]!;
-  if ([...han].length > 1) return null;
-  return { han, reading: readings[readings.length - 1]! };
+  for (const b of bases) {
+    if ([...b].length > 1) return null;
+  }
+  return { hans: bases, reading: readings[readings.length - 1]! };
 }
 
 function completeArrows(text: string, s: Syllables): string {
@@ -133,18 +139,15 @@ function completeArrows(text: string, s: Syllables): string {
     n--;
     if (n === 0) continue;
 
-    const anchorRe = new RegExp(
-      `((?:[^\\u{F0000}-\\u{FFFFF}][\\u{F0000}-\\u{FFFFF}]){${n}}[^\\u{F0000}-\\u{FFFFF}]*)$`,
-      "u",
-    );
+    const unitRe = new RegExp(`[^\\u{F0000}-\\u{FFFFF}]+[\\u{F0000}-\\u{FFFFF}]`, "gu");
     const prefix = out.slice(0, arrowStart);
-    const anchor = anchorRe.exec(prefix);
-    if (!anchor) continue;
-    const regionStart = anchor.index;
+    const unitMatches = [...prefix.matchAll(unitRe)];
+    if (unitMatches.length < n) continue;
+    const regionStart = unitMatches[unitMatches.length - n]!.index!;
     const pairs = hanReadingPairsBefore(out, arrowStart, s);
     if (pairs.length < n) continue;
     const lastN = pairs.slice(-n);
-    const bases = lastN.map((p) => p.han);
+    const bases = lastN.flatMap((p) => p.hans);
     const escaped = bases.map((b) => b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
     const expr = new RegExp(`(${escaped.join(".*")})`, "u");
     const region = out.slice(regionStart, arrowStart);
@@ -152,7 +155,6 @@ function completeArrows(text: string, s: Syllables): string {
     if (!baseMatch) continue;
     const splitStart = regionStart + baseMatch.index;
 
-    const unitRe = new RegExp(`[^\\u{F0000}-\\u{FFFFF}]+[\\u{F0000}-\\u{FFFFF}]`, "gu");
     const tail = out.slice(splitStart, arrowStart);
     const units = tail.match(unitRe);
     if (!units || units.length < n) continue;
@@ -178,8 +180,8 @@ function completeArrows(text: string, s: Syllables): string {
 /** Port of han2edu 臺文格式正規化 with circled-digit pass prepended. */
 export function normalizeTaigi(text: string, s: Syllables): string {
   let t = circledDigits(text);
-  t = swapKTags(t, s);
-  t = unwrapReadingParens(t, s);
   t = completeArrows(t, s);
+  t = unwrapReadingParens(t, s);
+  t = swapKTags(t, s);
   return t;
 }

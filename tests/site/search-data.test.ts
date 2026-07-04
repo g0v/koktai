@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { getCorpus } from "../../lib/site/corpus.ts";
 import {
   buildFulltextDocs,
+  buildFulltextRows,
   buildSuggestRows,
   stripHeadwordMarkup,
 } from "../../lib/site/search-data.ts";
@@ -79,6 +80,19 @@ describe("search-data", () => {
       expect(ba).toBeDefined();
       expect(ba!.d).toContain("布拔切");
       expect(ba!.d).toContain("ㄅㄚㆵ");
+    },
+    30_000,
+  );
+
+  test(
+    "compact fulltext rows preserve sinogram readings and stay under 9MiB",
+    () => {
+      const rows = buildFulltextRows(getCorpus(root));
+      const ba = rows.find((r) => r[0] === "八" && r[1] === "01" && r[3] === 1);
+      expect(ba).toBeDefined();
+      expect(ba![4]).toContain("布拔切");
+      expect(ba![4]).toContain("ㄅㄚㆵ");
+      expect(Buffer.byteLength(JSON.stringify(rows))).toBeLessThanOrEqual(9 * 1024 * 1024);
     },
     30_000,
   );

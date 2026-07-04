@@ -15,6 +15,15 @@ export type FulltextDoc = {
   d: string;
 };
 
+export type FulltextRow = [t: string, v: string, l: number, k: 0 | 1, d: string];
+
+const PHONETIC_RE = /[\u3100-\u312f\u31a0-\u31bfˊˇˋ˙̇˫]+/g;
+const SPACE_RE = /\s+/g;
+
+function stripWordBodyPhonetics(text: string): string {
+  return text.replace(PHONETIC_RE, "").replace(SPACE_RE, " ").trim();
+}
+
 const K_TAG = /<\/?k>/g;
 
 export function stripHeadwordMarkup(t: string): string {
@@ -131,4 +140,14 @@ export function buildFulltextDocs(corpus: Corpus): FulltextDoc[] {
     }
   }
   return docs;
+}
+
+export function buildFulltextRows(corpus: Corpus): FulltextRow[] {
+  return buildFulltextDocs(corpus).map((doc) => [
+    doc.t,
+    doc.v,
+    doc.l,
+    doc.k,
+    doc.k === 0 ? stripWordBodyPhonetics(doc.d) : doc.d,
+  ]);
 }

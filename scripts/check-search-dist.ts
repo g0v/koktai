@@ -4,8 +4,9 @@ import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { getCorpus } from "../lib/site/corpus.ts";
 import {
-  buildFulltextDocs,
+  buildFulltextRows,
   buildSuggestRows,
+  type FulltextRow,
   type SuggestRow,
 } from "../lib/site/search-data.ts";
 
@@ -28,8 +29,9 @@ if (
 }
 
 const fulltextPath = join(dist, "search-data/fulltext.json");
-const fulltext = JSON.parse(readFileSync(fulltextPath, "utf8")) as unknown[];
-const expectedFulltext = buildFulltextDocs(getCorpus(root));
+const fulltextRaw = readFileSync(fulltextPath, "utf8");
+const fulltext = JSON.parse(fulltextRaw) as FulltextRow[];
+const expectedFulltext = buildFulltextRows(getCorpus(root));
 if (fulltext.length !== expectedFulltext.length) {
   throw new Error(
     `fulltext doc count ${fulltext.length} !== ${expectedFulltext.length}`,
@@ -38,7 +40,12 @@ if (fulltext.length !== expectedFulltext.length) {
 if (fulltext.length < 46_000) {
   throw new Error(`fulltext doc count ${fulltext.length} < 46000`);
 }
-
+const fulltextBudget = 9 * 1024 * 1024;
+if (Buffer.byteLength(fulltextRaw) > fulltextBudget) {
+  throw new Error(
+    `fulltext raw size ${Buffer.byteLength(fulltextRaw)} exceeds ${fulltextBudget} bytes`,
+  );
+}
 const vol01 = readFileSync(join(dist, "01.html"), "utf8");
 if (!vol01.includes('id="w-182"')) {
   throw new Error('dist/01.html missing id="w-182"');

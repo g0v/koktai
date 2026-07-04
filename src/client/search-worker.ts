@@ -5,12 +5,13 @@ import type { FuseResult } from "fuse.js";
 import type { FromWorker, ToWorker } from "./protocol.ts";
 import { buildSnippetAround } from "./search-matching.ts";
 
+type FulltextRow = [t: string, v: string, l: number, k: 0 | 1, d: string];
+
 type FulltextDoc = {
   t: string;
   v: string;
   l: number;
   k: 0 | 1;
-  s: number;
   d: string;
 };
 
@@ -49,7 +50,8 @@ async function ensureIndex(base: string): Promise<Fuse<FulltextDoc>> {
     post({ type: "status", phase: "fetching" });
     const res = await fetch(url);
     if (!res.ok) throw new Error(`fulltext fetch ${res.status}`);
-    const docs = (await res.json()) as FulltextDoc[];
+    const rows = (await res.json()) as FulltextRow[];
+    const docs = rows.map(([t, v, l, k, d]) => ({ t, v, l, k, d }));
     post({ type: "status", phase: "indexing" });
     fuse = new Fuse(docs, {
       keys: [

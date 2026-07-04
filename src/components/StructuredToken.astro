@@ -1,0 +1,49 @@
+---
+import type { StructuredToken } from "../../lib/site/structured-volume.ts";
+import ReadingChips from "./ReadingChips.astro";
+
+interface Props {
+  token: StructuredToken;
+}
+
+const { token } = Astro.props;
+---
+
+{
+  token.kind === "syl" ? (
+    <span class="token-syl">
+      <span class="token-han">{token.han}</span>
+      <ReadingChips readings={token.readings} />
+    </span>
+  ) : token.kind === "reading" ? (
+    <span class="token-reading">
+      <ReadingChips readings={token.readings} />
+    </span>
+  ) : token.kind === "prose" ? (
+    <span class="token-prose">{token.text}</span>
+  ) : (
+    <span class="variant-chip">
+      <span class="variant-body">
+        (/
+        {token.alternatives.map((alt, i) => (
+          <>
+            {i > 0 && <span class="variant-sep">/</span>}
+            {alt.map((t) => (
+              <Astro.self token={t} />
+            ))}
+          </>
+        ))}
+        )
+      </span>
+      {token.usages.register.map((v) => (
+        <span class="usage-register">{v}</span>
+      ))}
+      {token.usages.geo.map((v) => (
+        <span class="usage-geo">{v}</span>
+      ))}
+      {token.usages.other.map((v) => (
+        <span class="usage-other">{v}</span>
+      ))}
+    </span>
+  )
+}

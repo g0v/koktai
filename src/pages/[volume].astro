@@ -1,5 +1,6 @@
 ---
 import Dictionary from "../layouts/Dictionary.astro";
+import StructuredEntry from "../components/StructuredEntry.astro";
 import {
   listPugPages,
   getVolumeData,
@@ -7,6 +8,7 @@ import {
   chineseNumeral,
   wrapPe2Directives,
 } from "../../lib/compile-pug.ts";
+import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 
 export function getStaticPaths() {
   return listPugPages(process.cwd()).map((base) => ({
@@ -60,17 +62,25 @@ const root = process.cwd();
 const raw = getVolumeData(root, base);
 const { sections, entries } = raw;
 const isAppendix = !/^\d\d$/.test(base);
+const isVolume = /^\d\d$/.test(base);
 const html =
   isAppendix && APPENDIX[base] ? wrapPe2Directives(raw.html) : raw.html;
-
-const isVolume = /^\d\d$/.test(base);
+const structuredVolume = isVolume ? getStructuredVolume(root, base) : null;
+const horizontalI = (s: string) => s.replaceAll("丨", "ㄧ");
+const railSections =
+  structuredVolume?.sections.map((sec, i) => {
+    const syllable = horizontalI(sec.chapterZhuyin);
+    const pugSec = sections.find(
+      (s) => s.syllable === syllable || s.syllable === sec.chapterZhuyin,
+    );
+    return { id: `s-${i + 1}`, syllable, roman: pugSec?.roman ?? "" };
+  }) ?? sections;
 const volNo = isVolume ? Number(base) : 0;
 const volName = isVolume ? `卷${chineseNumeral(volNo)}` : "";
 const range =
-  sections.length > 0
-    ? `${sections[0].syllable}～${sections[sections.length - 1].syllable}`
+  railSections.length > 0
+    ? `${railSections[0]!.syllable}～${railSections[railSections.length - 1]!.syllable}`
     : "";
-
 const pad = (n: number) => String(n).padStart(2, "0");
 const prev = isVolume && volNo > 1 ? pad(volNo - 1) : null;
 const next = isVolume && volNo < 26 ? pad(volNo + 1) : null;
@@ -84,7 +94,7 @@ const title = isVolume
   ? `${volName} ${range}・國臺對照活用辭典`
   : `${meta?.zh ?? base}・國臺對照活用辭典`;
 const description = isVolume
-  ? `國臺對照活用辭典${volName}（${range}），共 ${entries} 條目。`
+  ? `國臺對照活用辭典${volName}（${range}），共 ${(structuredVolume?.entryCount ?? entries).toLocaleString("en-US")} 條目。`
   : (meta?.desc ?? "國臺對照活用辭典附錄。");
 ---
 
@@ -97,7 +107,7 @@ const description = isVolume
           <p class="rail-tag">音節索引</p>
           <nav>
             <ul>
-              {sections.map((s) => (
+              {railSections.map((s) => (
                 <li>
                   <a href={`#${s.id}`} data-spy={s.id}>
                     <span>{s.syllable}</span>
@@ -117,7 +127,7 @@ const description = isVolume
               <span class="range">{range}</span>
             </h1>
             <p class="vol-meta">
-              {sections.length} 音節・{entries.toLocaleString("en-US")} 條目
+              {railSections.length} 音節・{(structuredVolume?.entryCount ?? entries).toLocaleString("en-US")} 條目
             </p>
             <nav class="vol-nav" aria-label="卷次">
               {prev && <a href={href(`${prev}.html`)}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
@@ -126,7 +136,24 @@ const description = isVolume
             </nav>
           </header>
 
-          <div class="doc" set:html={html} />
+          <div class="structured-doc">
+            {structuredVolume!.sections.map((section, i) => {
+              const rail = railSections[i]!;
+              return (
+                <section class="syl" id={rail.id}>
+                  <div class="syl-head">
+                    <h2>
+                      <b class="syl-zi">{rail.syllable}</b>
+                      {rail.roman && <span class="syl-rom">{rail.roman}</span>}
+                    </h2>
+                  </div>
+                  {section.entries.map((entry) => (
+                    <StructuredEntry entry={entry} />
+                  ))}
+                </section>
+              );
+            })}
+          </div>
 
           <nav class="vol-nav" aria-label="卷次（頁尾）">
             {prev && <a href={href(`${prev}.html`)}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
@@ -140,7 +167,7 @@ const description = isVolume
         <summary>音節索引</summary>
         <div class="sheet-panel">
           <ul>
-            {sections.map((s) => (
+            {railSections.map((s) => (
               <li>
                 <a href={`#${s.id}`} data-spy={s.id}>
                   <span>{s.syllable}</span>

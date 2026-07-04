@@ -144,6 +144,22 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain(highK);
   });
 
+  test("legacy text strips raw PE2 control tags from prose", () => {
+    const raw = "~fk;;~fm3;;食~fk;ㄆ~fm3;;~fk;;~fm3;;緊(等)煮較爛咧則(/即)即付汝~bt180;·~bt0;;食。枵鬼氐氐。";
+    const html = renderLegacyText(raw);
+
+    expect(html).toContain("食");
+    expect(html).toContain("枵鬼氐氐");
+    expect(html).toContain("ㄆ");
+    expect(html).not.toContain("~fk");
+    expect(html).not.toContain("~fm3");
+    expect(html).not.toContain("~bt");
+    expect(html).not.toContain(";;");
+    expect(html).not.toContain(";食");
+    expect(html).not.toContain("·;");
+  });
+
+
 
   test("site.css defines char-card and src-badge and aligns outside ruby", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
@@ -162,6 +178,12 @@ describe("structured dictionary render", () => {
     expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*vertical-align:\s*-/s);
     expect(css).not.toContain("reading-zhuyin-vert .bpmf-body");
     expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*writing-mode:\s*vertical-rl/s);
+  });
+
+  test("site.css keeps entry headwords on one line", () => {
+    const css = readFileSync("src/styles/site.css", "utf8");
+
+    expect(css).toMatch(/\.structured-doc \.entry-spine\s*\{[^}]*white-space:\s*nowrap;/s);
   });
 
   test("standalone zhuyin fragments get an explicit class", () => {

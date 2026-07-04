@@ -1,3 +1,4 @@
+import { stripPe2Tags, wrapKaiFont } from "../dic/pe2-text.ts";
 import { jadeUnescapeLine, loadFontMaps } from "../dic/unescape.ts";
 
 const fontMaps = loadFontMaps(process.cwd());
@@ -13,7 +14,7 @@ function plainPua(ch: string): string {
 }
 
 export function legacyPlainText(text: string): string {
-  let out = text;
+  let out = stripPe2Tags(text);
   for (let i = 0; i < 8; i += 1) {
     ASTRAL_PUA.lastIndex = 0;
     if (!ASTRAL_PUA.test(out)) break;
@@ -25,5 +26,5 @@ export function legacyPlainText(text: string): string {
 }
 
 export function renderLegacyText(text: string): string {
-  return jadeUnescapeLine(text, fontMaps, true);
+  return jadeUnescapeLine(stripPe2Tags(wrapKaiFont(text)), fontMaps, true);
 }

@@ -1186,6 +1186,7 @@ html[data-theme="dark"] .structured-doc img {
   border-radius: var(--radius);
   box-shadow: var(--wenwu-down);
   display: block;
+  white-space: nowrap;
   line-height: 1.6;
   font-size: var(--fs-h3);
 }

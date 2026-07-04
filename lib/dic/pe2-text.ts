@@ -13,8 +13,8 @@ export function loadPrivateMapping(root: string): Record<string, string> {
   return mappingCache;
 }
 
-const RE_CHANGE_FONT = /~fk[a-z0-9]*;(.*?)~fm[37][a-z0-9]*;/gi;
-const RE_SPECIAL = /~[a-z0-9]+(?:;|$)/gi;
+const RE_CHANGE_FONT = /~fk[a-z0-9]*;(.*?)~fm[37][a-z0-9]*;*/gi;
+const RE_SPECIAL = /~[a-z0-9]+;*/gi;
 const RE_FK = /<k>.*?<\/k>/gi;
 
 export function stripPe2Tags(s: string): string {
@@ -22,7 +22,9 @@ export function stripPe2Tags(s: string): string {
 }
 
 export function wrapKaiFont(s: string): string {
-  return s.replace(RE_CHANGE_FONT, "<k>$1</k>");
+  return s.replace(RE_CHANGE_FONT, (_match, inner: string) =>
+    /^;*$/u.test(inner) ? "" : `<k>${inner}</k>`,
+  );
 }
 
 export function replacePrivates(s: string, mapping: Record<string, string>): string {

@@ -3,11 +3,10 @@ gen-json ::
 	perl gen-json.pl m3 | sed '1 s/^/{\n/; $$ s/,$$/\n}/' > m3.json
 
 maps_to_gif ::
-	python3 maps_to_gif.py
+	cd .. && bun run gen:maps-gif
 
 missings_to_gif ::
-	python3 missings_to_gif.py
+	cd .. && bun run gen:missing-gif
 
-missings_to_png :: missings_to_gif
-	python3 rename_gifs.py k_missing && mkdir -p k && python ../a-tsioh_sandbox/gif_to_png.py k_missing k || true
-	python3 rename_gifs.py m3_missing && mkdir -p m3 && python ../a-tsioh_sandbox/gif_to_png.py m3_missing m3 || true
+missings_to_png ::
+	cd .. && bun run gen:missing-png

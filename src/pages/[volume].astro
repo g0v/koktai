@@ -9,6 +9,7 @@ import {
 } from "../../lib/compile-pug.ts";
 import { renderStructuredSection } from "../../lib/site/structured-render.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
+import { getCorpus } from "../../lib/site/corpus.ts";
 
 export function getStaticPaths() {
   return listPugPages(process.cwd()).map((base) => ({
@@ -90,6 +91,9 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const href = (path = "") => `${baseUrl}${path}`;
+const linkCtx = isVolume
+  ? { resolver: getCorpus(root).resolver, hrefBase: baseUrl }
+  : undefined;
 const title = isVolume
   ? `${volName} ${range}・國臺對照活用辭典`
   : `${meta?.zh ?? base}・國臺對照活用辭典`;
@@ -146,7 +150,7 @@ const description = isVolume
                     syllable: rail.syllable,
                     roman: rail.roman ?? "",
                     note: "",
-                  })}
+                  }, linkCtx)}
                 />
               );
             })}

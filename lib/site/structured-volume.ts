@@ -35,6 +35,7 @@ export interface StructuredSense {
 }
 
 export interface StructuredEntry {
+  volume: string;
   line: number;
   headword: string;
   head: StructuredToken[];
@@ -153,6 +154,7 @@ function mapSense(s: WordSense): StructuredSense {
 
 function mapEntry(w: WordRecord): StructuredEntry {
   return {
+    volume: w.volume,
     line: w.line,
     headword: w.headword,
     head: mapTokens(w.head),

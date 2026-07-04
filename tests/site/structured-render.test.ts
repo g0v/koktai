@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { getCorpus } from "../../lib/site/corpus.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 import {
   renderSinogramEntry,
@@ -57,6 +58,17 @@ describe("structured dictionary render", () => {
     expect(html).toContain("□");
   });
 
+
+  test("with ctx, entry contains a.kk cross-volume href", () => {
+    const corpus = getCorpus(root);
+    const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/" };
+    const vol = getStructuredVolume(root, "01");
+    const entry = vol.sections.flatMap((s) => s.entries).find((e) => e.line === 25);
+    expect(entry).toBeDefined();
+    const html = renderStructuredEntry(entry!, { ...ctx, self: { v: "01", l: entry!.line } });
+    expect(html).toContain('class="kk"');
+    expect(html).toMatch(/lane-mandarin">[^<]*<a class="kk" href="[^"]+\.html#w-/);
+  });
   test("renderStructuredEntry without ctx matches prior output shape", () => {
     const { entry } = entryGerRen();
     const html = renderStructuredEntry(entry);

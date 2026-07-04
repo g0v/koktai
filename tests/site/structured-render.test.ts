@@ -32,7 +32,7 @@ describe("structured dictionary render", () => {
     expect(html).toContain("文");
     expect(html).toContain("語");
     expect(html).toContain("entry-card");
-    expect(html).toContain("reading-chip");
+    expect(html).toContain("token-ruby");
     expect(html).toContain("usage-register");
     expect(html).toContain("lane-mandarin");
     expect(html).toContain("lane-taigi");
@@ -140,8 +140,29 @@ describe("structured dictionary render", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
     expect(css).toContain(".char-card");
     expect(css).toContain(".src-badge");
-    expect(css).toMatch(/ruby:not\(\.zhuyin\)\s*\{[^}]*vertical-align:\s*middle;/s);
-    expect(css).toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).toMatch(/ruby:not\(\.zhuyin\),\s*ruby\.zhuyin-standalone\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).not.toContain("ruby.zhuyin:has(> rt:only-child)");
+    expect(css).not.toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
+  });
+
+  test("standalone zhuyin fragments get an explicit class", () => {
+    const html = renderLegacyText("<rt>ㄧ</rt>");
+
+    expect(html).toBe('<ruby class="zhuyin zhuyin-standalone"><rt>ㄧ</rt></ruby>');
+  });
+
+  test("syllable tokens render readings as ruby annotations over linked han", () => {
+    const token = {
+      kind: "syl",
+      han: "一嘴",
+      readings: [{ zhuyin: "ㄆㄨㄧ˪", register: [], geo: [], other: [] }],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('<ruby class="token-ruby zhuyin">');
+    expect(html).toContain('<span class="token-han">一嘴</span>');
+    expect(html).toContain('<rt><span class="reading-zhuyin">ㄆㄨㄧ˪</span></rt>');
+    expect(html).not.toContain('<span class="token-han">一嘴</span><span class="reading-chip">');
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

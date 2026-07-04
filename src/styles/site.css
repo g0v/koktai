@@ -695,7 +695,8 @@ u.lg-t {
 }
 
 /* ruby / zhuyin — the annotation voice */
-ruby:not(.zhuyin) {
+ruby:not(.zhuyin),
+ruby.zhuyin-standalone {
   vertical-align: middle;
 }
 
@@ -705,7 +706,6 @@ rt {
   line-height: 1;
   color: color-mix(in srgb, var(--ink) 76%, transparent);
   letter-spacing: -0.01em;
-  vertical-align: middle;
 }
 rt.rt-l {
   font-size: 0.46em;

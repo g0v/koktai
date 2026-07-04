@@ -8,8 +8,8 @@ const indexPageSource = readFileSync("src/pages/index.astro", "utf8");
 
 describe("dictionary render contracts", () => {
   test("volume ranges use wave dash between bopomofo syllables", () => {
-    expect(volumePageSource).toContain("${sections[0].syllable}～${sections[sections.length - 1].syllable}");
-    expect(volumePageSource).not.toContain("${sections[0].syllable}—${sections[sections.length - 1].syllable}");
+    expect(volumePageSource).toContain("${railSections[0]!.syllable}～${railSections[railSections.length - 1]!.syllable}");
+    expect(volumePageSource).not.toContain("${railSections[0]!.syllable}—${railSections[railSections.length - 1]!.syllable}");
     expect(indexPageSource).toContain("{v.first}～{v.last}");
     expect(indexPageSource).not.toContain("{v.first}—{v.last}");
   });

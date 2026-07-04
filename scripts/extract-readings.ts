@@ -142,6 +142,7 @@ Regenerate:
 
 \`\`\`bash
 bun run extract:readings
+bun run export:tei
 \`\`\`
 
 Optional full token streams (gitignored):
@@ -151,10 +152,13 @@ bun run extract:readings -- --full
 \`\`\`
 
 Files:
-- \`koktai-sinogram-readings.jsonl\` — per-sinogram blocks
-- \`koktai-word-readings.jsonl\` — word entries (reduced taigi)
-- \`extract-stats.json\` — corpus counters
-- \`extract-anomalies.jsonl\` — parse/roundtrip issues
+- koktai-sinogram-readings.jsonl — per-sinogram blocks.
+- koktai-word-readings.jsonl — word entries with reduced 台語 tokens.
+- extract-stats.json — corpus counters and coverage.
+- extract-anomalies.jsonl — preserved parse/round-trip anomaly records.
+- koktai-pron.tei.xml — TEI pronunciation/usg layer for sinogram blocks.
+
+Current extraction stats: ${result.stats.volumes} volumes, ${result.stats.sinograms.toLocaleString("en-US")} sinogram blocks, ${result.stats.words.toLocaleString("en-US")} word records, ${result.stats.senses.toLocaleString("en-US")} senses, ${result.stats.readingLines.toLocaleString("en-US")} reading lines, ${result.stats.readingLinesParsed.toLocaleString("en-US")} parsed reading lines, ${result.stats.readings.toLocaleString("en-US")} reading values, ${result.stats.roundtripFailures} round-trip failures, ${result.stats.anomalies} anomalies.
 `;
 
 writeFileSync(join(outDir, "README.md"), readme, "utf8");

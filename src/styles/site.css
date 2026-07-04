@@ -65,6 +65,75 @@ a {
   text-decoration-thickness: 1px;
 }
 
+/* inner-text dictionary links */
+a.kk {
+  text-decoration-style: dotted;
+  text-underline-offset: 0.15em;
+}
+a.kk:hover,
+a.kk:focus-visible {
+  background: var(--eten-glow);
+}
+
+/* kk hover card */
+.kk-card {
+  position: fixed;
+  z-index: 1200;
+  max-height: min(70dvh, 28rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--paper-lift);
+  color: var(--ink);
+  border-radius: 6px;
+  box-shadow:
+    0 12px 40px rgb(0 0 0 / 0.14),
+    inset 0 0 0 1px rgb(0 0 0 / 0.06);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.kk-card[hidden] {
+  display: none !important;
+}
+.kk-card-head {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--paper-deep);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.kk-card-head a {
+  color: var(--eten);
+  text-decoration: none;
+}
+.kk-card-head a:hover {
+  text-decoration: underline;
+}
+.kk-card-body {
+  padding: 0.75rem 0.85rem 0.85rem;
+}
+.kk-card-body .entry,
+.kk-card-body .entry-card,
+.kk-card-body .char-card {
+  padding: 0;
+  margin: 0;
+}
+.kk-card-loading,
+.kk-card-error {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+.kk-card-seealso {
+  padding: 0.55rem 0.85rem 0.7rem;
+  border-top: 1px solid var(--paper-deep);
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+.kk-card-seealso a.kk {
+  margin-inline: 0.15rem;
+}
+
+
 .skip-link {
   position: absolute;
   left: -100vw;

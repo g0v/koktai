@@ -20,6 +20,25 @@ bun run check       # tsgo --noEmit
 `scripts/legacy-py3/`）保留原位僅作歷史對照（`bun run parity:stage`）；
 舊的 Python2 Makefile drivers 已移到 `archive/`，只作歷史參考。
 
+## 結構化資料
+
+Issue [g0v/koktai#3](https://github.com/g0v/koktai/issues/3) requested a better machine-readable representation of the word-entry pronunciations. The extractor keeps the website render pipeline byte-identical, but also emits structured pronunciation data under `data/`.
+
+```sh
+bun run extract:readings  # JSONL + stats + anomaly ledger
+bun run export:tei        # TEI pronunciation/usg export
+```
+
+Outputs:
+
+- `data/koktai-sinogram-readings.jsonl` — per-sinogram `~fm7;` reading blocks.
+- `data/koktai-word-readings.jsonl` — word entries with structured 台語 reading tokens.
+- `data/extract-stats.json` — corpus counters and coverage.
+- `data/extract-anomalies.jsonl` — preserved parse/round-trip anomaly records.
+- `data/koktai-pron.tei.xml` — TEI pronunciation/usg layer for scholarly reuse.
+
+The JSONL schema lives in `lib/extract/types.ts`. The data inherits the source license, CC-BY-SA 3.0 TW. Credit: the extraction target and examples came from @sih4sing5hong5's issue #3 report and han2edu normalization behavior.
+
 ### 補字形圖檔
 
 此節僅在需要重產造字圖檔（`img/k`、`img/m3`，已提交）時使用，

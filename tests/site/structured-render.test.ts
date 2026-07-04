@@ -37,6 +37,18 @@ describe("structured dictionary render", () => {
     expect(html).toContain("reading-zhuyin");
   });
 
+  test("renderStructuredEntry without ctx matches prior output shape", () => {
+    const { entry } = entryGerRen();
+    const html = renderStructuredEntry(entry);
+    expect(html).not.toMatch(/\bid="/);
+    expect(html).not.toContain('class="kk"');
+    expect(html).toContain("entry-card");
+    expect(html).toContain("【");
+    expect(entry.headword).toBe("個人");
+    expect(html).toContain("entry-spine");
+  });
+
+
   test("renderStructuredToken generates variant-chip and usage-geo", () => {
     const token = {
       kind: "variant",
@@ -68,5 +80,11 @@ describe("structured dictionary render", () => {
     expect(html).toContain('id="s-1"');
     expect(html).toContain('class="syl"');
     expect(html).not.toContain("set:html");
+  });
+
+  test("[volume].astro uses string renderer instead of StructuredEntry", () => {
+    const src = readFileSync("src/pages/[volume].astro", "utf8");
+    expect(src).not.toContain("StructuredEntry");
+    expect(src).toContain("renderStructuredSection");
   });
 });

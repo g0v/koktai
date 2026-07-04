@@ -1,6 +1,6 @@
 ---
+import { Fragment } from "astro/jsx-runtime";
 import Dictionary from "../layouts/Dictionary.astro";
-import StructuredEntry from "../components/StructuredEntry.astro";
 import {
   listPugPages,
   getVolumeData,
@@ -8,6 +8,7 @@ import {
   chineseNumeral,
   wrapPe2Directives,
 } from "../../lib/compile-pug.ts";
+import { renderStructuredSection } from "../../lib/site/structured-render.ts";
 import { getStructuredVolume } from "../../lib/site/structured-volume.ts";
 
 export function getStaticPaths() {
@@ -140,17 +141,14 @@ const description = isVolume
             {structuredVolume!.sections.map((section, i) => {
               const rail = railSections[i]!;
               return (
-                <section class="syl" id={rail.id}>
-                  <div class="syl-head">
-                    <h2>
-                      <b class="syl-zi">{rail.syllable}</b>
-                      {rail.roman && <span class="syl-rom">{rail.roman}</span>}
-                    </h2>
-                  </div>
-                  {section.entries.map((entry) => (
-                    <StructuredEntry entry={entry} />
-                  ))}
-                </section>
+                <Fragment
+                  set:html={renderStructuredSection(section, {
+                    id: rail.id,
+                    syllable: rail.syllable,
+                    roman: rail.roman ?? "",
+                    note: "",
+                  })}
+                />
               );
             })}
           </div>

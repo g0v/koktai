@@ -724,24 +724,23 @@ ruby.zhuyin-standalone {
 }
 
 .token-ruby.zhuyin {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  column-gap: 0.08em;
-  align-items: center;
-  vertical-align: -0.08em;
-  ruby-position: inter-character;
+  ruby-position: over;
+  vertical-align: baseline;
 }
 
 .token-ruby.zhuyin > .token-han {
-  grid-column: 1;
+  min-width: 1em;
+  text-align: center;
 }
 
 .token-ruby.zhuyin > rt {
-  display: block;
-  grid-column: 2;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  line-height: 1.05;
+  position: relative;
+  inset-block-start: -0.45em;
+  font-size: 0.46em;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
 }
 
 rt {
@@ -763,14 +762,16 @@ mark {
   color: inherit;
   font-family: "koktai-k", var(--font-display);
 }
-.doc img {
+.doc img,
+.structured-doc img {
   width: 1em;
   height: 1em;
   border: 0;
   vertical-align: -0.1em;
   mix-blend-mode: multiply;
 }
-html[data-theme="dark"] .doc img {
+html[data-theme="dark"] .doc img,
+html[data-theme="dark"] .structured-doc img {
   filter: invert(0.9) hue-rotate(180deg);
   mix-blend-mode: screen;
 }

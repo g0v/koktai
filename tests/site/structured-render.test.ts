@@ -151,13 +151,17 @@ describe("structured dictionary render", () => {
     expect(css).toContain(".src-badge");
     expect(css).toMatch(/ruby:not\(\.zhuyin\),\s*ruby\.zhuyin-standalone\s*\{[^}]*vertical-align:\s*middle;/s);
     expect(css).not.toContain("ruby.zhuyin:has(> rt:only-child)");
-    expect(css).not.toMatch(/rt\s*\{[^}]*vertical-align:\s*middle;/s);
+    expect(css).not.toMatch(/(^|\n)rt\s*\{[^}]*vertical-align:\s*middle;/s);
   });
 
-  test("site.css binds structured token zhuyin beside each base glyph", () => {
+  test("site.css keeps structured token zhuyin above without lowering the base glyph", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
-    expect(css).toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*display:\s*inline-grid;[^}]*ruby-position:\s*inter-character;/s);
-    expect(css).toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*writing-mode:\s*vertical-rl;/s);
+    expect(css).toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*ruby-position:\s*over;[^}]*vertical-align:\s*baseline;/s);
+    expect(css).toMatch(/\.token-ruby\.zhuyin\s*>\s*rt\s*\{[^}]*position:\s*relative;[^}]*inset-block-start:\s*-/s);
+    expect(css).not.toMatch(/\.token-ruby\.zhuyin\s*\{[^}]*display:\s*inline-grid/s);
+    expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*vertical-align:\s*-/s);
+    expect(css).not.toContain("reading-zhuyin-vert .bpmf-body");
+    expect(css).not.toMatch(/\.token-ruby\.zhuyin[^}]*writing-mode:\s*vertical-rl/s);
   });
 
   test("standalone zhuyin fragments get an explicit class", () => {
@@ -178,6 +182,23 @@ describe("structured dictionary render", () => {
     expect(html).toContain('<span class="token-han">一嘴</span>');
     expect(html).toContain('<rt><span class="reading-zhuyin">ㄆㄨㄧ˪</span></rt>');
     expect(html).not.toContain('<span class="token-han">一嘴</span><span class="reading-chip">');
+  });
+
+  test("Mandarin tone marks stay inline in stacked horizontal ruby", () => {
+    const token = {
+      kind: "syl",
+      han: "把",
+      readings: [
+        { zhuyin: "ㄅㄚˇ", register: [], geo: [], other: [] },
+        { zhuyin: "ㄅㄚˉ", register: [], geo: [], other: [] },
+      ],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('<rt><span class="reading-zhuyin">ㄅㄚˇ</span><span class="reading-zhuyin">ㄅㄚˉ</span></rt>');
+    expect(html).not.toContain("bpmf-body");
+    expect(html).not.toContain("bpmf-tone");
+    expect(html).not.toContain("reading-zhuyin-vert");
   });
 
   test("structured volume body uses structured-doc and section anchors", () => {

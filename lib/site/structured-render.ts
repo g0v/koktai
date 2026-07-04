@@ -78,20 +78,20 @@ function renderReadingBadges(reading: StructuredReading): string {
   return badges.join("");
 }
 
+
+function renderZhuyinAnnotation(raw: string): string {
+  return `<span class="reading-zhuyin">${escapeHtml(legacyPlainText(raw))}</span>`;
+}
+
 function renderReadingAnnotations(readings: StructuredReading[]): string {
   if (readings.length === 0) return "";
-  const rts = readings
-    .map(
-      (reading) =>
-        `<rt><span class="reading-zhuyin">${escapeHtml(legacyPlainText(reading.zhuyin))}</span></rt>`,
-    )
-    .join("");
+  const annotations = readings.map((reading) => renderZhuyinAnnotation(reading.zhuyin)).join("");
   const labels = readings
     .map(renderReadingBadges)
     .filter(Boolean)
     .map((badges) => `<span class="reading-labels">${badges}</span>`)
     .join("");
-  return `${rts}${labels}`;
+  return `<rt>${annotations}</rt>${labels}`;
 }
 
 export function renderReadingChip(reading: StructuredReading): string {

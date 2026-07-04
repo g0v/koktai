@@ -125,6 +125,10 @@ export function splitVolume(recoded: string): VolumeBlocks {
       continue;
     }
 
+    if (wordBuf.length > 0 && !trimmed) {
+      continue;
+    }
+
     if (wordBuf.length > 0) {
       flushWord();
     }

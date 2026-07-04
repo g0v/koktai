@@ -62,6 +62,18 @@ function buildTaigiTokens(sentences: { lang: string; sentence: string }[], s: Sy
   return out;
 }
 
+const TAIL_LEYU = /~fk;台類語~fm3;：/u;
+
+function continuationTaigiAfterFirstSense(mainPart: string, tailPart: string, s: Syllables): Token[] {
+  const segments = mainPart.split(/(?=\(台\))/u).filter((seg) => seg.startsWith("(台)"));
+  const lastTai = segments.at(-1)?.replace(/^\(台\)/u, "") ?? "";
+  const tail = tailPart.replace(TAIL_LEYU, "");
+  const text = lastTai + tail;
+  if (!text) return [];
+  return tokenizeTaigi(normalizeTaigi(text, s), s);
+}
+
+
 export function parseWord(
   raw: RawWordLine,
   volume: string,
@@ -69,7 +81,11 @@ export function parseWord(
   s: Syllables,
   root: string,
 ): WordRecord | null {
-  const entry = parseWordLine(raw.text, root);
+  const tailIdx = raw.text.search(TAIL_LEYU);
+  const mainText = tailIdx >= 0 ? raw.text.slice(0, tailIdx) : raw.text;
+  const tailText = tailIdx >= 0 ? raw.text.slice(tailIdx) : "";
+
+  const entry = parseWordLine(mainText, root);
   if (!entry) return null;
 
   const head = tokenizeEntryHead(entry.entry, s);
@@ -78,12 +94,26 @@ export function parseWord(
   const mandarin = entry.sentences.filter((x) => x.lang === "國語").map((x) => x.sentence);
   const taigi = buildTaigiTokens(entry.sentences, s);
 
-  const sense: WordSense = {
-    nh: entry.nh,
-    pos: entry.POS,
-    taigi,
-    mandarin,
-  };
+  const senses: WordSense[] = [
+    {
+      nh: entry.nh,
+      pos: entry.POS,
+      taigi,
+      mandarin,
+    },
+  ];
+
+  if (tailText) {
+    const taigi2 = continuationTaigiAfterFirstSense(mainText, tailText, s);
+    if (taigi2.length > 0) {
+      senses.push({
+        nh: String(Number(entry.nh) + 1),
+        pos: entry.POS,
+        taigi: taigi2,
+        mandarin: [],
+      });
+    }
+  }
 
   return {
     kind: "word",
@@ -92,6 +122,6 @@ export function parseWord(
     chapterZhuyin,
     headword,
     head,
-    senses: [sense],
+    senses,
   };
 }

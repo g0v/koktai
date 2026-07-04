@@ -25,6 +25,12 @@ bun run check       # tsgo --noEmit
 此節僅在需要重產造字圖檔（`img/k`、`img/m3`，已提交）時使用，
 不屬於建置流程；建置本身只需要 bun 與 tsgo。
 
+驅動這幾支腳本（`font/maps_to_gif.py`、`font/missings_to_gif.py`、
+`font/rename_gifs.py`、`a-tsioh_sandbox/gif_to_png.py`）現已改用
+Bun／TypeScript 版本（`scripts/font/`、`lib/font/`），`bun install` 會一併裝好
+`sharp` 取代 Pillow 做 GIF→PNG，不需要另外裝 Python 套件；舊的 Python 腳本
+保留原位僅作歷史參考。
+
 Steps 1 and 2 are needed if first time using `xfn2gif`.
 
 1. in `font/hfn/xfn2gif.c`: change `<dir.h>` -> `<dirent.h>`
@@ -38,10 +44,10 @@ gcc --include stdlib.h xfn2gif.c xfn.c convert.c tai.c bitmap.c gd1.3/libgd.a -o
 cd ..
 ```
 
-3. `python -m pip install pillow`, if first time converting to png
-4. in the project root, run `bun run gen:pug && bun run diff:pug` to update and verify `pug/`
-5. in `font/`, run `make missings_to_png`
-6. move the PNG files within `font/k` and/or `font/m3` into respectively `img/k` and/or `img/m3`
+3. in the project root, run `bun run gen:pug && bun run diff:pug` to update and verify `pug/`
+4. in `font/`, run `make missings_to_png`（依序執行 `bun run gen:missing-gif` 找出缺圖、
+   重新命名並轉成 PNG，等同原本 `missings_to_gif.py` + `rename_gifs.py` + `gif_to_png.py`）
+5. move the PNG files within `font/k` and/or `font/m3` into respectively `img/k` and/or `img/m3`
 
 ## 吳家原註
 

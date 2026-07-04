@@ -50,6 +50,7 @@ export interface StructuredReadingLine {
 }
 
 export interface StructuredSinogram {
+  volume: string;
   han: string;
   line: number;
   fanqie: string | null;
@@ -173,6 +174,7 @@ function mapReadingLine(l: ReadingLine): StructuredReadingLine {
 
 function mapSinogram(g: SinogramEntry): StructuredSinogram {
   return {
+    volume: g.volume,
     han: g.han,
     line: g.line,
     fanqie: g.fanqie,

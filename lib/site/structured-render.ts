@@ -176,7 +176,14 @@ export function renderStructuredSection(
     ? `<span class="syl-rom">${escapeHtml(meta.roman)}</span>`
     : "";
   const note = meta.note ? `<p class="syl-note">${escapeHtml(meta.note)}</p>` : "";
-  const sinograms = section.sinograms.map((s) => renderSinogramEntry(s, ctx)).join("");
+  const sinograms = section.sinograms
+    .map((s) =>
+      renderSinogramEntry(
+        s,
+        ctx ? { ...ctx, self: { k: "c", v: s.volume, l: s.line } } : undefined,
+      ),
+    )
+    .join("");
   const entries = section.entries
     .map((e) =>
       renderStructuredEntry(e, ctx ? { ...ctx, self: { k: "w", v: e.volume, l: e.line } } : undefined),

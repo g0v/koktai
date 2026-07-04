@@ -30,6 +30,10 @@ function initSearchBox(root: HTMLElement): void {
   let rows: SuggestRow[] = [];
   let items: ListItem[] = [];
   let active = -1;
+  let mode: "suggest" | "fulltext" = "suggest";
+  let fetchStarted = false;
+  let worker: Worker | undefined;
+  let pendingQuery = "";
   const setExpanded = (open: boolean) => {
     root.dataset.open = open ? "true" : "false";
     input.setAttribute("aria-expanded", open ? "true" : "false");

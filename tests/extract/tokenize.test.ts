@@ -51,4 +51,14 @@ describe("word-text tokenizer", () => {
     const ji = ts.find((t): t is HanSyllable => t.kind === "syl" && t.han === "丌")!;
     expect(ji.readings).toEqual([{ zhuyin: s.k["8d44"], usages: [] }]);
   });
+  test("variant group trailing ：訓讀 → usages on VariantGroup", () => {
+    const input = `字${P("fab6")}(/濟/多：訓讀)`;
+    const ts = tokenizeTaigi(input, s);
+    const v = ts.find((t) => t.kind === "variant")!;
+    expect(v.kind).toBe("variant");
+    if (v.kind !== "variant") return;
+    expect(v.alternatives.length).toBe(2);
+    expect(v.usages).toEqual([{ dim: "phenomenon", value: "訓讀" }]);
+    expect(serializeTokens(input, ts)).toBe(input);
+  });
 });

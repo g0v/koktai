@@ -419,7 +419,19 @@ class Scanner {
       buf += this.take();
     }
     alts.push(buf);
-    return { kind: "variant", alternatives: alts.map((alt) => tokenizeTaigi(alt, this.s)), usages: [], span: [a, this.pos] };
+    let lastAlt = alts[alts.length - 1] ?? "";
+    let usages: Usage[] = [];
+    const colonIdx = lastAlt.lastIndexOf("：");
+    if (colonIdx >= 0) {
+      const labelText = lastAlt.slice(colonIdx + 1);
+      const labs = classifyLabel(labelText);
+      if (labs) {
+        usages = labs;
+        lastAlt = lastAlt.slice(0, colonIdx);
+        alts[alts.length - 1] = lastAlt;
+      }
+    }
+    return { kind: "variant", alternatives: alts.map((alt) => tokenizeTaigi(alt, this.s)), usages, span: [a, this.pos] };
   }
 }
 

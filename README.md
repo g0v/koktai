@@ -13,11 +13,17 @@ bun run diff:pug    # 與已提交 pug/ 做全文 byte-identical 對照
 bun run check       # tsgo --noEmit
 ```
 
-Production chain：Perl `a-tsioh_sandbox/recode_utf8.pl` → TypeScript analyse
-(`lib/dic/dic2pug.ts`) → Perl `font/jade-unescape.pl` → TypeScript finalize。
+整條轉換鏈為純 TypeScript（`lib/dic/`：CP950 recode → analyse → jade-unescape
+→ finalize），建置只需要 bun 與 tsgo，不需要 Perl 或 Python。
+`bun run diff:pug` 已驗證輸出與歷史 Perl 產線 byte-identical。
+舊的 Perl／Python 腳本（`a-tsioh_sandbox/recode_utf8.pl`、`font/jade-unescape.pl`、
+`scripts/legacy-py3/`）保留原位僅作歷史對照（`bun run parity:stage`）；
 舊的 Python2 Makefile drivers 已移到 `archive/`，只作歷史參考。
 
 ### 補字形圖檔
+
+此節僅在需要重產造字圖檔（`img/k`、`img/m3`，已提交）時使用，
+不屬於建置流程；建置本身只需要 bun 與 tsgo。
 
 Steps 1 and 2 are needed if first time using `xfn2gif`.
 

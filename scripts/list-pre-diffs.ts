@@ -27,7 +27,7 @@ function py3Pre(dicPath: string): string {
   return dic2.stdout ?? "";
 }
 
-const ts = dicTextToPugBody(recodeDicFile(root, dic), root).split("\n");
+const ts = dicTextToPugBody(recodeDicFile(dic), root).split("\n");
 const py = py3Pre(dic).split("\n");
 let n = 0;
 for (let i = 0; i < Math.max(ts.length, py.length); i++) {

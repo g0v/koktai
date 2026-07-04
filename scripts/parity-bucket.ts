@@ -79,7 +79,7 @@ function role(line: string | undefined): string {
 }
 
 const dic = resolveVolumeDic(root, vol);
-const tsPre = dicTextToPugBody(recodeDicFile(root, dic), root);
+const tsPre = dicTextToPugBody(recodeDicFile(dic), root);
 const pyPre = py3PreBody(dic);
 const pre = lineDiffs(tsPre, pyPre);
 console.log(`vol ${vol} pre-unescape TS vs py3: ${pre.count} line diffs, lines ${tsPre.split("\n").length} vs ${pyPre.split("\n").length}, first ${pre.first ?? "-"}`);

@@ -9,6 +9,16 @@ const READING_SOURCE = /^~fm7;([^~]+)/;
 
 const PUNCT_ONLY = /^[\s，。、；：「」（）∥]+$/u;
 
+/** Drop trailing editorial marker with no following text (e.g. corpus ends with 「。按：」). */
+export function normalizeReadingNote(note: string | null): string | null {
+  if (note == null) return null;
+  const trimmed = note.trim();
+  if (!trimmed) return null;
+  const stripped = trimmed.replace(/[，。、；：\s]*按：\s*$/u, "");
+  const after = stripped.trim();
+  return after || null;
+}
+
 const BODY_TOKEN =
   /\([^()]*\)|[\u{f0000}-\u{fffff}]|\/|[^()／/\u{f0000}-\u{fffff}]+/gu;
 
@@ -130,10 +140,10 @@ function parseReadingBody(
     lastWasReading = false;
   }
 
-  const note = noteParts.join("").trim() || null;
+  const note = normalizeReadingNote(noteParts.join("").trim() || null);
   if (readings.length === 0) {
     const noteOnly = body.trim();
-    return { readings: [], note: body || null, parsed: noteOnly.startsWith("未收") };
+    return { readings: [], note: normalizeReadingNote(body || null), parsed: noteOnly.startsWith("未收") };
   }
   return { readings, note, parsed: true };
 }

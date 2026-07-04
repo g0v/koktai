@@ -26,4 +26,4 @@ Files:
 - extract-anomalies.jsonl — preserved parse/round-trip anomaly records.
 - koktai-pron.tei.xml — TEI pronunciation/usg layer for sinogram blocks.
 
-Current extraction stats: 26 volumes, 11,810 sinogram blocks, 34,382 word records, 45,067 senses, 31,143 reading lines, 31,061 parsed reading lines, 480,942 reading values, 0 round-trip failures, 0 anomalies.
+Current extraction stats: 26 volumes, 11,810 sinogram blocks, 34,260 word records, 45,067 senses, 31,143 reading lines, 31,027 parsed reading lines, 478,327 reading values, 0 round-trip failures, 0 anomalies.

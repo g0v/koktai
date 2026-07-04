@@ -73,6 +73,23 @@ describe("search-data", () => {
   );
 
   test(
+    "word headword drops reading PUA after a k-tagged glyph",
+    () => {
+      const corpus = getCorpus(root);
+      const word = corpus.volumes.get("06")?.words.find((w) => w.line === 228);
+      expect(word).toBeDefined();
+      expect(word!.headword).toBe("<k>溚</k>");
+
+      const rows = buildSuggestRows(corpus);
+      const row = rows.find((r) => r[2] === "06" && r[3] === 228 && r[4] === 0);
+      expect(row).toBeDefined();
+      expect(row![0]).toBe("溚");
+      expect(row![0]).not.toContain(">");
+    },
+    30_000,
+  );
+
+  test(
     "fulltext doc for 八 contains fanqie gloss and ㄅㄚㆵ",
     () => {
       const docs = buildFulltextDocs(getCorpus(root));

@@ -388,6 +388,15 @@ class Scanner {
       }
       if (isPua(this.peek()!) && zyFromPua(this.peek()!, this.s)) {
         flush();
+        const prev = out.at(-1);
+        if (prev?.kind === "syl" && prev.span[1] === this.pos) {
+          while (!this.done() && isPua(this.peek()!) && zyFromPua(this.peek()!, this.s)) {
+            prev.readings.push({ zhuyin: zyFromPua(this.take(), this.s)!, usages: [] });
+          }
+          prev.span[1] = this.pos;
+          out[out.length - 1] = this.positionalZip(this.suffixLabels(prev));
+          continue;
+        }
         let endI = this.i;
         while (endI < this.cps.length && isPua(this.cps[endI]!) && zyFromPua(this.cps[endI]!, this.s)) endI++;
         let parsed: ParsedSyllableChunk | null = null;
@@ -398,6 +407,7 @@ class Scanner {
           if (p) {
             parsed = p;
             st = k;
+            break;
           }
         }
         if (parsed) {

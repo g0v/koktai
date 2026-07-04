@@ -4,8 +4,13 @@ import type { StructuredToken } from "../../lib/site/structured-volume.ts";
 
 const root = process.cwd();
 
-function sylToken(tokens: StructuredToken[], han: string): StructuredToken {
-  const t = tokens.find((x) => x.han === han);
+function sylToken(
+  tokens: StructuredToken[],
+  han: string,
+): Extract<StructuredToken, { kind: "syl" }> {
+  const t = tokens.find(
+    (x): x is Extract<StructuredToken, { kind: "syl" }> => x.kind === "syl" && x.han === han,
+  );
   expect(t).toBeDefined();
   return t!;
 }
@@ -30,4 +35,20 @@ describe("structured volume view model", () => {
     expect(wo.readings[0]!.geo).toEqual([]);
     expect(wo.readings[1]!.geo).toEqual([]);
   });
+  test("volume 01: 【八荒】 preserves variant group alternatives", () => {
+    const vol = getStructuredVolume(root, "01");
+    const entry = vol.sections
+      .flatMap((s) => s.entries)
+      .find((e) => e.headword === "八荒");
+    expect(entry).toBeDefined();
+    const sense = entry!.senses.find((s) => s.nh === "1");
+    expect(sense).toBeDefined();
+    const variant = sense!.taigi.find((t) => t.kind === "variant");
+    expect(variant).toBeDefined();
+    if (variant?.kind !== "variant") return;
+    expect(variant.alternatives.length).toBeGreaterThan(0);
+    const firstAlt = variant.alternatives[0]!;
+    expect(firstAlt.some((t) => t.kind === "syl" && t.han === "域")).toBe(true);
+  });
+
 });

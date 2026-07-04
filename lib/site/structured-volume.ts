@@ -1,5 +1,5 @@
 import { extractVolume } from "../extract/extract.ts";
-import type { Reading, Token, WordRecord, WordSense } from "../extract/types.ts";
+import type { Reading, Token, Usage, WordRecord, WordSense } from "../extract/types.ts";
 
 export interface StructuredReading {
   zhuyin: string;
@@ -8,10 +8,16 @@ export interface StructuredReading {
   other: string[];
 }
 
-export interface StructuredToken {
-  han: string;
-  readings: StructuredReading[];
-}
+export type StructuredToken =
+  | { kind: "syl"; han: string; readings: StructuredReading[] }
+  | {
+      kind: "variant";
+      alternatives: StructuredToken[][];
+      usages: { register: string[]; geo: string[]; other: string[] };
+      text: string;
+    }
+  | { kind: "reading"; readings: StructuredReading[] }
+  | { kind: "prose"; text: string };
 
 export interface StructuredSense {
   nh: string;
@@ -39,6 +45,26 @@ export interface StructuredVolume {
   sections: StructuredSection[];
 }
 
+function bucketUsages(usages: Usage[]): { register: string[]; geo: string[]; other: string[] } {
+  const register: string[] = [];
+  const geo: string[] = [];
+  const other: string[] = [];
+  for (const u of usages) {
+    switch (u.dim) {
+      case "register":
+        register.push(u.value);
+        break;
+      case "geo":
+        geo.push(u.value);
+        break;
+      default:
+        other.push(u.value);
+        break;
+    }
+  }
+  return { register, geo, other };
+}
+
 function bucketReading(r: Reading): StructuredReading {
   const register: string[] = [];
   const geo: string[] = [];
@@ -59,28 +85,38 @@ function bucketReading(r: Reading): StructuredReading {
   return { zhuyin: r.zhuyin, register, geo, other };
 }
 
-function mapToken(t: Token): StructuredToken | null {
+function tokenDisplayText(t: StructuredToken): string {
   switch (t.kind) {
     case "syl":
-      return { han: t.han, readings: t.readings.map(bucketReading) };
-    case "variant":
-      return null;
-    case "reading":
-      return { han: "", readings: t.readings.map(bucketReading) };
+      return t.han;
     case "prose":
-      return { han: t.text, readings: [] };
-    default:
-      return null;
+      return t.text;
+    case "reading":
+      return t.readings.map((r) => r.zhuyin).join("");
+    case "variant":
+      return t.text;
   }
 }
 
-function mapTokens(tokens: Token[]): StructuredToken[] {
-  const out: StructuredToken[] = [];
-  for (const t of tokens) {
-    const mapped = mapToken(t);
-    if (mapped) out.push(mapped);
+function mapToken(t: Token): StructuredToken {
+  switch (t.kind) {
+    case "syl":
+      return { kind: "syl", han: t.han, readings: t.readings.map(bucketReading) };
+    case "variant": {
+      const alternatives = t.alternatives.map((alt) => alt.map(mapToken));
+      const text = alternatives.map((alt) => alt.map(tokenDisplayText).join("")).join("/");
+      return { kind: "variant", alternatives, usages: bucketUsages(t.usages), text };
+    }
+    case "reading":
+      return { kind: "reading", readings: t.readings.map(bucketReading) };
+    case "prose":
+      return { kind: "prose", text: t.text };
   }
-  return out;
+}
+
+
+function mapTokens(tokens: Token[]): StructuredToken[] {
+  return tokens.map(mapToken);
 }
 
 function mapSense(s: WordSense): StructuredSense {

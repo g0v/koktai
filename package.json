@@ -24,7 +24,8 @@
     "gen:missing-gif": "bun run scripts/font/missings-to-gif.ts",
     "gen:missing-png": "bun run scripts/font/missings-to-png.ts",
     "check:search-dist": "bun run scripts/check-search-dist.ts",
-    "font:build": "cargo build --release -p koktai-font"
+    "font:build": "cargo build --release -p koktai-font",
+    "regen:glyphs": "bun run scripts/font/regen-all-glyphs.ts"
   },
   "dependencies": {
     "astro": "^7.0.6",

@@ -32,7 +32,7 @@ function astralCode(ch: string): string {
   return (cp - 0xf0000).toString(16).padStart(4, "0");
 }
 
-/** Astral PUA readings: `jade-unescape.pl` `m3()` uses `m3.json` only (not `k.json`). */
+/** Reading text from `m3.json` only (Perl `m3()` inner rt path). */
 function astralRtText(
   code: string,
   maps: FontMaps,
@@ -42,6 +42,21 @@ function astralRtText(
   const rt = maps.m3[code];
   if (!rt) return null;
   return orientRt(inner(rt), useHruby);
+}
+
+/** One astral codepoint → noruby text, `<rt>…</rt>`, or `<img>` (always checks `m3_noruby` first). */
+function expandM3AstralChar(
+  code: string,
+  maps: FontMaps,
+  inner: (s: string) => string,
+  useHruby: boolean,
+): string {
+  const noruby = maps.m3Noruby[code];
+  if (noruby) {
+    return noruby.includes("〾") ? `<img src="img/m3/${code}.png">` : noruby;
+  }
+  const rtText = astralRtText(code, maps, inner, useHruby);
+  return rtText ? `<rt>${rtText}</rt>` : `<img src="img/m3/${code}.png">`;
 }
 
 function expandK(str: string, maps: FontMaps, useHruby: boolean): string {
@@ -78,12 +93,7 @@ function expandM3(str: string, maps: FontMaps, useHruby: boolean, noInner = fals
   });
   str = str.replace(/[\u{f0000}-\u{fffff}](?!<\/mark>)/gu, (ch) => {
     const code = astralCode(ch);
-    const noruby = maps.m3Noruby[code];
-    if (noruby) {
-      return noruby.includes("〾") ? `<img src="img/m3/${code}.png">` : noruby;
-    }
-    const rtText = astralRtText(code, maps, inner, useHruby);
-    return rtText ? `<rt>${rtText}</rt>` : `<img src="img/m3/${code}.png">`;
+    return expandM3AstralChar(code, maps, inner, useHruby);
   });
   return str;
 }
@@ -100,14 +110,8 @@ function astralToMarkup(ch: string, maps: FontMaps, useHruby: boolean): string {
     return String.fromCodePoint(0x245f + (cp - 0xfc6a0));
   }
   const code = astralCode(ch);
-  const noruby = maps.m3Noruby[code];
-  if (noruby) {
-    return noruby.includes("〾") ? `<img src="img/m3/${code}.png">` : noruby;
-  }
   const inner = (x: string) => expandM3(x, maps, useHruby, true);
-  const rtText = astralRtText(code, maps, inner, useHruby);
-  if (rtText) return `<rt>${rtText}</rt>`;
-  return `<img src="img/m3/${code}.png">`;
+  return expandM3AstralChar(code, maps, inner, useHruby);
 }
 
 /** Port of `font/jade-unescape.pl` (default ruby-position, no --hruby). */

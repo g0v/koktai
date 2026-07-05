@@ -1,6 +1,6 @@
 import { stripPe2Tags, wrapKaiFont } from "../dic/pe2-text.ts";
 import { jadeUnescapeLine, loadFontMaps } from "../dic/unescape.ts";
-import { normalizeSiteBase } from "./site-base.ts";
+import { normalizeSiteBase, readAstroBaseFromConfig } from "./site-base.ts";
 
 const fontMaps = loadFontMaps(process.cwd());
 const ASTRAL_PUA = /[\u{f0000}-\u{fffff}]/gu;
@@ -19,7 +19,10 @@ export function absolutizeDictionaryImgSrc(html: string, base: string): string {
 
 /** UX: show horizontal Bopomofo (ㄧ), not vertical stroke forms (丨) from legacy data. */
 export function horizontalBopomofo(text: string): string {
-  return text.replaceAll("丨", "ㄧ").replaceAll("ㆳ", "ㆪ");
+  return text
+    .replaceAll("丨", "ㄧ")
+    .replaceAll("\u31C3", "ㄧ")
+    .replaceAll("ㆳ", "ㆪ");
 }
 
 
@@ -45,7 +48,9 @@ export function legacyPlainText(text: string): string {
   return horizontalBopomofo(out);
 }
 
-export function renderLegacyText(text: string, assetBase: string): string {
-  const raw = stripKaiTagFragments(jadeUnescapeLine(stripPe2Tags(wrapKaiFont(text)), fontMaps, true));
-  return absolutizeDictionaryImgSrc(raw, assetBase);
+export function renderLegacyText(text: string, assetBase?: string): string {
+  const base = assetBase ?? readAstroBaseFromConfig(process.cwd());
+  const normalized = horizontalBopomofo(stripKaiTagFragments(stripPe2Tags(wrapKaiFont(text))));
+  const raw = stripKaiTagFragments(jadeUnescapeLine(normalized, fontMaps, true));
+  return horizontalBopomofo(absolutizeDictionaryImgSrc(raw, base));
 }

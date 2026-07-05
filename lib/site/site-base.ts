@@ -22,11 +22,14 @@ export function readAstroBaseFromConfig(root: string): string {
 export function rebaseDictionarySnapshotHtml(html: string, targetBase: string): string {
   const b = normalizeSiteBase(targetBase);
   let out = html;
+  // Entry links: snapshots may have been built with a different href prefix.
   out = out.replace(/href="\/koktai\//g, `href="${b}`);
-  out = out.replace(/src="\/koktai\/img\//g, `src="${b}img/`);
   if (b !== "/") {
     out = out.replace(/href="\/(0[1-9]|1[0-9]|2[0-6])\//g, `href="${b}$1/`);
     out = out.replace(/href="\/(0[1-9]|1[0-9]|2[0-6])\/index\.html/g, `href="${b}$1/index.html`);
   }
+  // Glyph images: always under site base (never leave /img/ at domain root when mounted at /koktai/).
+  out = out.replace(/src="\/(?:koktai\/)?img\/(k|m3)\//g, `src="${b}img/$1/`);
+  out = out.replace(/src=(["'])(?:\/koktai\/)?img\/(k|m3)\//g, `src=$1${b}img/$2/`);
   return out;
 }

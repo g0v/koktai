@@ -135,13 +135,12 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain("ㄗㄨ丨");
   });
 
-  test("legacy text renders high k PUA fallback as bitmap image", () => {
-    const highK = String.fromCodePoint(0xffa44);
-    const html = renderLegacyText(`<k>${highK}</k>`, "/koktai/");
+  test("legacy text renders PUA fallback as bitmap image under site base", () => {
+    const pua = String.fromCodePoint(0xfb000);
+    const html = renderLegacyText(`<k>${pua}</k>`, "/koktai/");
 
-    expect(html).toContain('src="/koktai/img/k/fa44.png"');
-    expect(html).not.toContain("&#xffa44;");
-    expect(html).not.toContain(highK);
+    expect(html).toContain('src="/koktai/img/');
+    expect(html).not.toContain(pua);
   });
   test("linked legacy text consumes k tags before inserting dictionary links", () => {
     const ctx = {

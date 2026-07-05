@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { rebaseDictionarySnapshotHtml } from "../../lib/site/site-base.ts";
 
 describe("rebaseDictionarySnapshotHtml", () => {
-  test("rewrites /koktai/ links to configured base", () => {
+  test("rewrites /koktai/ links and images to root base", () => {
     const html =
       '<a href="/koktai/21/24/index.html#c-1"><img src="/koktai/img/k/faca.png">';
     expect(rebaseDictionarySnapshotHtml(html, "/")).toBe(
@@ -10,8 +10,15 @@ describe("rebaseDictionarySnapshotHtml", () => {
     );
   });
 
+  test("prefixes root-relative /img/ when site is under /koktai/", () => {
+    const html = '<img src="/img/k/fa42.png">';
+    expect(rebaseDictionarySnapshotHtml(html, "/koktai/")).toBe(
+      '<img src="/koktai/img/k/fa42.png">',
+    );
+  });
+
   test("leaves already-correct base unchanged", () => {
-    const html = '<a href="/koktai/01/1/index.html#w-1">';
+    const html = '<a href="/koktai/01/1/index.html#w-1"><img src="/koktai/img/k/fa42.png">';
     expect(rebaseDictionarySnapshotHtml(html, "/koktai/")).toBe(html);
   });
 });

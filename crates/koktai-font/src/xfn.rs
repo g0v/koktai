@@ -1,8 +1,11 @@
 //! XFN font file format (port of `xfn.h` / `xfn.c`).
 
 use std::fs::File;
-use std::io::{Read, Seek, SeekFrom};
+use std::io::{BufWriter, Read, Seek, SeekFrom};
 use std::path::Path;
+
+use image::codecs::gif::GifEncoder;
+use image::{ExtendedColorType, ImageBuffer, ImageEncoder, Rgba};
 
 use crate::bitmap;
 use crate::error::FontError;
@@ -112,15 +115,17 @@ impl XfnFile {
         let bitmap = xfn.load_char_bitmap(&ch)?;
         let w = ch.pixel_width();
         let h = w;
-        let raster = bitmap::to_rgb_raster(&bitmap, w, h);
-        let image: image::ImageBuffer<image::Rgb<u8>, Vec<u8>> =
-            image::ImageBuffer::from_raw(w as u32, h as u32, raster).ok_or_else(|| {
+        let raster = bitmap::to_rgba_raster(&bitmap, w, h);
+        let image: ImageBuffer<Rgba<u8>, Vec<u8>> =
+            ImageBuffer::from_raw(w as u32, h as u32, raster).ok_or_else(|| {
                 FontError::BitmapSize {
-                    expected: w * h * 3,
+                    expected: w * h * 4,
                     actual: bitmap.len(),
                 }
             })?;
-        image.save(output)?;
+        let file = File::create(output)?;
+        let enc = GifEncoder::new(BufWriter::new(file));
+        enc.write_image(image.as_raw(), w as u32, h as u32, ExtendedColorType::Rgba8)?;
         Ok(())
     }
 }

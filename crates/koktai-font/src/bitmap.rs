@@ -9,17 +9,17 @@ pub fn get_pixel(bitmap: &[u8], width: usize, x: usize, y: usize) -> bool {
     bitmap.get(offset).is_some_and(|b| b & mask != 0)
 }
 
-/// Row-major RGB raster for GIF export (ink = black, background = white).
-pub fn to_rgb_raster(bitmap: &[u8], width: usize, height: usize) -> Vec<u8> {
-    let mut out = Vec::with_capacity(width * height * 3);
+/// Row-major RGBA raster for GIF export (ink = opaque black, background = transparent).
+/// Matches legacy `gdImageColorTransparent(im, white)` in `xfn2gif.c`.
+pub fn to_rgba_raster(bitmap: &[u8], width: usize, height: usize) -> Vec<u8> {
+    let mut out = Vec::with_capacity(width * height * 4);
     for y in 0..height {
         for x in 0..width {
-            let v = if get_pixel(bitmap, width, x, y) {
-                0u8
+            if get_pixel(bitmap, width, x, y) {
+                out.extend_from_slice(&[0, 0, 0, 255]);
             } else {
-                255u8
-            };
-            out.extend_from_slice(&[v, v, v]);
+                out.extend_from_slice(&[255, 255, 255, 0]);
+            }
         }
     }
     out

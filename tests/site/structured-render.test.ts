@@ -228,6 +228,12 @@ describe("structured dictionary render", () => {
     const css = readFileSync("src/styles/site.css", "utf8");
 
     expect(css).toMatch(/\.structured-doc \.entry-spine\s*\{[^}]*white-space:\s*nowrap;/s);
+    expect(css).toMatch(
+      /\.structured-doc \.entry-spine\s*\{[^}]*font-family:\s*var\(--font-spine\);/s,
+    );
+    expect(css).toMatch(
+      /\.structured-doc \.char-head\s*\{[^}]*font-family:\s*var\(--font-spine\);/s,
+    );
   });
 
   test("standalone zhuyin fragments get an explicit class", () => {

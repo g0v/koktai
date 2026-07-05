@@ -25,7 +25,9 @@ bun run preview    # 預覽 build 結果
 - **色**：磁白紙面、鐵墨、倚天藍（互動）、銅（文武線）、硃（印）。深色模式＝倚天夜。
 - **字**：內文用系統明體（新細明體血統）；標題與注音層用芫荽 Iansui 子集
   （`scripts/subset-display.ts` 產生 `html/font/iansui-koktai.woff2`，SIL OFL，
-  授權全文在 `html/font/OFL-Iansui.txt`）；罕用台語字沿用 `koktai-k.woff` 楷書造字。
+  授權全文在 `html/font/OFL-Iansui.txt`）；辭條書脊／字頭（`entry-spine`、
+  `char-head`、舊版 `.entry h3`）用 `--font-spine`（明體），不用 Iansui，以免
+  未收進子集的漢字與楷體 fallback 混排；罕用台語字沿用 `koktai-k.woff` 楷書造字。
 - **編譯轉換**：`lib/compile-pug.ts` 的 `transformVolume()` 把未加 class 的原始
   DOM 包成 `<section id="s-N">`（書眉導引）、`.entry`（`content-visibility` 效能）、
   `dd.lbl`＋`u.lg`（華語陽刻／台陰刻語言籤）、`rt.rt-l`（長注音縮排）。

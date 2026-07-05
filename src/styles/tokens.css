@@ -1,11 +1,13 @@
 /* ────────────────────────────────────────────────────────────────────────
    tokens.css — 國臺對照活用辭典 design tokens. All identity derives here.
 
-   Story: a Ming-print dictionary body (it was typeset for 新細明體), a
-   scholar's kai hand for chrome and zhuyin (Iansui), and a DOS-era soul —
-   the files were written in PE2 on the ETen Chinese System, so the accent
-   blue is 倚天藍 and dark mode is 倚天夜. Brass rules are 文武線, the
-   thick-thin frame lines of Chinese book pages.
+   Story: a Ming-print dictionary body (新細明體血統), a scholar's kai hand for
+   chrome and zhuyin (Iansui), and a DOS-era soul — the files were written in
+   PE2 on the ETen Chinese System, so the accent blue is 倚天藍 and dark mode
+   is 倚天夜. Brass rules are 文武線, the thick-thin frame lines of Chinese
+   book pages. Open-vocabulary headwords (entry-spine, char-head, legacy entry
+   h3) use Ming only — never Iansui — so arbitrary sinograms do not mix Kai
+   subset glyphs with system Kai fallbacks.
    ──────────────────────────────────────────────────────────────────────── */
 
 :root {
@@ -27,6 +29,7 @@
 
   /* ── type ── */
   --font-display: "Iansui", "Kaiti TC", "BiauKai", "DFKai-SB", serif;
+  --font-spine: var(--font-body);
   --font-body: "Songti TC", "LiSong Pro", "Noto Serif TC", "Noto Serif CJK TC",
     "PMingLiU", serif;
   --font-ui: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;

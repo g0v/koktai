@@ -712,8 +712,9 @@ section.syl {
   margin: 0 0 0.12em;
   font-size: var(--fs-h3);
   font-weight: 600;
+  font-family: var(--font-spine);
   line-height: 2;
-}
+ }
 
 .entry dl {
   margin: 0;
@@ -1231,7 +1232,7 @@ html[data-theme="dark"] .structured-doc img {
   text-align: center;
   background: var(--paper-deep);
   color: var(--ink);
-  font-family: var(--font-display);
+  font-family: var(--font-spine);
   border-radius: var(--radius);
   box-shadow: var(--wenwu-down);
   display: block;
@@ -1377,7 +1378,7 @@ html[data-theme="dark"] .variant-chip {
   align-items: baseline;
   gap: 0.5rem 0.75rem;
   margin: 0 0 0.6rem;
-  font-family: var(--font-display);
+  font-family: var(--font-spine);
   font-size: 1.35rem;
   font-weight: 600;
   color: var(--ink);

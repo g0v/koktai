@@ -17,6 +17,7 @@
     "diff:pug": "bun run scripts/diff-pug.ts",
     "parity:stage": "bun run scripts/parity-stage.ts",
     "parity:pipeline": "bun run diff:pug",
+    "gen:font-json": "bun run scripts/font/gen-json.ts",
     "extract:readings": "bun run scripts/extract-readings.ts",
     "export:tei": "bun run scripts/export-tei.ts",
     "check": "tsgo --noEmit",

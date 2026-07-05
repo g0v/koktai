@@ -3,7 +3,7 @@
  * Regenerate `pug/*.pug` from `.dic` / appendix sources.
  * Pure TypeScript pipeline (`lib/dic/pipeline.ts`): recode → analyse → unescape.
  * Usage: `bun run gen:pug` (all) or `bun run gen:pug -- 15` (one volume) or `bun run gen:pug -- dic-cont`
- * Parity gate: `bun run diff:pug`; legacy oracle: `bun run parity:stage <stage>`.
+ * Parity gate: `bun run diff:pug` (CI); legacy oracle: `PARITY_LEGACY=1 bun run parity:stage <stage>`.
  */
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";

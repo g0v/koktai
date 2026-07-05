@@ -4,7 +4,7 @@ import { recodeDicFile } from "./cp950.ts";
 
 /** Pre-unescape Pug body from already-recoded dictionary text via py3 dic2jade.py. */
 export function py3PreFromDicText(root: string, recodedDicText: string): string {
-  const pyDir = join(root, "scripts/legacy-py3");
+  const pyDir = join(root, "archive/legacy-py3-parity");
   const dic2 = spawnSync("python3", [join(pyDir, "dic2jade.py")], {
     cwd: root,
     input: recodedDicText,

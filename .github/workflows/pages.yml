@@ -33,6 +33,9 @@ jobs:
       - name: Test
         run: bun test --preload ./tests/site/preload-corpus.ts
 
+      - name: Pug corpus gate
+        run: bun run diff:pug
+
       - name: Build site
         run: bun run build
 

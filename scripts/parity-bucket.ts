@@ -18,7 +18,7 @@ import { resolveVolumeDic } from "../lib/dic/pipeline.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const vol = process.argv[2] ?? "01";
-const pyDir = join(root, "scripts/legacy-py3");
+const pyDir = join(root, "archive/legacy-py3-parity");
 
 function perlUnescapeBody(body: string): string {
   const unesc = spawnSync("perl", [join(root, "font/jade-unescape.pl")], {

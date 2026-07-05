@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 /**
- * Stage-level parity oracle: TS production vs legacy Python analyse / Perl unescape.
- * Recode is TS-only (`lib/dic/cp950.ts`); optional Perl drift via RECODE_LEGACY_PERL=1.
- * Usage: bun run scripts/parity-stage.ts <stage> [volumeOrAppendix]
+ * Stage parity helpers. Production gate: `bun run diff:pug`.
+ * Perl/Python oracles: set PARITY_LEGACY=1 (needs perl + python3 + archive/legacy-py3-parity).
  */
 import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -25,6 +24,10 @@ type StageName = (typeof STAGE_NAMES)[number];
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const stageArg = process.argv[2];
 const scope = process.argv[3];
+
+const parityLegacy =
+  process.env.PARITY_LEGACY === "1" || process.env.PARITY_LEGACY === "true";
+
 
 function perlRecodeFile(path: string): string | null {
   const script = join(root, "a-tsioh_sandbox/recode_utf8.pl");
@@ -89,6 +92,15 @@ function bucketAnalyse(ts: string, py: string): Record<string, number> {
   };
 }
 
+function skipLegacyStage(stage: StageName): boolean {
+  if (parityLegacy) return false;
+  if (stage === "recode") return false;
+  console.log(
+    `${stage}: skipped (TS production). Gate: bun run diff:pug. Oracle: PARITY_LEGACY=1`,
+  );
+  return true;
+}
+
 async function main() {
   const stage = parseStage(stageArg);
   if (!stage) {
@@ -128,6 +140,7 @@ async function checkOne(
   path: string,
   isDic: boolean,
 ): Promise<boolean> {
+  if (skipLegacyStage(stage)) return true;
   if (stage === "recode") return checkRecode(path);
   if (stage === "analyse") return isDic ? checkAnalyseDic(path) : checkAnalyseTxt(path);
   return checkUnescape(path, isDic);

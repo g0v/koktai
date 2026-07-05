@@ -11,7 +11,7 @@ import {
 } from "../lib/dic/unescape.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const pyDir = join(root, "scripts/legacy-py3");
+const pyDir = join(root, "archive/legacy-py3-parity");
 
 function py3PreBody(dic: string): string {
   const recoded = recodeDicPathToUtf8(dic);

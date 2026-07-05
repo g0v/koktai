@@ -11,7 +11,7 @@ import { finalizePugDocument } from "../lib/dic/unescape.ts";
 import { resolveVolumeDic } from "../lib/dic/pipeline.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const pyDir = join(root, "scripts/legacy-py3");
+const pyDir = join(root, "archive/legacy-py3-parity");
 const vol = process.argv[2] ?? "01";
 
 function runLegacyPug(volume: string): string {

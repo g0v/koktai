@@ -12,6 +12,8 @@ export interface LinkSegment {
 export interface RenderCtx {
   resolver: LinkResolver;
   hrefBase: string;
+  /** Section-split URLs; required for cross-volume entry links. */
+  corpus: import("./corpus.ts").Corpus;
   self?: { k?: "w" | "c"; v: string; l: number };
 }
 

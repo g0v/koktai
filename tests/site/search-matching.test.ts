@@ -18,11 +18,13 @@ describe("search-matching", () => {
     expect(formatVolumeLabel("26")).toBe("卷二十六");
   });
 
-  test("entryHref respects base path and anchor kind", () => {
-    expect(entryHref("/koktai/", "01", 0, 182)).toBe(
-      "/koktai/01.html#w-182",
+  test("entryHref uses section page URLs", () => {
+    expect(entryHref("/koktai/", "01", 0, 182, 3)).toBe(
+      "/koktai/01/3/index.html#w-182",
     );
-    expect(entryHref("/koktai/", "01", 1, 1)).toBe("/koktai/01.html#c-1");
+    expect(entryHref("/koktai/", "01", 1, 1, 1)).toBe(
+      "/koktai/01/1/index.html#c-1",
+    );
   });
 
   test("rankSuggestRows orders exact before prefix before contains", () => {

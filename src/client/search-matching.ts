@@ -44,9 +44,16 @@ export function entryAnchor(k: 0 | 1, line: number): string {
   return k === 1 ? `#c-${line}` : `#w-${line}`;
 }
 
-export function entryHref(base: string, vol: string, k: 0 | 1, line: number): string {
+export function entryHref(
+  base: string,
+  vol: string,
+  k: 0 | 1,
+  line: number,
+  section: number,
+): string {
   const b = base.endsWith("/") ? base : `${base}/`;
-  return `${b}${vol}.html${entryAnchor(k, line)}`;
+  const anchor = entryAnchor(k, line);
+  return `${b}${vol}/${section}/index.html${anchor}`;
 }
 
 type MatchTier = 0 | 1 | 2 | 3 | 4 | 5;

@@ -153,7 +153,20 @@ function initSearchBox(root: HTMLElement): void {
     const vol = item.kind === "suggest" ? item.row[2] : item.hit.v;
     const line = item.kind === "suggest" ? item.row[3] : item.hit.l;
     const k = item.kind === "suggest" ? item.row[4] : item.hit.k;
-    location.assign(entryHref(base, vol, k, line));
+    if (item.kind === "suggest") {
+      const section = item.row[5];
+      if (!section) return;
+      location.assign(entryHref(base, vol, k, line, section));
+      return;
+    }
+    const b = base.endsWith("/") ? base : `${base}/`;
+    const anchor = k === 1 ? `c-${line}` : `w-${line}`;
+    void fetch(`${b}sections/entry-index.json`)
+      .then((r) => r.json() as Promise<{ volumes: Record<string, Record<string, number>> }>)
+      .then((idx) => {
+        const section = idx.volumes[vol]?.[anchor];
+        if (section) location.assign(entryHref(base, vol, k, line, section));
+      });
   };
 
   input.addEventListener("focus", () => {

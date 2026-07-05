@@ -5,5 +5,5 @@ export default defineConfig({
   base: "/koktai",
   output: "static",
   server: { port: 4173 },
-  build: { format: "file" },
+  build: { format: "directory" },
 });

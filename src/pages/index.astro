@@ -82,7 +82,7 @@ const appendix = [
         </ul>
       </div>
 
-      <a class="specimen" href={href("01.html#s-1")} aria-label="從卷一第一字「八」開始">
+      <a class="specimen" href={href("01/1/index.html")} aria-label="從卷一第一音節「八」開始">
         <div class="spec-side">
           <u class="lg lg-m">華語</u>
           <div class="spec-cols">
@@ -114,7 +114,7 @@ const appendix = [
         {
           volumes.map((v, i) => (
             <li>
-              <a class="tab" href={href(`${v.base}.html`)} style={`--i:${i}`}>
+              <a class="tab" href={href(`${v.base}/index.html`)} style={`--i:${i}`}>
                 <span class="tab-n">卷{chineseNumeral(i + 1)}</span>
                 <span class="tab-range">
                   {v.first}～{v.last}

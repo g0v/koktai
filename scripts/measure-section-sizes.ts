@@ -9,7 +9,8 @@ import { getCorpus } from "../lib/site/corpus.ts";
 import { buildRailSections } from "../lib/site/volume-rail.ts";
 
 const root = join(import.meta.dir, "..");
-const linkCtx = { resolver: getCorpus(root).resolver, hrefBase: "/koktai/" };
+const corpus = getCorpus(root);
+const linkCtx = { resolver: corpus.resolver, hrefBase: "/koktai/", corpus };
 const sizeTable: Record<string, Record<string, number>> = {};
 
 for (const vol of VOLUME_IDS) {

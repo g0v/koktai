@@ -1,0 +1,44 @@
+---
+import Dictionary from "../layouts/Dictionary.astro";
+import { getVolumeData, wrapPe2Directives } from "../../lib/compile-pug.ts";
+import { APPENDIX } from "../../lib/site/volume-astro-shared.ts";
+
+export function getStaticPaths() {
+  return Object.keys(APPENDIX).map((base) => ({
+    params: { appendix: base },
+    props: { base },
+  }));
+}
+
+const { base } = Astro.props;
+const root = process.cwd();
+const raw = getVolumeData(root, base);
+const html = wrapPe2Directives(raw.html);
+const meta = APPENDIX[base]!;
+const title = `${meta.zh}・國臺對照活用辭典`;
+const description = meta.desc;
+---
+
+<Dictionary title={title} description={description}>
+  <div class:list={["page", "doc-page", `doc-${meta.kind}`]}>
+    <header class="vol-head">
+      <p class="vol-eyebrow">附錄・原始檔</p>
+      <h1 class="vol-title">{meta.zh}</h1>
+      <p class="vol-meta">{meta.file}</p>
+    </header>
+    <p class="doc-note">
+      本頁直接呈現 PE2 原始檔（Big-5 轉碼），保留當年的排版控制指令（.PO、.TL
+      ……）與原稿斷行。
+    </p>
+    {
+      meta.kind === "file" ? (
+        <>
+          <p class="file-bar">{meta.file}</p>
+          <div class="doc file-plate" set:html={html} />
+        </>
+      ) : (
+        <div class="doc" set:html={html} />
+      )
+    }
+  </div>
+</Dictionary>

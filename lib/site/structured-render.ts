@@ -1,6 +1,7 @@
 import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 export { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 import type { LinkTarget, RenderCtx } from "./linkify.ts";
+import { targetPageHref } from "./volume-paths.ts";
 import type {
   StructuredEntry,
   StructuredReading,
@@ -34,9 +35,8 @@ function sameTarget(a: LinkTarget, b: RenderCtx["self"]): boolean {
   return !!b && a.v === b.v && a.l === b.l && (!b.k || a.k === b.k);
 }
 
-function targetHref(target: LinkTarget, hrefBase: string): string {
-  const anchor = target.k === "w" ? `w-${target.l}` : `c-${target.l}`;
-  return `${hrefBase}${target.v}.html#${anchor}`;
+function targetHref(target: LinkTarget, ctx: RenderCtx): string {
+  return targetPageHref(ctx.hrefBase, target, ctx.corpus);
 }
 
 function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): string {
@@ -46,7 +46,7 @@ function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): str
     if (!alt) return renderLegacyText(text);
     effective = alt;
   }
-  const href = targetHref(effective, ctx.hrefBase);
+  const href = targetHref(effective, ctx);
   return `<a class="kk" href="${escapeHtml(href)}" data-kk="${effective.k}:${effective.v}:${effective.l}">${renderLegacyText(text)}</a>`;
 }
 

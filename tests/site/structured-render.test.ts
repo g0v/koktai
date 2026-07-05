@@ -9,6 +9,7 @@ import {
   renderStructuredEntry,
   renderStructuredVolumeBody,
 } from "../../lib/site/structured-render.ts";
+import { targetPageHref } from "../../lib/site/volume-paths.ts";
 
 const root = process.cwd();
 
@@ -62,7 +63,7 @@ describe("structured dictionary render", () => {
 
   test("with ctx, sinogram header and reading lines do not produce kk hover links", () => {
     const corpus = getCorpus(root);
-    const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/" };
+    const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/", corpus };
     const vol = getStructuredVolume(root, "01");
     const eight = vol.sections.flatMap((s) => s.sinograms).find((g) => g.han === "八");
     expect(eight).toBeDefined();
@@ -80,13 +81,12 @@ describe("structured dictionary render", () => {
 
   test("with ctx, entry contains a.kk cross-volume href", () => {
     const corpus = getCorpus(root);
-    const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/" };
+    const ctx = { resolver: corpus.resolver, hrefBase: "/koktai/", corpus };
     const vol = getStructuredVolume(root, "01");
     const entry = vol.sections.flatMap((s) => s.entries).find((e) => e.line === 25);
     expect(entry).toBeDefined();
     const html = renderStructuredEntry(entry!, { ...ctx, self: { v: "01", l: entry!.line } });
-    expect(html).toContain('class="kk"');
-    expect(html).toMatch(/lane-mandarin">[^<]*<a class="kk" href="[^"]+\.html#w-/);
+    expect(html).toMatch(/lane-mandarin">[^<]*<a class="kk" href="[^"]+\/\d+\/index\.html#w-/);
   });
 
   test("renderStructuredEntry without ctx matches prior output shape", () => {
@@ -161,6 +161,7 @@ describe("structured dictionary render", () => {
           return undefined;
         },
       },
+      corpus: getCorpus(root),
     };
     const entry = {
       volume: "01",
@@ -282,6 +283,7 @@ describe("structured dictionary render", () => {
           return undefined;
         },
       },
+      corpus: getCorpus(root),
     };
     const entry = {
       volume: "16",
@@ -300,9 +302,10 @@ describe("structured dictionary render", () => {
 
     const html = renderStructuredEntry(entry, ctx);
 
-    expect(html).toContain('<ruby class="zhuyin"><a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><rt>&thinsp;ㄎㄞ&thinsp;</rt></ruby>');
+    const kkHref = targetPageHref("/koktai/", { k: "c", v: "10", l: 1434 }, getCorpus(root));
+    expect(html).toContain(`<ruby class="zhuyin"><a class="kk" href="${kkHref}" data-kk="c:10:1434">開</a><rt>&thinsp;ㄎㄞ&thinsp;</rt></ruby>`);
     expect(html).toContain('<ruby class="zhuyin">張<rt>&thinsp;ㄉㄧㆲ/ㄉㄧㄤ&thinsp;</rt></ruby>');
-    expect(html).not.toContain('<a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>');
+    expect(html).not.toContain(`<a class="kk" href="${kkHref}" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>`);
   });
 
   test("linked Mandarin bare rt ruby keeps reading attached to its base glyph", () => {
@@ -320,6 +323,7 @@ describe("structured dictionary render", () => {
           return undefined;
         },
       },
+      corpus: getCorpus(root),
     };
     const entry = {
       volume: "16",
@@ -338,8 +342,9 @@ describe("structured dictionary render", () => {
 
     const html = renderStructuredEntry(entry, ctx);
 
-    expect(html).toContain('<ruby class="zhuyin"><a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><rt>ㄎㄞ</rt></ruby>');
-    expect(html).not.toContain('<a class="kk" href="/koktai/10.html#c-1434" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>');
+    const kkHref = targetPageHref("/koktai/", { k: "c", v: "10", l: 1434 }, getCorpus(root));
+    expect(html).toContain(`<ruby class="zhuyin"><a class="kk" href="${kkHref}" data-kk="c:10:1434">開</a><rt>ㄎㄞ</rt></ruby>`);
+    expect(html).not.toContain(`<a class="kk" href="${kkHref}" data-kk="c:10:1434">開</a><ruby class="zhuyin zhuyin-standalone"><rt>ㄎㄞ</rt></ruby>`);
   });
 
   test("solidus before linked legacy ruby stays glued to the ruby base", () => {
@@ -357,6 +362,7 @@ describe("structured dictionary render", () => {
           return undefined;
         },
       },
+      corpus: getCorpus(root),
     };
     const entry = {
       volume: "16",
@@ -375,7 +381,8 @@ describe("structured dictionary render", () => {
 
     const html = renderStructuredEntry(entry, ctx);
 
-    expect(html).toContain('(/\u2060<ruby class="zhuyin"><a class="kk" href="/koktai/05.html#c-100" data-kk="c:05:100">從</a><rt>&thinsp;ㄐ丨ㄥ˫&thinsp;</rt></ruby>)');
+    const kkHref = targetPageHref("/koktai/", { k: "c", v: "05", l: 100 }, getCorpus(root));
+    expect(html).toContain(`(/\u2060<ruby class="zhuyin"><a class="kk" href="${kkHref}" data-kk="c:05:100">從</a><rt>&thinsp;ㄐ丨ㄥ˫&thinsp;</rt></ruby>)`);
     expect(html).not.toContain('(/<ruby class="zhuyin"><a class="kk"');
   });
 
@@ -395,9 +402,10 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain("set:html");
   });
 
-  test("[volume].astro uses string renderer instead of StructuredEntry", () => {
-    const src = readFileSync("src/pages/[volume].astro", "utf8");
+  test("section route embeds pre-rendered snapshot", () => {
+    const src = readFileSync("src/pages/[volume]/[section]/index.astro", "utf8");
     expect(src).not.toContain("StructuredEntry");
-    expect(src).toContain("renderStructuredSection");
+    expect(src).toContain("section:snapshots");
+    expect(src).toContain("sectionHtml");
   });
 });

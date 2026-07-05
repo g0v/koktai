@@ -5,9 +5,35 @@ type Target = { k: Kind; v: string; l: number };
 
 const INTENT_MS = 120;
 const DISMISS_MS = 200;
-const MAX_DOCS = 4;
+const MAX_DOCS = 8;
 const MARGIN = 8;
 const FLIP_THRESHOLD = 320;
+
+type EntryIndex = { volumes: Record<string, Record<string, number>> };
+let entryIndex: EntryIndex | null = null;
+let entryIndexPromise: Promise<EntryIndex> | null = null;
+
+function baseUrl(): string {
+  const fromSearch = document.querySelector<HTMLElement>("[data-koktai-search]")?.dataset.base;
+  const base = fromSearch ?? "/koktai/";
+  return base.endsWith("/") ? base : `${base}/`;
+}
+
+async function loadEntryIndex(): Promise<EntryIndex> {
+  if (entryIndex) return entryIndex;
+  if (!entryIndexPromise) {
+    entryIndexPromise = fetch(`${baseUrl()}sections/entry-index.json`)
+      .then((r) => {
+        if (!r.ok) throw new Error("entry-index fetch failed");
+        return r.json() as Promise<EntryIndex>;
+      })
+      .then((data) => {
+        entryIndex = data;
+        return data;
+      });
+  }
+  return entryIndexPromise;
+}
 
 const docCache = new Map<string, Document>();
 const htmlCache = new Map<string, string>();
@@ -16,12 +42,6 @@ let card: HTMLElement | null = null;
 let intentTimer = 0;
 let dismissTimer = 0;
 let pinned = false;
-
-function baseUrl(): string {
-  const fromSearch = document.querySelector<HTMLElement>("[data-koktai-search]")?.dataset.base;
-  const base = fromSearch ?? "/koktai/";
-  return base.endsWith("/") ? base : `${base}/`;
-}
 
 function parseTarget(a: HTMLAnchorElement): Target | undefined {
   const raw = a.dataset.kk;
@@ -33,11 +53,21 @@ function parseTarget(a: HTMLAnchorElement): Target | undefined {
 function anchorId(t: Target): string {
   return `${t.k}-${t.l}`;
 }
+
 function targetKey(t: Target): string {
   return `${t.v}:${anchorId(t)}`;
 }
-function targetHref(t: Target): string {
-  return `${baseUrl()}${t.v}.html#${anchorId(t)}`;
+
+async function sectionFor(t: Target): Promise<number> {
+  const idx = await loadEntryIndex();
+  const sec = idx.volumes[t.v]?.[anchorId(t)];
+  if (!sec) throw new Error(`no section for ${anchorId(t)} in vol ${t.v}`);
+  return sec;
+}
+
+async function targetHref(t: Target): Promise<string> {
+  const sec = await sectionFor(t);
+  return `${baseUrl()}${t.v}/${sec}/index.html#${anchorId(t)}`;
 }
 
 function ensureCard(): HTMLElement {
@@ -70,13 +100,14 @@ function stripIds(root: Element): void {
   for (const el of root.querySelectorAll("[id]")) el.removeAttribute("id");
 }
 
-async function loadVolume(v: string): Promise<Document> {
-  const cached = docCache.get(v);
+async function loadSectionPage(v: string, sec: number): Promise<Document> {
+  const key = `${v}/${sec}`;
+  const cached = docCache.get(key);
   if (cached) return cached;
-  const res = await fetch(`${baseUrl()}${v}.html`);
-  if (!res.ok) throw new Error(`volume ${v} fetch failed: ${res.status}`);
+  const res = await fetch(`${baseUrl()}${v}/${sec}/index.html`);
+  if (!res.ok) throw new Error(`section ${v}/${sec} fetch failed: ${res.status}`);
   const doc = new DOMParser().parseFromString(await res.text(), "text/html");
-  docCache.set(v, doc);
+  docCache.set(key, doc);
   while (docCache.size > MAX_DOCS) docCache.delete(docCache.keys().next().value!);
   return doc;
 }
@@ -85,9 +116,10 @@ async function entryHtml(t: Target): Promise<string> {
   const key = targetKey(t);
   const cached = htmlCache.get(key);
   if (cached) return cached;
-  const doc = await loadVolume(t.v);
+  const sec = await sectionFor(t);
+  const doc = await loadSectionPage(t.v, sec);
   const node = doc.getElementById(anchorId(t));
-  if (!node) throw new Error(`missing ${anchorId(t)} in ${t.v}.html`);
+  if (!node) throw new Error(`missing ${anchorId(t)} in ${t.v}/${sec}/index.html`);
   const clone = node.cloneNode(true) as Element;
   stripIds(clone);
   const html = clone.outerHTML;
@@ -95,11 +127,10 @@ async function entryHtml(t: Target): Promise<string> {
   return html;
 }
 
-
-function showShell(anchor: HTMLAnchorElement, t: Target, body: string): void {
+function showShell(anchor: HTMLAnchorElement, t: Target, body: string, href: string): void {
   const el = ensureCard();
   const title = anchor.textContent?.trim() || "詞目";
-  el.innerHTML = `<header class="kk-card-head"><a href="${targetHref(t)}">${pinned ? `前往【${title}】→` : title}</a></header><div class="kk-card-body">${body}</div>`;
+  el.innerHTML = `<header class="kk-card-head"><a href="${href}">${pinned ? `前往【${title}】→` : title}</a></header><div class="kk-card-body">${body}</div>`;
   el.hidden = false;
   positionCard(anchor);
 }
@@ -108,13 +139,16 @@ async function show(anchor: HTMLAnchorElement): Promise<void> {
   const t = parseTarget(anchor);
   if (!t) return;
   activeAnchor = anchor;
-  showShell(anchor, t, `<p class="kk-card-loading">載入中…</p>`);
+  const href = await targetHref(t);
+  showShell(anchor, t, `<p class="kk-card-loading">載入中…</p>`, href);
   try {
     const html = await entryHtml(t);
     if (activeAnchor !== anchor) return;
-    showShell(anchor, t, html);
+    showShell(anchor, t, html, href);
   } catch {
-    if (activeAnchor === anchor) showShell(anchor, t, `<p class="kk-card-error">無法載入詞條。</p>`);
+    if (activeAnchor === anchor) {
+      showShell(anchor, t, `<p class="kk-card-error">無法載入詞條。</p>`, href);
+    }
   }
 }
 
@@ -123,7 +157,10 @@ function arm(anchor: HTMLAnchorElement): void {
   window.clearTimeout(intentTimer);
   const t = parseTarget(anchor);
   if (!t) return;
-  void loadVolume(t.v);
+  void loadEntryIndex().then((idx) => {
+    const sec = idx.volumes[t.v]?.[anchorId(t)];
+    if (sec) void loadSectionPage(t.v, sec);
+  });
   intentTimer = window.setTimeout(() => {
     void show(anchor);
   }, INTENT_MS);

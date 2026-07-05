@@ -1,7 +1,7 @@
 # 本地預覽（Astro + Pug 3）
 
 - **首頁**：`src/pages/index.astro`——書名、對照字例（八）、二十六卷拇指索引、附錄、關於
-- **辭典／附錄**：`pug/*.pug` → **Pug 3** → `src/pages/[volume].astro`（靜態路徑如 `/01.html`）
+- **辭典／附錄**：`pug/*.pug` → **Pug 3** → Astro（**卷** `/<vol>.html` 音節目錄；**音節** `/<vol>/<n>.html` 條目內文；附錄 `/<name>.html`）
   - `pug/` 是 1990 年代 `.dic` 轉換產生的**資料成品**（三千萬字元，現由純 TS pipeline 重產，見「其他」），不是手寫模板——
     真正的模板層在 Astro（layout／pages）。檔案為 Pug 3 語法
     （`doctype html`、一般屬性、行內 HTML 文字）。
@@ -39,14 +39,10 @@ bun run preview    # 預覽 build 結果
 
 ## 卷頁效能（實測與界線）
 
-- **已量到的負載**：例如 `dist/02.html` 約 **5.9 MiB** 原始 HTML、**65** 個 `section.syl`、**1500+** 個 `.entry`（`bun run volume:stats` 可列出 26 卷）。
-- **`.entry` 早就有** `content-visibility: auto`（略過視窗外條目的排版／繪製）。
-- **`section.syl` 亦設** `content-visibility: auto`＋`contain-intrinsic-size`（略過整段音節區塊的排版；`intrinsicPx` 可選用 `bun run measure:sections` 產生的 `section-sizes.json` 讓捲動估高較準）。
-- **CV 做不到的事**：不減少下載量、不減少 HTML 解析與完整 DOM 建樹成本。若卡頓主要在**第一次開卷**（白屏／可互動時間），瓶頸多半是 **5 MiB 級 payload + parse**，需靠**拆頁**（例如每音節一個靜態 URL，仍保留 Ctrl+F／無 JS／kk 卡片抓整卷 HTML）而非 fetch 注入空殼。
-- **怎麼驗證**（需本機瀏覽器，headless 無法代表體感）：
-  1. DevTools → **Performance**：錄製重新載入 `02.html`，看 **Scripting / Parse HTML / Layout** 哪段最長。
-  2. DevTools → **Network**：看 **Transferred** 與 **DOMContentLoaded**。
-  3. 若 **Parse HTML** 主導 → 規劃音節拆頁；若 **Layout/Paint** 在長卷捲動時主導 → CV 分層有幫助。
+- **已量到的負載**（拆頁後）：單音節頁遠小於整卷 monolith（舊例 `dist/02.html` 約 **5.9 MiB**）；卷 hub 僅音節索引。`bun run volume:stats` 可列 26 卷。
+- **建置**：`bun run build` 先跑 **`section:snapshots`**（`public/sections/…/index.html` 快照），再產出 `dist/<vol>.html` 與 `dist/<vol>/<n>.html`。
+- **錨點閘門**：`check-built-html.ts` 驗證 **`.kk` 跨卷連結** 的 `#w-`/`#c-` 錨點；`anchor-integrity.test.ts` 驗證 corpus 路由。
+- **怎麼驗證**：DevTools 對 `01/3.html` 等單音節 URL 錄製重新載入。
 
 ## 平行建置
 

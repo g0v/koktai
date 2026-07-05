@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { getCorpus } from "../lib/site/corpus.ts";
@@ -51,16 +51,20 @@ if (kaiLeak) {
   throw new Error(`fulltext row ${kaiLeak[1]}/${kaiLeak[2]} contains leaked k-tag fragment`);
 }
 
-const vol01 = readFileSync(join(dist, "01.html"), "utf8");
-if (!vol01.includes('id="w-182"')) {
-  throw new Error('dist/01.html missing id="w-182"');
+const vol01Sec = join(dist, "01", "1", "index.html");
+if (!existsSync(vol01Sec)) {
+  throw new Error("dist/01/1/index.html missing (section split)");
 }
-if (!vol01.includes('id="c-309"')) {
-  throw new Error('dist/01.html missing id="c-309"');
+const vol01Html = readFileSync(vol01Sec, "utf8");
+if (!vol01Html.includes('id="w-182"')) {
+  throw new Error('dist/01/1/index.html missing id="w-182"');
 }
-const crossVolKk = /class="kk"[^>]*href="[^"]*\/(0[2-9]|[12][0-9])\.html#/;
-if (!crossVolKk.test(vol01)) {
-  throw new Error("dist/01.html missing a.kk href targeting another volume");
+if (!vol01Html.includes('id="c-309"')) {
+  throw new Error('dist/01/1/index.html missing id="c-309"');
+}
+const crossVolKk = /class="kk"[^>]*href="[^"]*\/(0[2-9]|[12][0-9])\/\d+\/index\.html#/;
+if (!crossVolKk.test(vol01Html)) {
+  throw new Error("dist/01/1/index.html missing a.kk href targeting another volume section");
 }
 
 const astroDir = join(dist, "_astro");

@@ -41,7 +41,7 @@ my @tones = ('', '',
     "ㆵ",  "ㆵ̇", "",
 );
 
-my $m3_noruby = decode_json(scalar slurp("$Bin/m3_noruby.json"));
+my $m3_noruby = decode_json(scalar slurp("$Bin/../font/m3_noruby.json"));
 my %char_to_m3 = reverse %$m3_noruby;
 my $json_ascii_escape = JSON->new->ascii(1);
 

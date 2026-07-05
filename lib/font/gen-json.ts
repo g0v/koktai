@@ -92,7 +92,8 @@ const TONES = [
   "",
 ];
 
-const LINE_RE = /^(m3|k) +(\S)(\S) +(.+),(\d+)\r?$/;
+/** Perl `\S` treats U+00A0 (NBSP Big5 lead in usrfont) as non-space; JS `\S` and `[^\s]` do not — use `.` for raw bytes. */
+const LINE_RE = /^(m3|k) +(.)(.) +(.+),(\d+)\r?$/;
 
 export function buildFontJsonFromUsrfont(
   usrfontLatin1: string,

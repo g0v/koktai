@@ -139,7 +139,7 @@ describe("structured dictionary render", () => {
     const highK = String.fromCodePoint(0xffa44);
     const html = renderLegacyText(`<k>${highK}</k>`);
 
-    expect(html).toContain('src="img/k/fa44.png"');
+    expect(html).toContain('src="/koktai/img/k/fa44.png"');
     expect(html).not.toContain("&#xffa44;");
     expect(html).not.toContain(highK);
   });

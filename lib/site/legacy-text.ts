@@ -10,6 +10,12 @@ function stripKaiTagFragments(text: string): string {
   return text.replace(RAW_K_TAG, "").replace(STRAY_K_BEFORE_CJK, "$1");
 }
 
+/** Site-root absolute paths for k/m3 glyph PNGs (section pages are nested under /NN/M/). */
+export function absolutizeDictionaryImgSrc(html: string, base = "/koktai/"): string {
+  const b = base.endsWith("/") ? base : `${base}/`;
+  return html.replace(/src=(["'])img\/(k|m3)\//g, `src=$1${b}img/$2/`);
+}
+
 
 function puaCode(ch: string): string {
   return (ch.codePointAt(0)! - 0xf0000).toString(16).padStart(4, "0");
@@ -32,6 +38,7 @@ export function legacyPlainText(text: string): string {
   return stripKaiTagFragments(out.replace(ASTRAL_PUA, "□"));
 }
 
-export function renderLegacyText(text: string): string {
-  return stripKaiTagFragments(jadeUnescapeLine(stripPe2Tags(wrapKaiFont(text)), fontMaps, true));
+export function renderLegacyText(text: string, assetBase = "/koktai/"): string {
+  const raw = stripKaiTagFragments(jadeUnescapeLine(stripPe2Tags(wrapKaiFont(text)), fontMaps, true));
+  return absolutizeDictionaryImgSrc(raw, assetBase);
 }

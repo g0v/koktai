@@ -1,25 +1,32 @@
-import iconv from "iconv-lite";
 import { readFileSync } from "node:fs";
-
-/** Decode a CP950 (Big5) file buffer to a JavaScript string. */
-export function decodeCp950(buf: Buffer): string {
-  return iconv.decode(buf, "cp950");
-}
+import { CP950_BY_LEAD_TRAIL } from "./cp950-table.ts";
 
 /** Valid CP950 trail byte: 0x40–0x7E or 0xA1–0xFE. */
-function isTrailByte(b: number): boolean {
+export function isCp950TrailByte(b: number): boolean {
   return (b >= 0x40 && b <= 0x7e) || (b >= 0xa1 && b <= 0xfe);
 }
 
 /**
  * Big5 user-defined area (Encode::CP950 maps these pairs to U+E000–U+F8FF):
  * leads 0x81–0xA0 and 0xFA–0xFE (full trail range), plus 0xC6A1–0xC8FE.
+ * Standard-plane leads 0xA1–0xF9 use the embedded table (not UDA).
  */
-function isUserDefined(hi: number, lo: number): boolean {
+export function isCp950UserDefinedPair(hi: number, lo: number): boolean {
   if (hi >= 0x81 && hi <= 0xa0) return true;
   if (hi >= 0xfa && hi <= 0xfe) return true;
   if (hi === 0xc6) return lo >= 0xa1;
   return hi === 0xc7 || hi === 0xc8;
+}
+
+/** Table lookup: code point or 0 if unmapped (non-UDA pairs only). */
+export function cp950TableCodePoint(hi: number, lo: number): number {
+  return CP950_BY_LEAD_TRAIL[hi]?.[lo] ?? 0;
+}
+
+function decodeCp950Pair(hi: number, lo: number): string {
+  const cp = cp950TableCodePoint(hi, lo);
+  if (cp === 0) return "\uFFFD";
+  return cp <= 0xffff ? String.fromCharCode(cp) : String.fromCodePoint(cp);
 }
 
 /**
@@ -28,7 +35,7 @@ function isUserDefined(hi: number, lo: number): boolean {
  * followed by `remap_pua`'s re-encode in `recode_utf8.pl`. Byte 0x80 passes
  * through as U+0080 and lone 0xFF (CP950 single-byte UDA U+F8F8) lifts to
  * U+F00FF, matching Encode; malformed bytes become U+FFFD one byte at a time.
- * Verified byte-identical with the Perl output over every possible byte pair.
+ * Non-UDA pairs use `lib/dic/cp950-table.ts` (verified vs iconv in tests).
  */
 export function decodeCp950Astral(buf: Buffer): string {
   let out = "";
@@ -46,14 +53,14 @@ export function decodeCp950Astral(buf: Buffer): string {
       continue;
     }
     const t = i + 1 < buf.length ? buf[i + 1]! : -1;
-    if (t >= 0 && isTrailByte(t)) {
-      out += isUserDefined(b, t)
+    if (t >= 0 && isCp950TrailByte(t)) {
+      out += isCp950UserDefinedPair(b, t)
         ? String.fromCodePoint(0xf0000 + ((b << 8) | t))
-        : iconv.decode(buf.subarray(i, i + 2), "cp950");
+        : decodeCp950Pair(b, t);
       i += 2;
       continue;
     }
-    out += "�";
+    out += "\uFFFD";
     i++;
   }
   return out;

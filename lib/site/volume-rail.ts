@@ -1,4 +1,5 @@
 import { getVolumeData } from "../compile-pug.ts";
+import { horizontalBopomofo } from "./legacy-text.ts";
 import type { SectionInfo } from "../compile-pug.ts";
 import { getStructuredVolume } from "./structured-volume.ts";
 
@@ -11,7 +12,7 @@ export interface RailSection {
   sinogramCount: number;
 }
 
-const horizontalI = (s: string) => s.replaceAll("丨", "ㄧ");
+const horizontalI = horizontalBopomofo;
 
 export function buildRailSections(root: string, base: string): RailSection[] {
   const { sections: pugSections } = getVolumeData(root, base);

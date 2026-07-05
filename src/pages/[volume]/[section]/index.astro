@@ -8,6 +8,7 @@ import { buildRailSections } from "../../../../lib/site/volume-rail.ts";
 import { legacyPlainText } from "../../../../lib/site/structured-render.ts";
 import { volumeHubPath, volumeSectionPath } from "../../../../lib/site/volume-paths.ts";
 import { VOLUME_IDS } from "../../../../lib/dic/pipeline.ts";
+import { rebaseDictionarySnapshotHtml } from "../../../../lib/site/site-base.ts";
 import { volumeNav, volumeRangeText } from "../../../../lib/site/volume-astro-shared.ts";
 
 export function getStaticPaths() {
@@ -36,11 +37,11 @@ const snapshotPath = join(root, "public", "sections", volumeSectionPath(volume, 
 if (!existsSync(snapshotPath)) {
   throw new Error(`missing section snapshot ${snapshotPath} — run bun run section:snapshots`);
 }
-const sectionHtml = readFileSync(snapshotPath, "utf8");
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const href = (path = "") => `${baseUrl}${path}`;
+const sectionHtml = rebaseDictionarySnapshotHtml(readFileSync(snapshotPath, "utf8"), baseUrl);
 const { prev, next, volName } = volumeNav(volNo, href);
 const sylText = legacyPlainText(rail.syllable);
 const title = `${volName} ${sylText}・國臺對照活用辭典`;

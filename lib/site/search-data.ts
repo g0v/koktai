@@ -2,6 +2,7 @@ import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 import type { Reading, SinogramEntry, Token, WordRecord } from "../extract/types.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
 import type { Corpus } from "./corpus.ts";
+import { readAstroBaseFromConfig } from "./site-base.ts";
 
 
 export type SuggestRow = [t: string, z: string, v: string, l: number, k: 0 | 1, s: number, h?: string];
@@ -33,7 +34,7 @@ export function stripHeadwordMarkup(t: string): string {
 function headwordFields(raw: string): { text: string; html?: string } {
   const stripped = stripHeadwordMarkup(raw);
   const text = legacyPlainText(stripped);
-  const html = renderLegacyText(stripped);
+  const html = renderLegacyText(stripped, readAstroBaseFromConfig(process.cwd()));
   return html.includes("<img") ? { text, html } : { text };
 }
 

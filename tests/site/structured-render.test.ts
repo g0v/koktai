@@ -126,7 +126,7 @@ describe("structured dictionary render", () => {
   test("legacy text consumes k tags and emits horizontal zhuyin ruby", () => {
     const kai = String.fromCodePoint(0xf8d44);
     const horizontalI = String.fromCodePoint(0xf8265);
-    const html = renderLegacyText(`祀<k>${kai}</k>人${horizontalI}`);
+    const html = renderLegacyText(`祀<k>${kai}</k>人${horizontalI}`, "/koktai/");
 
     expect(html).not.toContain("&lt;k&gt;");
     expect(html).not.toContain("&lt;/k&gt;");
@@ -137,7 +137,7 @@ describe("structured dictionary render", () => {
 
   test("legacy text renders high k PUA fallback as bitmap image", () => {
     const highK = String.fromCodePoint(0xffa44);
-    const html = renderLegacyText(`<k>${highK}</k>`);
+    const html = renderLegacyText(`<k>${highK}</k>`, "/koktai/");
 
     expect(html).toContain('src="/koktai/img/k/fa44.png"');
     expect(html).not.toContain("&#xffa44;");
@@ -186,7 +186,7 @@ describe("structured dictionary render", () => {
 
   test("legacy text strips raw PE2 control tags from prose", () => {
     const raw = "~fk;;~fm3;;食~fk;ㄆ~fm3;;~fk;;~fm3;;緊(等)煮較爛咧則(/即)即付汝~bt180;·~bt0;;食。枵鬼氐氐。";
-    const html = renderLegacyText(raw);
+    const html = renderLegacyText(raw, "/koktai/");
 
     expect(html).toContain("食");
     expect(html).toContain("枵鬼氐氐");
@@ -232,7 +232,7 @@ describe("structured dictionary render", () => {
   });
 
   test("standalone zhuyin fragments get an explicit class", () => {
-    const html = renderLegacyText("<rt>ㄧ</rt>");
+    const html = renderLegacyText("<rt>ㄧ</rt>", "/koktai/");
 
     expect(html).toBe('<ruby class="zhuyin zhuyin-standalone"><rt>ㄧ</rt></ruby>');
   });

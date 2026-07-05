@@ -14,12 +14,13 @@ import {
   buildSectionEntryIndex,
   volumeSectionPath,
 } from "../lib/site/volume-paths.ts";
+import { readAstroBaseFromConfig } from "../lib/site/site-base.ts";
 import { renderStructuredSection } from "../lib/site/structured-render.ts";
 
 const root = process.cwd();
 const outRoot = join(root, "public", "sections");
 const corpus = getCorpus(root);
-const hrefBase = "/koktai/";
+const hrefBase = readAstroBaseFromConfig(root);
 
 mkdirSync(outRoot, { recursive: true });
 

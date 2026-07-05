@@ -57,9 +57,6 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
         <p class="vol-meta">
           {railSections.length} 音節・{structured.entryCount.toLocaleString("en-US")} 條目
         </p>
-        <p class="vol-hub-note">
-          本卷依音節拆頁以加快載入；請由左側索引或下方連結進入各音節。
-        </p>
         <nav class="vol-nav" aria-label="卷次">
           {prev && <a href={href(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
           <a href={href("#volumes")}>卷目</a>

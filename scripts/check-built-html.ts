@@ -14,6 +14,7 @@ const RAW_K_TAG = /<\/?k>/;
 const IMG_REF = /(?:\.\/)?img\/(k|m3)\/([0-9a-f]+)\.png/g;
 
 const failures: string[] = [];
+const APPENDIX_SLUGS = ["preface1", "phsource", "ph-comp", "mytaiin8", "dic-cont"] as const;
 
 const pages = listBuiltDictionaryPages(dist);
 const volumePages = pages.filter((p) => VOLUME_IDS.includes(p.vol));
@@ -49,6 +50,21 @@ if (volumePages.length === 0) {
   }
 
   failures.push(...verifyBuiltHtmlAnchors(dist, siteBase));
+}
+
+const homePath = join(dist, "index.html");
+if (existsSync(homePath)) {
+  const home = readFileSync(homePath, "utf8");
+  for (const slug of APPENDIX_SLUGS) {
+    const flat = `${slug}.html`;
+    const dir = `${slug}/index.html`;
+    if (home.includes(`href="${siteBase}${flat}"`) || home.includes(`href="/${flat}"`)) {
+      failures.push(`dist/index.html still links appendix as ${flat} (expected ${dir})`);
+    }
+    if (!existsSync(join(dist, slug, "index.html"))) {
+      failures.push(`dist/${slug}/index.html missing (appendix page)`);
+    }
+  }
 }
 
 if (failures.length > 0) {

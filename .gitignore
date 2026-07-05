@@ -14,3 +14,5 @@ public/sections/
 __pycache__/
 docs/
 data/koktai-full.jsonl
+font/_regen_tmp/
+font/_pixel_baseline/

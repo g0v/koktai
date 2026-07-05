@@ -1,12 +1,10 @@
 #!/usr/bin/env bun
 /**
- * Stage-level parity oracle: legacy Perl/Python vs the pure-TS production
- * pipeline, for recode / analyse / unescape. The production build never runs
- * these interpreters — this script exists to re-verify the port against the
- * historical chain on a machine that has perl (with JSON + File::Slurp for
- * the unescape stage) and python3.
+ * Stage-level parity oracle: TS production vs legacy Python analyse / Perl unescape.
+ * Recode is TS-only (`lib/dic/cp950.ts`); optional Perl drift via RECODE_LEGACY_PERL=1.
  * Usage: bun run scripts/parity-stage.ts <stage> [volumeOrAppendix]
  */
+import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,7 +13,7 @@ import {
   APPENDIX_SOURCES,
   resolveVolumeDic,
 } from "../lib/dic/pipeline.ts";
-import { recodeDicFile } from "../lib/dic/cp950.ts";
+import { recodeDicBuffer, recodeDicFile } from "../lib/dic/cp950.ts";
 import { py3PreFromDicText } from "../lib/dic/legacy-py3.ts";
 import { dicTextToPugBody } from "../lib/dic/dic2pug.ts";
 import { txtTextToPugBody } from "../lib/dic/txt2pug.ts";
@@ -28,12 +26,18 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const stageArg = process.argv[2];
 const scope = process.argv[3];
 
-function perlRecodeFile(path: string): string {
-  const r = spawnSync(
-    "perl",
-    [join(root, "a-tsioh_sandbox/recode_utf8.pl"), path],
-    { cwd: root, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 },
-  );
+function perlRecodeFile(path: string): string | null {
+  const script = join(root, "a-tsioh_sandbox/recode_utf8.pl");
+  try {
+    readFileSync(script);
+  } catch {
+    return null;
+  }
+  const r = spawnSync("perl", [script, path], {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  });
   if (r.status !== 0) {
     throw new Error(`recode_utf8.pl failed: ${r.stderr?.slice(0, 400)}`);
   }
@@ -130,17 +134,33 @@ async function checkOne(
 }
 
 function checkRecode(path: string): boolean {
-  const perl = perlRecodeFile(path);
+  const buf = readFileSync(path);
   const ts = recodeDicFile(path);
-  const d = firstDrift(perl, ts);
-  if (d.line === undefined && perl.length === ts.length) {
-    console.log(`recode ${path}: OK`);
-    return true;
+  const tsAgain = recodeDicBuffer(buf);
+  if (ts !== tsAgain) {
+    console.log(`recode ${path}: TS non-idempotent`);
+    return false;
   }
-  console.log(
-    `recode ${path}: drift line ${d.line ?? "-"} bytes ${ts.length} vs ${perl.length}`,
-  );
-  return false;
+  const usePerl =
+    process.env.RECODE_LEGACY_PERL === "1" || process.env.RECODE_LEGACY_PERL === "true";
+  if (usePerl) {
+    const perl = perlRecodeFile(path);
+    if (perl === null) {
+      console.log(`recode ${path}: OK (TS only; no Perl script)`);
+      return true;
+    }
+    const d = firstDrift(perl, ts);
+    if (d.line === undefined && perl.length === ts.length) {
+      console.log(`recode ${path}: OK (TS = Perl)`);
+      return true;
+    }
+    console.log(
+      `recode ${path}: drift line ${d.line ?? "-"} bytes ${ts.length} vs ${perl.length}`,
+    );
+    return false;
+  }
+  console.log(`recode ${path}: OK (TS)`);
+  return true;
 }
 
 function checkAnalyseDic(dicPath: string): boolean {

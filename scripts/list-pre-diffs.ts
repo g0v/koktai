@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { recodeDicFile } from "../lib/dic/cp950.ts";
+import { recodeDicPathToUtf8 } from "../lib/dic/legacy-recode-oracle.ts";
 import { dicTextToPugBody } from "../lib/dic/dic2pug.ts";
 import { resolveVolumeDic } from "../lib/dic/pipeline.ts";
 
@@ -12,14 +13,10 @@ const vol = process.argv[2] ?? "01";
 const dic = resolveVolumeDic(root, vol);
 
 function py3Pre(dicPath: string): string {
-  const recode = spawnSync("perl", [join(root, "a-tsioh_sandbox/recode_utf8.pl"), dicPath], {
-    cwd: root,
-    encoding: "buffer",
-    maxBuffer: 256 * 1024 * 1024,
-  });
+  const recoded = recodeDicPathToUtf8(dicPath);
   const dic2 = spawnSync("python3", [join(pyDir, "dic2jade.py")], {
     cwd: root,
-    input: recode.stdout,
+    input: recoded,
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
     env: { ...process.env, PYTHONPATH: pyDir },

@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use koktai_font::cmexuf::{CmexUfpFile, CMEX_UFP_HEADER_SIZE};
 
 fn template_24m() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../font/hfn/cmexufp.24m")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../archive/font-hfn-c/cmexufp.24m")
 }
 
 #[test]

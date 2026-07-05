@@ -1,12 +1,12 @@
 #!/usr/bin/env bun
 /**
- * Run legacy recode | py3 dic2jade | jade-unescape (+ finalize) vs committed pug.
- * Establishes whether byte-identical regeneration is possible from current inputs.
+ * Run TS recode | py3 dic2jade | jade-unescape (+ finalize) vs committed pug.
  */
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+import { recodeDicPathToUtf8 } from "../lib/dic/legacy-recode-oracle.ts";
 import { finalizePugDocument } from "../lib/dic/unescape.ts";
 import { resolveVolumeDic } from "../lib/dic/pipeline.ts";
 
@@ -16,18 +16,11 @@ const vol = process.argv[2] ?? "01";
 
 function runLegacyPug(volume: string): string {
   const dic = resolveVolumeDic(root, volume);
-  const recode = spawnSync("perl", [join(root, "a-tsioh_sandbox/recode_utf8.pl"), dic], {
-    cwd: root,
-    encoding: "buffer",
-    maxBuffer: 256 * 1024 * 1024,
-  });
-  if (recode.status !== 0) {
-    throw new Error(`recode failed: ${recode.stderr?.toString().slice(0, 300)}`);
-  }
+  const recoded = recodeDicPathToUtf8(dic);
   const dic2 = spawnSync("python3", [join(pyDir, "dic2jade.py")], {
     cwd: root,
-    input: recode.stdout,
-    encoding: "buffer",
+    input: recoded,
+    encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
     env: { ...process.env, PYTHONPATH: pyDir },
   });

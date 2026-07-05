@@ -6,7 +6,8 @@ use koktai_font::cmexuf::{
 };
 
 fn template_bytes() -> Option<[u8; CMEX_UFP_HEADER_SIZE]> {
-    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../font/hfn/cmexufp.24m");
+    let path =
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../archive/font-hfn-c/cmexufp.24m");
     let data = std::fs::read(path).ok()?;
     let mut buf = [0u8; CMEX_UFP_HEADER_SIZE];
     buf.copy_from_slice(data.get(..CMEX_UFP_HEADER_SIZE)?);

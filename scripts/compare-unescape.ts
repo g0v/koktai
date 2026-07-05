@@ -4,6 +4,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { recodeDicPathToUtf8 } from "../lib/dic/legacy-recode-oracle.ts";
 import {
   finalizePugDocument,
   jadeUnescapeDocument,
@@ -16,15 +17,10 @@ const pyDir = join(root, "scripts/legacy-py3");
 const vol = process.argv[2] ?? "01";
 
 function py3PreBody(dic: string): string {
-  const recode = spawnSync("perl", [join(root, "a-tsioh_sandbox/recode_utf8.pl"), dic], {
-    cwd: root,
-    encoding: "buffer",
-    maxBuffer: 256 * 1024 * 1024,
-  });
-  if (recode.status !== 0) throw new Error("recode");
+  const recoded = recodeDicPathToUtf8(dic);
   const dic2 = spawnSync("python3", [join(pyDir, "dic2jade.py")], {
     cwd: root,
-    input: recode.stdout,
+    input: recoded,
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
     env: { ...process.env, PYTHONPATH: pyDir },

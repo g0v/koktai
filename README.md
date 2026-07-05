@@ -13,12 +13,11 @@ bun run diff:pug    # 與已提交 pug/ 做全文 byte-identical 對照
 bun run check       # tsgo --noEmit
 ```
 
-整條轉換鏈為純 TypeScript（`lib/dic/`：CP950 recode → analyse → jade-unescape
-→ finalize），建置只需要 bun 與 tsgo，不需要 Perl 或 Python。
-`bun run diff:pug` 已驗證輸出與歷史 Perl 產線 byte-identical。
-舊的 Perl／Python 腳本（`a-tsioh_sandbox/recode_utf8.pl`、`font/jade-unescape.pl`、
-`scripts/legacy-py3/`）保留原位僅作歷史對照（`bun run parity:stage`）；
-舊的 Python2 Makefile drivers 已移到 `archive/`，只作歷史參考。
+整條轉換鏈為 TypeScript（`lib/dic/`：CP950 recode → analyse → unescape
+→ finalize），建置只需要 bun、tsgo，造字時 `cargo`（`koktai-font`）。
+`bun run diff:pug` 已驗證輸出與歷史產線 byte-identical。
+CP950 對照在 `lib/dic/cp950.ts`（vendor 造字區 → U+F0000+碼）；`recode_utf8.pl` 僅作可選對照。
+`archive/font-hfn-c/` 為已退役的 C／libgd 造字工具鏈。
 
 ## 結構化資料
 
@@ -113,8 +112,7 @@ cd ..
 造字檔：螢幕顯示使用倚天中文的造字檔格式，似乎是稱作 CMEX 格式。
 列印使用倚天新翰藝的造字檔格式，稱作 XFN 格式。
 
-* CMEX 造字檔格式請參考：cmexuf.[ch]（Rust：`crates/koktai-font`）
-* XFN 造字檔格式請參考：xfn.[ch]
+* CMEX／XFN 規格與歷史 C 原始碼：`archive/font-hfn-c/`（執行時：`crates/koktai-font`）
 * 台語字造字原始檔為：han.xfn ha2.xfn oth.xfn
 * usrfont.lst 內容：內碼 <-> 台灣方音符號對照
 

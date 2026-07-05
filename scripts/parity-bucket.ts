@@ -5,6 +5,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { recodeDicFile } from "../lib/dic/cp950.ts";
+import { recodeDicPathToUtf8 } from "../lib/dic/legacy-recode-oracle.ts";
 import { dicTextToPugBody } from "../lib/dic/dic2pug.ts";
 import {
   jadeUnescapeDocument,
@@ -31,14 +32,10 @@ function perlUnescapeBody(body: string): string {
 }
 
 function py3PreBody(dic: string): string {
-  const recode = spawnSync("perl", [join(root, "a-tsioh_sandbox/recode_utf8.pl"), dic], {
-    cwd: root,
-    encoding: "buffer",
-    maxBuffer: 256 * 1024 * 1024,
-  });
+  const recoded = recodeDicPathToUtf8(dic);
   const dic2 = spawnSync("python3", [join(pyDir, "dic2jade.py")], {
     cwd: root,
-    input: recode.stdout,
+    input: recoded,
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
     env: { ...process.env, PYTHONPATH: pyDir },
@@ -58,8 +55,7 @@ function lineDiffs(a: string, b: string): { count: number; first?: number } {
   const bl = b.split("\n");
   let count = 0;
   let first: number | undefined;
-  const n = Math.max(al.length, bl.length);
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < Math.max(al.length, bl.length); i++) {
     if (al[i] !== bl[i]) {
       count++;
       if (first === undefined) first = i + 1;
@@ -70,11 +66,11 @@ function lineDiffs(a: string, b: string): { count: number; first?: number } {
 
 function role(line: string | undefined): string {
   if (!line) return "?";
-  const t = line.trimStart();
-  if (t.startsWith("u ")) return "u";
-  if (t.startsWith("dd")) return "dd";
-  if (t.startsWith("h3 ")) return "h3";
-  if (t.startsWith("div")) return "div";
+  if (line.startsWith("doctype")) return "doctype";
+  if (line.startsWith("extends")) return "extends";
+  if (line.startsWith("block")) return "block";
+  if (line.startsWith("  dt")) return "dt";
+  if (line.startsWith("  dd")) return "dd";
   return "other";
 }
 
@@ -82,7 +78,9 @@ const dic = resolveVolumeDic(root, vol);
 const tsPre = dicTextToPugBody(recodeDicFile(dic), root);
 const pyPre = py3PreBody(dic);
 const pre = lineDiffs(tsPre, pyPre);
-console.log(`vol ${vol} pre-unescape TS vs py3: ${pre.count} line diffs, lines ${tsPre.split("\n").length} vs ${pyPre.split("\n").length}, first ${pre.first ?? "-"}`);
+console.log(
+  `vol ${vol} pre-unescape TS vs py3: ${pre.count} line diffs, lines ${tsPre.split("\n").length} vs ${pyPre.split("\n").length}, first ${pre.first ?? "-"}`,
+);
 
 const maps = loadFontMaps(root);
 const tsFull = generatePugFromDicFile(root, dic).text;
@@ -106,33 +104,18 @@ console.log(`py3 pre + Perl unesc vs committed: ${dPyPerl.count} diffs, first ${
 console.log(`py3 pre + TS unesc vs committed: ${dPyTs.count} diffs, first ${dPyTs.first ?? "-"}`);
 console.log(`py3 pre: TS unesc vs Perl+finalize: ${dPyTsVsPerl.count} line diffs, first ${dPyTsVsPerl.first ?? "-"}`);
 
-// Per-line unescape on first differing dd (if any)
 if (dTsPerl.first) {
   const i = dTsPerl.first - 1;
-  const pl = pyPre.split("\n");
-  const line = pl[i];
-  if (line) {
-    const tsU = jadeUnescapeLine(line, maps);
-    const perlU = spawnSync("perl", [join(root, "font/jade-unescape.pl")], {
-      input: line + "\n",
-      encoding: "utf8",
-    }).stdout?.replace(/\n$/, "") ?? "";
-    console.log(`\nFirst py pre line where TS+Perl≠C is post-unescape; sample pre line ${i + 1}:`);
-    console.log("pre:", JSON.stringify(line.slice(0, 100)));
-    console.log("TS unesc eq Perl:", tsU === perlU);
-    if (tsU !== perlU) {
-      for (let j = 0; j < Math.max(tsU.length, perlU.length); j++) {
-        if (tsU[j] !== perlU[j]) {
-          console.log("unesc diff @", j, "TS", JSON.stringify(tsU.slice(j, j + 40)));
-          console.log("Perl", JSON.stringify(perlU.slice(j, j + 40)));
-          break;
-        }
-      }
-    }
+  const tl = norm(tsPrePerl).split("\n");
+  const cl = c.split("\n");
+  console.log("TS+Perl line:", JSON.stringify(tl[i]?.slice(0, 160)));
+  console.log("committed:", JSON.stringify(cl[i]?.slice(0, 160)));
+  const preLine = tsPre.split("\n")[i];
+  if (preLine) {
+    console.log("TS unesc line:", JSON.stringify(jadeUnescapeLine(preLine, maps).slice(0, 160)));
   }
 }
 
-// Role mismatch on TS vs committed at same index
 let roleMismatch = 0;
 const gl = norm(tsFull).split("\n");
 const cl = c.split("\n");

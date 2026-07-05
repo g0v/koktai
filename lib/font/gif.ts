@@ -35,14 +35,12 @@ export function resolveXfn2Gif(repoRoot: string): string {
       : null;
   const candidate =
     fromEnv ??
-    [
-      join(repoRoot, "target/release/xfn2gif"),
-      join(repoRoot, "target/debug/xfn2gif"),
-      join(repoRoot, "font/hfn/xfn2gif"),
-    ].find((p) => existsSync(p));
+    [join(repoRoot, "target/release/xfn2gif"), join(repoRoot, "target/debug/xfn2gif")].find(
+      (p) => existsSync(p),
+    );
   if (!candidate) {
     throw new Error(
-      "xfn2gif not found: run `cargo build --release -p koktai-font` or set KOKTAI_XFN2GIF",
+      "xfn2gif not found: run `bun run font:build` (cargo build --release -p koktai-font) or set KOKTAI_XFN2GIF",
     );
   }
   return candidate;

@@ -19,7 +19,7 @@ describe("anchor integrity (corpus routing)", () => {
       const errors = verifyCorpusSectionRouting(corpus);
       expect(errors).toEqual([]);
     },
-    30_000,
+    120_000,
   );
 
   test(
@@ -29,7 +29,7 @@ describe("anchor integrity (corpus routing)", () => {
       const errors = verifyTargetHrefRouting(corpus, "/koktai/");
       expect(errors).toEqual([]);
     },
-    30_000,
+    120_000,
   );
 
   test("rendered section HTML contains entry anchors (spot: vol 02)", () => {

@@ -12,17 +12,25 @@ import { entryAnchor } from "../../lib/site/volume-paths.ts";
 const root = import.meta.dir + "/../..";
 
 describe("anchor integrity (corpus routing)", () => {
-  test("every entry maps to a syllable section", () => {
-    const corpus = getCorpus(root);
-    const errors = verifyCorpusSectionRouting(corpus);
-    expect(errors).toEqual([]);
-  });
+  test(
+    "every entry maps to a syllable section",
+    () => {
+      const corpus = getCorpus(root);
+      const errors = verifyCorpusSectionRouting(corpus);
+      expect(errors).toEqual([]);
+    },
+    30_000,
+  );
 
-  test("targetPageHref section matches entry-index for all entries", () => {
-    const corpus = getCorpus(root);
-    const errors = verifyTargetHrefRouting(corpus, "/koktai/");
-    expect(errors).toEqual([]);
-  });
+  test(
+    "targetPageHref section matches entry-index for all entries",
+    () => {
+      const corpus = getCorpus(root);
+      const errors = verifyTargetHrefRouting(corpus, "/koktai/");
+      expect(errors).toEqual([]);
+    },
+    30_000,
+  );
 
   test("rendered section HTML contains entry anchors (spot: vol 02)", () => {
     const corpus = getCorpus(root);

@@ -102,6 +102,20 @@ describe("search-data", () => {
   );
 
   test(
+    "fulltext text strips split k-tag fragments from 癱瘓 gloss",
+    () => {
+      const docs = buildFulltextDocs(getCorpus(root));
+      const doc = docs.find((d) => d.t === "癱瘓" && d.v === "06" && d.l === 2442 && d.k === 0);
+      expect(doc).toBeDefined();
+      expect(doc!.d).toContain("半 身 不 遂 𤻄");
+      expect(doc!.d).not.toContain("遂 k 𤻄");
+      expect(doc!.d).not.toContain("k>");
+      expect(doc!.d).not.toContain("</k>");
+    },
+    30_000,
+  );
+
+  test(
     "compact fulltext rows preserve sinogram readings and stay under 9MiB",
     () => {
       const rows = buildFulltextRows(getCorpus(root));

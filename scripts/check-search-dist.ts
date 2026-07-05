@@ -46,6 +46,11 @@ if (Buffer.byteLength(fulltextRaw) > fulltextBudget) {
     `fulltext raw size ${Buffer.byteLength(fulltextRaw)} exceeds ${fulltextBudget} bytes`,
   );
 }
+const kaiLeak = fulltext.find((row) => /<\/?k>|k>|(^|[^\p{L}\p{N}])k\s+[\p{Script=Han}]/u.test(row[4]));
+if (kaiLeak) {
+  throw new Error(`fulltext row ${kaiLeak[1]}/${kaiLeak[2]} contains leaked k-tag fragment`);
+}
+
 const vol01 = readFileSync(join(dist, "01.html"), "utf8");
 if (!vol01.includes('id="w-182"')) {
   throw new Error('dist/01.html missing id="w-182"');

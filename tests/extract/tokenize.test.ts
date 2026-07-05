@@ -51,6 +51,27 @@ describe("word-text tokenizer", () => {
     const ji = ts.find((t): t is HanSyllable => t.kind === "syl" && t.han === "丌")!;
     expect(ji.readings).toEqual([{ zhuyin: s.k["8d44"], usages: [] }]);
   });
+  test("arrow completion after unresolved contextual <k> does not leak tag fragments", () => {
+    const input = `<k>${P("8cc4")}</k>${P("fab9")}→${P("fab6")}`;
+    const norm = normalizeTaigi(input, s);
+    const ts = tokenizeTaigi(norm, s);
+    const serialized = serializeTokens(norm, ts);
+
+    expect(norm).toContain("<k>");
+    expect(serialized).toBe(norm);
+    expect(ts).not.toContainEqual(expect.objectContaining({ kind: "prose", text: "</k>" }));
+    expect(ts).not.toContainEqual(expect.objectContaining({ kind: "syl", han: ">" }));
+  });
+  test("arrow completion reuses the whole k-wrapped base", () => {
+    const input = `<k>䩌</k>${P("9ef6")}→${P("9451")}痕${P("9b9f")}。`;
+    const norm = normalizeTaigi(input, s);
+    const ts = tokenizeTaigi(norm, s);
+    const serialized = serializeTokens(norm, ts);
+
+    expect(serialized).toBe(norm);
+    expect(ts).not.toContainEqual(expect.objectContaining({ kind: "prose", text: "</k>" }));
+    expect(ts).not.toContainEqual(expect.objectContaining({ kind: "syl", han: ">" }));
+  });
   test("variant group trailing ：訓讀 → usages on VariantGroup", () => {
     const input = `字${P("fab6")}(/濟/多：訓讀)`;
     const ts = tokenizeTaigi(input, s);
@@ -89,6 +110,18 @@ describe("word-text tokenizer", () => {
       { zhuyin: s.m3[hYu], usages: [{ dim: "register", value: "語" }] },
     ]);
     expect(serializeTokens(input, ts)).toBe(input);
+  });
+  test("variant splitter keeps k tags atomic", () => {
+    const input = `侂${P("8cc4")}(/<k>挱</k>/${P("fab6")})`;
+    const ts = tokenizeTaigi(input, s);
+    const v = ts.find((t) => t.kind === "variant")!;
+
+    expect(v.kind).toBe("variant");
+    if (v.kind !== "variant") return;
+    expect(v.alternatives.length).toBe(2);
+    expect(JSON.stringify(v)).not.toContain('"text":"<"');
+    expect(JSON.stringify(v)).not.toContain('"text":"k>"');
+    expect(JSON.stringify(v)).not.toContain('"han":">"');
   });
   test("plain variant group (/濟/多) — alternatives only, usages []", () => {
     const input = `字${P("fab6")}(/濟/多)`;

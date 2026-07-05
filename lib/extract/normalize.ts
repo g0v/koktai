@@ -140,7 +140,7 @@ function completeArrows(text: string, s: Syllables): string {
     n--;
     if (n === 0) continue;
 
-    const unitRe = new RegExp(`[^\\u{F0000}-\\u{FFFFF}]+[\\u{F0000}-\\u{FFFFF}]`, "gu");
+    const unitRe = /(?:<k>.*?<\/k>|[^\u{F0000}-\u{FFFFF}])+[\u{F0000}-\u{FFFFF}]/gu;
     const prefix = out.slice(0, arrowStart);
     const unitMatches = [...prefix.matchAll(unitRe)];
     if (unitMatches.length < n) continue;
@@ -167,7 +167,7 @@ function completeArrows(text: string, s: Syllables): string {
       const unit = units[k]!;
       const reading = chars[ci + 1 + k]!;
       const fallbackBase = lastN[k]?.hans.filter((h) => !h.includes("→")).at(-1) ?? bases.filter((h) => !h.includes("→")).at(-1);
-      let base = unit.includes("→") && fallbackBase ? fallbackBase : dropLastCodePoint(unit);
+      let base = (unit.includes("</k>") && fallbackBase) || unit.includes("→") && fallbackBase ? fallbackBase : dropLastCodePoint(unit);
       if (base.includes("→")) base = bases.find((h) => !h.includes("→")) ?? base.replaceAll("→", "");
       chunks.push(base);
       chunks.push(reading);
@@ -185,9 +185,8 @@ function completeArrows(text: string, s: Syllables): string {
 
 /** Port of han2edu 臺文格式正規化 with circled-digit pass prepended. */
 export function normalizeTaigi(text: string, s: Syllables): string {
-  let t = circledDigits(text);
+  let t = swapKTags(circledDigits(text), s);
   t = completeArrows(t, s);
   t = unwrapReadingParens(t, s);
-  t = swapKTags(t, s);
   return t;
 }

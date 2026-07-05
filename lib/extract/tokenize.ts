@@ -475,6 +475,15 @@ class Scanner {
     let d = 1;
     while (!this.done() && d > 0) {
       const ch = this.peek()!;
+      if (this.input.slice(this.pos).startsWith("<k>")) {
+        const close = this.input.indexOf("</k>", this.pos);
+        if (close >= 0) {
+          const end = close + 4;
+          buf += this.input.slice(this.pos, end);
+          while (this.pos < end) this.take();
+          continue;
+        }
+      }
       if (ch === "(") d++;
       if (d === 1 && ch === "/") {
         alts.push(buf);

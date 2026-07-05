@@ -52,6 +52,7 @@ function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): str
 
 const LEGACY_RUBY_RE = /<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>/gs;
 const LEGACY_INLINE_RUBY_RE = /(\p{Script=Han})<rt>(.*?)<\/rt>|(\p{Script=Han})([\u{E000}-\u{F8FF}\u{F0000}-\u{FFFFF}]+)/gu;
+const LEGACY_K_RE = /<k>.*?<\/k>/gs;
 const RENDERED_RUBY_RE = /^<ruby class="zhuyin">.*?<rt>(.*?)<\/rt><\/ruby>$/s;
 
 function renderLinkedPlainText(text: string, ctx: RenderCtx): string {
@@ -63,8 +64,21 @@ function renderLinkedPlainText(text: string, ctx: RenderCtx): string {
     .join("");
 }
 
+function renderLinkedPlainTextOutsideK(text: string, ctx: RenderCtx): string {
+  let html = "";
+  let cursor = 0;
+  for (const match of text.matchAll(LEGACY_K_RE)) {
+    const start = match.index ?? 0;
+    html += renderLinkedPlainText(text.slice(cursor, start), ctx);
+    html += renderLegacyText(match[0]);
+    cursor = start + match[0].length;
+  }
+  html += renderLinkedPlainText(text.slice(cursor), ctx);
+  return html;
+}
+
 function renderLinkedLegacyRuby(base: string, annotation: string, ctx: RenderCtx): string {
-  return `<ruby class="zhuyin">${renderLinkedPlainText(base, ctx)}<rt>${annotation}</rt></ruby>`;
+  return `<ruby class="zhuyin">${renderLinkedPlainTextOutsideK(base, ctx)}<rt>${annotation}</rt></ruby>`;
 }
 
 function renderLinkedPuaRuby(base: string, pua: string, ctx: RenderCtx): string {
@@ -74,7 +88,7 @@ function renderLinkedPuaRuby(base: string, pua: string, ctx: RenderCtx): string 
   return renderLinkedLegacyRuby(base, match[1]!, ctx);
 }
 
-function renderLinkedSegment(text: string, ctx: RenderCtx): string {
+function renderLinkedSegmentWithoutK(text: string, ctx: RenderCtx): string {
   let html = "";
   let cursor = 0;
   for (const match of text.matchAll(LEGACY_INLINE_RUBY_RE)) {
@@ -88,6 +102,19 @@ function renderLinkedSegment(text: string, ctx: RenderCtx): string {
     cursor = start + match[0].length;
   }
   html += renderLinkedPlainText(text.slice(cursor), ctx);
+  return html;
+}
+
+function renderLinkedSegment(text: string, ctx: RenderCtx): string {
+  let html = "";
+  let cursor = 0;
+  for (const match of text.matchAll(LEGACY_K_RE)) {
+    const start = match.index ?? 0;
+    html += renderLinkedSegmentWithoutK(text.slice(cursor, start), ctx);
+    html += renderLegacyText(match[0]);
+    cursor = start + match[0].length;
+  }
+  html += renderLinkedSegmentWithoutK(text.slice(cursor), ctx);
   return html;
 }
 

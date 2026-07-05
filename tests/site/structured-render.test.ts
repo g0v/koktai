@@ -143,6 +143,45 @@ describe("structured dictionary render", () => {
     expect(html).not.toContain("&#xffa44;");
     expect(html).not.toContain(highK);
   });
+  test("linked legacy text consumes k tags before inserting dictionary links", () => {
+    const ctx = {
+      hrefBase: "/koktai/",
+      resolver: {
+        segment(text: string) {
+          const target = { k: "c" as const, v: "08", l: 1758 };
+          if (text === "<k>類語</k>：嘿") {
+            return [{ text: "<k>" }, { text: "類", target }, { text: "語</k>：嘿" }];
+          }
+          return [{ text }];
+        },
+        char() {
+          return undefined;
+        },
+        alternate() {
+          return undefined;
+        },
+      },
+    };
+    const entry = {
+      volume: "01",
+      line: 1,
+      headword: "x",
+      head: [],
+      senses: [
+        {
+          nh: "",
+          pos: "None",
+          mandarin: ["<k>類語</k>：嘿"],
+          taigi: [],
+        },
+      ],
+    };
+
+    const html = renderStructuredEntry(entry, ctx);
+
+    expect(html).not.toContain("<k>");
+    expect(html).not.toContain("</k>");
+  });
 
   test("legacy text strips raw PE2 control tags from prose", () => {
     const raw = "~fk;;~fm3;;食~fk;ㄆ~fm3;;~fk;;~fm3;;緊(等)煮較爛咧則(/即)即付汝~bt180;·~bt0;;食。枵鬼氐氐。";

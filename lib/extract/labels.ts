@@ -17,6 +17,9 @@ const ATOMS: Record<string, Usage["dim"]> = {
   "？": "certainty",
 };
 
+/** Han atoms that appear in usage-register / usage-geo badges (Iansui subset). */
+export const LABEL_ATOM_CHARS = Object.keys(ATOMS).join("");
+
 function atom(text: string): Usage | null {
   const dim = ATOMS[text];
   return dim ? { dim, value: text } : null;

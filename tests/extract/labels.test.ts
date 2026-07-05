@@ -1,8 +1,13 @@
 // tests/extract/labels.test.ts
 import { describe, expect, test } from "bun:test";
-import { classifyLabel } from "../../lib/extract/labels.ts";
+import { classifyLabel, LABEL_ATOM_CHARS } from "../../lib/extract/labels.ts";
 
 describe("label classification", () => {
+  test("LABEL_ATOM_CHARS covers register badge glyphs for Iansui subset", () => {
+    expect(LABEL_ATOM_CHARS).toContain("又");
+    expect(LABEL_ATOM_CHARS).toContain("音");
+  });
+
   test("registers and accents", () => {
     expect(classifyLabel("文")).toEqual([{ dim: "register", value: "文" }]);
     expect(classifyLabel("漳")).toEqual([{ dim: "geo", value: "漳" }]);

@@ -1300,18 +1300,22 @@ html[data-theme="dark"] .structured-doc img {
 }
 
 /* differentiate register and geo by shape/typography */
+/* register labels (語、又音…): pill, not a fixed circle — 2+ chars must stay readable */
 .usage-register {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.4em;
+  min-width: 1.4em;
   height: 1.4em;
-  border-radius: 50%;
+  padding: 0 0.4em;
+  width: auto;
+  border-radius: 999px;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--font-display);
-  font-size: 0.75em;
-  line-height: 1;
+  font-size: 0.68em;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .usage-geo {

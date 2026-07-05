@@ -19,10 +19,12 @@ import {
   mkdirSync,
   existsSync,
   copyFileSync,
+  statSync,
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
+import { LABEL_ATOM_CHARS } from "../lib/extract/labels.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const TTF = "/tmp/koktai-fonts/Iansui-Regular.ttf";
@@ -47,15 +49,26 @@ const addText = (s: string) => {
   for (const ch of s) cps.add(ch.codePointAt(0)!);
 };
 
-// scanned site chrome (Han + everything literal in templates/lib)
-const globs = ["src/pages", "src/layouts", "lib"];
-for (const dir of globs) {
-  for (const f of readdirSync(join(root, dir))) {
-    const p = join(root, dir, f);
-    if (!/\.(astro|ts|css)$/.test(f)) continue;
+function walkTextFiles(dir: string): void {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    const st = statSync(p);
+    if (st.isDirectory()) {
+      walkTextFiles(p);
+      continue;
+    }
+    if (!/\.(astro|ts|css)$/.test(name)) continue;
     addText(readFileSync(p, "utf8"));
   }
 }
+
+// site chrome literals (recursive — top-level-only scan missed lib/extract/labels.ts)
+for (const dir of ["src/pages", "src/layouts", "src/styles", "lib"]) {
+  walkTextFiles(join(root, dir));
+}
+
+// every register/geo/source label atom rendered in .usage-register badges
+addText(LABEL_ATOM_CHARS);
 
 addRange(0x20, 0x7e); // basic latin
 addRange(0x3100, 0x312f); // bopomofo

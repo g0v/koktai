@@ -28,6 +28,7 @@
     "check:search-dist": "bun run scripts/check-search-dist.ts",
     "font:build": "cargo build --release -p koktai-font",
     "regen:glyphs": "bun run scripts/font/regen-all-glyphs.ts",
+    "font:subset-iansui": "bun run scripts/subset-display.ts",
     "gen:cp950-table": "bun run scripts/gen-cp950-table.ts"
   },
   "dependencies": {

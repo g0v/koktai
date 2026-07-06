@@ -14,13 +14,12 @@ import {
   buildSectionEntryIndex,
   volumeSectionPath,
 } from "../lib/site/volume-paths.ts";
-import { readAstroBaseFromConfig } from "../lib/site/site-base.ts";
+
 import { renderStructuredSection } from "../lib/site/structured-render.ts";
 
 const root = process.cwd();
 const outRoot = join(root, "public", "sections");
 const corpus = getCorpus(root);
-const hrefBase = readAstroBaseFromConfig(root);
 
 mkdirSync(outRoot, { recursive: true });
 
@@ -29,7 +28,7 @@ for (const vol of VOLUME_IDS) {
   const structured = getStructuredVolume(root, vol);
   const rails = buildRailSections(root, vol);
   const sizes = loadSectionSizes(root);
-  const linkCtx = { resolver: corpus.resolver, hrefBase, corpus };
+  const linkCtxBase = { resolver: corpus.resolver, corpus };
 
   for (let i = 0; i < structured.sections.length; i++) {
     const section = structured.sections[i]!;
@@ -49,7 +48,7 @@ for (const vol of VOLUME_IDS) {
           rail.sinogramCount,
         ),
       },
-      linkCtx,
+      { ...linkCtxBase, fromVol: vol, fromSection: i + 1 },
     );
     const rel = volumeSectionPath(vol, i + 1);
     const outPath = join(outRoot, rel);

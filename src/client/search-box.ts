@@ -5,6 +5,7 @@ import {
   highlightMatch,
   rankSuggestRows,
 } from "./search-matching.ts";
+import { fetchFromSiteRoot, siteRootUrl } from "./runtime-base.ts";
 
 declare global {
   interface Window {
@@ -18,7 +19,7 @@ type ListItem =
   | { kind: "status"; label: string };
 
 function initSearchBox(root: HTMLElement): void {
-  const base = root.dataset.base ?? "/";
+  const pagePrefix = root.dataset.base ?? "./";
   const input = root.querySelector<HTMLInputElement>(".search-input");
   const toggle = root.querySelector<HTMLButtonElement>(".search-toggle");
   const popup = root.querySelector<HTMLDivElement>(".search-popup");
@@ -82,7 +83,7 @@ function initSearchBox(root: HTMLElement): void {
   const loadSuggest = async () => {
     if (fetchStarted) return;
     fetchStarted = true;
-    const url = `${base.endsWith("/") ? base : `${base}/`}search-data/suggest.json`;
+    const url = new URL("search-data/suggest.json", siteRootUrl(pagePrefix)).href;
     try {
       const res = await fetch(url);
       if (!res.ok) return;
@@ -142,7 +143,7 @@ function initSearchBox(root: HTMLElement): void {
     setExpanded(true);
     render();
     const w = ensureWorker();
-    const payload: ToWorker = { type: "query", q: query, limit: 40, base };
+    const payload: ToWorker = { type: "query", q: query, limit: 40, base: siteRootUrl(pagePrefix) };
     w.postMessage(payload);
   };
 
@@ -156,16 +157,15 @@ function initSearchBox(root: HTMLElement): void {
     if (item.kind === "suggest") {
       const section = item.row[5];
       if (!section) return;
-      location.assign(entryHref(base, vol, k, line, section));
+      location.assign(entryHref(pagePrefix, vol, k, line, section));
       return;
     }
-    const b = base.endsWith("/") ? base : `${base}/`;
     const anchor = k === 1 ? `c-${line}` : `w-${line}`;
-    void fetch(`${b}sections/entry-index.json`)
+    void fetchFromSiteRoot(pagePrefix, "sections/entry-index.json")
       .then((r) => r.json() as Promise<{ volumes: Record<string, Record<string, number>> }>)
       .then((idx) => {
         const section = idx.volumes[vol]?.[anchor];
-        if (section) location.assign(entryHref(base, vol, k, line, section));
+        if (section) location.assign(entryHref(pagePrefix, vol, k, line, section));
       });
   };
 

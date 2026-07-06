@@ -2,6 +2,11 @@
 import Dictionary from "../layouts/Dictionary.astro";
 import { getVolumeData, wrapPe2Directives } from "../../lib/compile-pug.ts";
 import { APPENDIX } from "../../lib/site/volume-astro-shared.ts";
+import {
+  appendixPagePath,
+  relativeAssetFromVolumeHub,
+  siteRootPrefixForPage,
+} from "../../lib/site/site-url.ts";
 
 export function getStaticPaths() {
   return Object.keys(APPENDIX).map((base) => ({
@@ -13,16 +18,19 @@ export function getStaticPaths() {
 const { base } = Astro.props;
 const root = process.cwd();
 const raw = getVolumeData(root, base);
-const html = absolutizeDictionaryImgSrc(
-  wrapPe2Directives(raw.html),
-  import.meta.env.BASE_URL,
+const pagePath = appendixPagePath(base);
+const siteRootPrefix = siteRootPrefixForPage(pagePath);
+const html = wrapPe2Directives(raw.html).replace(
+  /src=(["'])img\/(k|m3)\//g,
+  (_m, q: string, kind: string) =>
+    `src=${q}${relativeAssetFromVolumeHub(`img/${kind}/`)}`,
 );
 const meta = APPENDIX[base]!;
 const title = `${meta.zh}・國臺對照活用辭典`;
 const description = meta.desc;
 ---
 
-<Dictionary title={title} description={description}>
+<Dictionary title={title} description={description} siteRootPrefix={siteRootPrefix}>
   <div class:list={["page", "doc-page", `doc-${meta.kind}`]}>
     <header class="vol-head">
       <p class="vol-eyebrow">附錄・原始檔</p>

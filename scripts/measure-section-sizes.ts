@@ -10,7 +10,7 @@ import { buildRailSections } from "../lib/site/volume-rail.ts";
 
 const root = join(import.meta.dir, "..");
 const corpus = getCorpus(root);
-const linkCtx = { resolver: corpus.resolver, hrefBase: "/koktai/", corpus };
+
 const sizeTable: Record<string, Record<string, number>> = {};
 
 for (const vol of VOLUME_IDS) {
@@ -20,7 +20,12 @@ for (const vol of VOLUME_IDS) {
   for (let i = 0; i < structured.sections.length; i++) {
     const section = structured.sections[i]!;
     const rail = rails[i]!;
-    const bodyHtml = renderStructuredSectionBody(section, linkCtx);
+    const bodyHtml = renderStructuredSectionBody(section, {
+      resolver: corpus.resolver,
+      fromVol: vol,
+      fromSection: i + 1,
+      corpus,
+    });
     const entryNodes = (bodyHtml.match(/class="entry /g) ?? []).length;
     sizeTable[vol]![rail.id] = Math.max(280, entryNodes * 9 + rail.sinogramCount * 24);
   }

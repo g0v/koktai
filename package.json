@@ -12,7 +12,7 @@
     "dev": "astro dev",
     "start": "bun run sync && astro dev",
     "section:snapshots": "bun run scripts/write-section-snapshots.ts",
-    "build": "bun run sync && bun run precache && bun run section:snapshots && astro build && bun run scripts/check-built-html.ts",
+    "build": "bun run sync && bun run precache && bun run section:snapshots && astro build && bun run scripts/relativize-dist-assets.ts && bun run scripts/check-built-html.ts",
     "preview": "astro preview",
     "gen:pug": "bun run scripts/gen-pug.ts",
     "diff:pug": "bun run scripts/diff-pug.ts",

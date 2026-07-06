@@ -1,8 +1,8 @@
 import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 export { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 import type { LinkTarget, RenderCtx } from "./linkify.ts";
-import { readAstroBaseFromConfig } from "./site-base.ts";
-import { targetPageHref } from "./volume-paths.ts";
+import { siteRootPrefixForPage } from "./site-url.ts";
+import { entryLinkFromSection, volumeSectionPath } from "./volume-paths.ts";
 import type {
   StructuredEntry,
   StructuredReading,
@@ -37,11 +37,15 @@ function sameTarget(a: LinkTarget, b: RenderCtx["self"]): boolean {
 }
 
 function legacyHtml(text: string, ctx?: RenderCtx): string {
-  return renderLegacyText(text, ctx?.hrefBase ?? readAstroBaseFromConfig(process.cwd()));
+  if (!ctx) return renderLegacyText(text);
+  return renderLegacyText(
+    text,
+    siteRootPrefixForPage(volumeSectionPath(ctx.fromVol, ctx.fromSection)),
+  );
 }
 
 function targetHref(target: LinkTarget, ctx: RenderCtx): string {
-  return targetPageHref(ctx.hrefBase, target, ctx.corpus);
+  return entryLinkFromSection(ctx.fromVol, ctx.fromSection, target, ctx.corpus);
 }
 
 function renderTargetLink(text: string, target: LinkTarget, ctx: RenderCtx): string {

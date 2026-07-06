@@ -1,10 +1,10 @@
 ---
 interface Props {
-  baseUrl: string;
+  siteRootPrefix: string;
 }
-const { baseUrl } = Astro.props;
+const { siteRootPrefix } = Astro.props;
 ---
-<div class="search-wrap" data-koktai-search data-base={baseUrl} data-open="false">
+<div class="search-wrap" data-koktai-search data-base={siteRootPrefix} data-open="false">
   <button
     class="search-toggle"
     type="button"

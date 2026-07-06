@@ -1,3 +1,5 @@
+import type { Corpus } from "./corpus.ts";
+
 export interface LinkTarget {
   k: "w" | "c";
   v: string;
@@ -11,9 +13,9 @@ export interface LinkSegment {
 
 export interface RenderCtx {
   resolver: LinkResolver;
-  hrefBase: string;
-  /** Section-split URLs; required for cross-volume entry links. */
-  corpus: import("./corpus.ts").Corpus;
+  fromVol: string;
+  fromSection: number;
+  corpus: Corpus;
   self?: { k?: "w" | "c"; v: string; l: number };
 }
 

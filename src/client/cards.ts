@@ -1,4 +1,6 @@
 /// <reference path="./koktai-global.d.ts" />
+import { entryHref } from "./search-matching.ts";
+import { fetchFromSiteRoot } from "./runtime-base.ts";
 
 type Kind = "w" | "c";
 type Target = { k: Kind; v: string; l: number };
@@ -13,16 +15,15 @@ type EntryIndex = { volumes: Record<string, Record<string, number>> };
 let entryIndex: EntryIndex | null = null;
 let entryIndexPromise: Promise<EntryIndex> | null = null;
 
-function baseUrl(): string {
+function pagePrefix(): string {
   const fromSearch = document.querySelector<HTMLElement>("[data-koktai-search]")?.dataset.base;
-  const base = fromSearch ?? "/koktai/";
-  return base.endsWith("/") ? base : `${base}/`;
+  return fromSearch ?? "./";
 }
 
 async function loadEntryIndex(): Promise<EntryIndex> {
   if (entryIndex) return entryIndex;
   if (!entryIndexPromise) {
-    entryIndexPromise = fetch(`${baseUrl()}sections/entry-index.json`)
+    entryIndexPromise = fetchFromSiteRoot(pagePrefix(), "sections/entry-index.json")
       .then((r) => {
         if (!r.ok) throw new Error("entry-index fetch failed");
         return r.json() as Promise<EntryIndex>;
@@ -67,7 +68,7 @@ async function sectionFor(t: Target): Promise<number> {
 
 async function targetHref(t: Target): Promise<string> {
   const sec = await sectionFor(t);
-  return `${baseUrl()}${t.v}/${sec}/index.html#${anchorId(t)}`;
+  return entryHref(pagePrefix(), t.v, t.k === "c" ? 1 : 0, t.l, sec);
 }
 
 function ensureCard(): HTMLElement {
@@ -104,7 +105,7 @@ async function loadSectionPage(v: string, sec: number): Promise<Document> {
   const key = `${v}/${sec}`;
   const cached = docCache.get(key);
   if (cached) return cached;
-  const res = await fetch(`${baseUrl()}${v}/${sec}/index.html`);
+  const res = await fetchFromSiteRoot(pagePrefix(), `${v}/${sec}/index.html`);
   if (!res.ok) throw new Error(`section ${v}/${sec} fetch failed: ${res.status}`);
   const doc = new DOMParser().parseFromString(await res.text(), "text/html");
   docCache.set(key, doc);

@@ -23,10 +23,10 @@ describe("anchor integrity (corpus routing)", () => {
   );
 
   test(
-    "targetPageHref section matches entry-index for all entries",
+    "entryLinkFromSection href section matches entry-index for all entries",
     () => {
       const corpus = getCorpus(root);
-      const errors = verifyTargetHrefRouting(corpus, "/koktai/");
+      const errors = verifyTargetHrefRouting(corpus);
       expect(errors).toEqual([]);
     },
     120_000,
@@ -34,14 +34,18 @@ describe("anchor integrity (corpus routing)", () => {
 
   test("rendered section HTML contains entry anchors (spot: vol 02)", () => {
     const corpus = getCorpus(root);
-    const hrefBase = "/koktai/";
-    const linkCtx = { resolver: corpus.resolver, hrefBase, corpus };
     const vol = "02";
     const structured = getStructuredVolume(root, vol);
     const rails = buildRailSections(root, vol);
     for (let i = 0; i < structured.sections.length; i++) {
       const section = structured.sections[i]!;
       const rail = rails[i]!;
+      const linkCtx = {
+        resolver: corpus.resolver,
+        fromVol: vol,
+        fromSection: i + 1,
+        corpus,
+      };
       const html = renderStructuredSection(
         section,
         {

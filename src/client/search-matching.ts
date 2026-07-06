@@ -45,15 +45,15 @@ export function entryAnchor(k: 0 | 1, line: number): string {
 }
 
 export function entryHref(
-  base: string,
+  pagePrefix: string,
   vol: string,
   k: 0 | 1,
   line: number,
   section: number,
 ): string {
-  const b = base.endsWith("/") ? base : `${base}/`;
   const anchor = entryAnchor(k, line);
-  return `${b}${vol}/${section}/index.html${anchor}`;
+  const prefix = pagePrefix.endsWith("/") ? pagePrefix : `${pagePrefix}/`;
+  return `${prefix}${vol}/${section}/index.html${anchor}`;
 }
 
 type MatchTier = 0 | 1 | 2 | 3 | 4 | 5;

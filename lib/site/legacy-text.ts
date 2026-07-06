@@ -1,6 +1,6 @@
 import { stripPe2Tags, wrapKaiFont } from "../dic/pe2-text.ts";
 import { jadeUnescapeLine, loadFontMaps } from "../dic/unescape.ts";
-import { normalizeSiteBase, readAstroBaseFromConfig } from "./site-base.ts";
+import { siteRootPrefixForPage } from "./site-url.ts";
 
 const fontMaps = loadFontMaps(process.cwd());
 const ASTRAL_PUA = /[\u{f0000}-\u{fffff}]/gu;
@@ -12,9 +12,9 @@ function stripKaiTagFragments(text: string): string {
 }
 
 /** Site-root paths for k/m3 glyph PNGs (nested section pages need a base prefix). */
-export function absolutizeDictionaryImgSrc(html: string, base: string): string {
-  const b = normalizeSiteBase(base);
-  return html.replace(/src=(["'])img\/(k|m3)\//g, `src=$1${b}img/$2/`);
+export function absolutizeDictionaryImgSrc(html: string, prefix: string): string {
+  const p = prefix === "/" ? "/" : prefix.endsWith("/") || prefix === "" ? prefix : `${prefix}/`;
+  return html.replace(/src=(["'])img\/(k|m3)\//g, `src=$1${p}img/$2/`);
 }
 
 /** UX: show horizontal Bopomofo (ㄧ), not vertical stroke forms (丨) from legacy data. */
@@ -49,7 +49,7 @@ export function legacyPlainText(text: string): string {
 }
 
 export function renderLegacyText(text: string, assetBase?: string): string {
-  const base = assetBase ?? readAstroBaseFromConfig(process.cwd());
+  const base = assetBase ?? siteRootPrefixForPage("index.html");
   const normalized = horizontalBopomofo(stripKaiTagFragments(stripPe2Tags(wrapKaiFont(text))));
   const raw = stripKaiTagFragments(jadeUnescapeLine(normalized, fontMaps, true));
   return horizontalBopomofo(absolutizeDictionaryImgSrc(raw, base));

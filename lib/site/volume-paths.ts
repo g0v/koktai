@@ -1,6 +1,7 @@
 import type { LinkTarget } from "./linkify.ts";
 import type { Corpus } from "./corpus.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
+import { pageLink } from "./site-url.ts";
 
 /** Static URL for a dictionary volume hub (syllable index, no full body). */
 export function volumeHubPath(vol: string): string {
@@ -28,15 +29,18 @@ export function sectionForTarget(corpus: Corpus, target: LinkTarget): number {
   return s ? corpus.sectionOf(target.v, s.chapterZhuyin) : 0;
 }
 
-export function targetPageHref(
-  hrefBase: string,
+/** Page-relative entry link from a section page. */
+export function entryLinkFromSection(
+  fromVol: string,
+  fromSection: number,
   target: LinkTarget,
   corpus: Corpus,
 ): string {
   const sec = sectionForTarget(corpus, target);
-  const page =
-    sec > 0 ? volumeSectionPath(target.v, sec) : volumeHubPath(target.v);
-  return `${hrefBase}${page}#${entryAnchor(target.k, target.l)}`;
+  const anchor = entryAnchor(target.k, target.l);
+  const fromPage = volumeSectionPath(fromVol, fromSection);
+  const page = sec > 0 ? volumeSectionPath(target.v, sec) : volumeHubPath(target.v);
+  return `${pageLink(fromPage, page)}#${anchor}`;
 }
 
 export interface SectionEntryIndex {

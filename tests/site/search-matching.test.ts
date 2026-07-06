@@ -19,11 +19,11 @@ describe("search-matching", () => {
   });
 
   test("entryHref uses section page URLs", () => {
-    expect(entryHref("/koktai/", "01", 0, 182, 3)).toBe(
-      "/koktai/01/3/index.html#w-182",
+    expect(entryHref("../../", "01", 0, 182, 3)).toBe(
+      "../../01/3/index.html#w-182",
     );
-    expect(entryHref("/koktai/", "01", 1, 1, 1)).toBe(
-      "/koktai/01/1/index.html#c-1",
+    expect(entryHref("./", "01", 1, 1, 1)).toBe(
+      "./01/1/index.html#c-1",
     );
   });
 

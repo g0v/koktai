@@ -7,8 +7,6 @@ import {
 } from "../lib/site/anchor-integrity.ts";
 
 const dist = join(process.cwd(), "dist");
-const siteBase = "/koktai/";
-
 const ASTRAL_PUA = /[\u{f0000}-\u{fffff}]/u;
 const RAW_K_TAG = /<\/?k>/;
 const IMG_REF = /(?:\.\/)?img\/(k|m3)\/([0-9a-f]+)\.png/g;
@@ -49,7 +47,7 @@ if (volumePages.length === 0) {
     }
   }
 
-  failures.push(...verifyBuiltHtmlAnchors(dist, siteBase));
+  failures.push(...verifyBuiltHtmlAnchors(dist));
 }
 
 const homePath = join(dist, "index.html");
@@ -58,7 +56,7 @@ if (existsSync(homePath)) {
   for (const slug of APPENDIX_SLUGS) {
     const flat = `${slug}.html`;
     const dir = `${slug}/index.html`;
-    if (home.includes(`href="${siteBase}${flat}"`) || home.includes(`href="/${flat}"`)) {
+    if (home.includes(`href="${flat}"`) && !home.includes(`href="${dir}"`)) {
       failures.push(`dist/index.html still links appendix as ${flat} (expected ${dir})`);
     }
     if (!existsSync(join(dist, slug, "index.html"))) {

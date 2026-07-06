@@ -6,19 +6,19 @@
 
 @font-face {
   font-family: "Iansui";
-  src: url("/koktai/font/iansui-koktai.woff2") format("woff2");
+  src: url("../fonts/iansui-koktai.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "koktai-k";
-  src: url("/koktai/font/koktai-k.woff") format("woff");
+  src: url("../fonts/koktai-k.woff") format("woff");
   font-display: swap;
 }
 @font-face {
   font-family: "Noto Sans Mono CJK TC File";
-  src: url("/koktai/font/noto-sans-mono-cjk-tc-file.woff2") format("woff2");
+  src: url("../fonts/noto-sans-mono-cjk-tc-file.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

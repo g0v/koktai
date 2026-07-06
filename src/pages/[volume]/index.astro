@@ -7,6 +7,7 @@ import { legacyPlainText } from "../../../lib/site/structured-render.ts";
 import { volumeHubPath } from "../../../lib/site/volume-paths.ts";
 import { VOLUME_IDS } from "../../../lib/dic/pipeline.ts";
 import { volumeNav, volumeRangeText } from "../../../lib/site/volume-astro-shared.ts";
+import { pageLink, siteRootPrefixForPage } from "../../../lib/site/site-url.ts";
 
 export function getStaticPaths() {
   return VOLUME_IDS.map((volume) => ({ params: { volume }, props: { volume } }));
@@ -18,16 +19,15 @@ const volNo = Number(volume);
 const structured = getStructuredVolume(root, volume);
 const railSections = buildRailSections(root, volume);
 const rangeText = volumeRangeText(railSections);
-const baseUrl = import.meta.env.BASE_URL.endsWith("/")
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const href = (path = "") => `${baseUrl}${path}`;
-const { prev, next, volName } = volumeNav(volNo, href);
+const pagePath = volumeHubPath(volume);
+const siteRootPrefix = siteRootPrefixForPage(pagePath);
+const link = (target: string) => pageLink(pagePath, target);
+const { prev, next, volName } = volumeNav(volNo, link);
 const title = `${volName} ${rangeText}・國臺對照活用辭典`;
 const description = `國臺對照活用辭典${volName}（${rangeText}），共 ${structured.entryCount.toLocaleString("en-US")} 條目。`;
 ---
 
-<Dictionary title={title} description={description}>
+<Dictionary title={title} description={description} siteRootPrefix={siteRootPrefix}>
   <div class="vol-layout vol-hub">
     <aside class="rail" aria-label="音節索引">
       <p class="rail-tag">音節索引</p>
@@ -36,7 +36,7 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
           {
             railSections.map((s, i) => (
               <li>
-                <a href={href(`${volume}/${i + 1}/index.html`)}>
+                <a href={link(`${volume}/${i + 1}/index.html`)}>
                   <span>{legacyPlainText(s.syllable)}</span>
                   {s.roman && <span class="r">{legacyPlainText(s.roman)}</span>}
                 </a>
@@ -58,9 +58,9 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
           {railSections.length} 音節・{structured.entryCount.toLocaleString("en-US")} 條目
         </p>
         <nav class="vol-nav" aria-label="卷次">
-          {prev && <a href={href(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
-          <a href={href("#volumes")}>卷目</a>
-          {next && <a href={href(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
+          {prev && <a href={link(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
+          <a href={link("#volumes")}>卷目</a>
+          {next && <a href={link(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
         </nav>
       </header>
 
@@ -68,7 +68,7 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
         {
           railSections.map((s, i) => (
             <li>
-              <a class="vol-syl-card" href={href(`${volume}/${i + 1}/index.html`)}>
+              <a class="vol-syl-card" href={link(`${volume}/${i + 1}/index.html`)}>
                 <span class="vol-syl-zi">{legacyPlainText(s.syllable)}</span>
                 {s.roman && <span class="vol-syl-rom">{legacyPlainText(s.roman)}</span>}
                 <span class="vol-syl-count">
@@ -81,9 +81,9 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
       </ul>
 
       <nav class="vol-nav" aria-label="卷次（頁尾）">
-        {prev && <a href={href(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
-        <a href={href("#volumes")}>卷目</a>
-        {next && <a href={href(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
+        {prev && <a href={link(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
+        <a href={link("#volumes")}>卷目</a>
+        {next && <a href={link(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
       </nav>
     </article>
   </div>
@@ -95,7 +95,7 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
         {
           railSections.map((s, i) => (
             <li>
-              <a href={href(`${volume}/${i + 1}/index.html`)}>
+              <a href={link(`${volume}/${i + 1}/index.html`)}>
                 <span>{legacyPlainText(s.syllable)}</span>
                 {s.roman && <span class="r">{legacyPlainText(s.roman)}</span>}
               </a>
@@ -111,9 +111,7 @@ const description = `國臺對照活用辭典${volName}（${rangeText}），共 
   const hash = location.hash;
   if (/^#s-\d+$/.test(hash)) {
     const n = hash.slice(3);
-    const base =
-      document.querySelector('meta[name="koktai-base"]')?.getAttribute("content") ?? "/";
     const vol = location.pathname.match(/\/(\d\d)\//)?.[1];
-    if (vol) location.replace(`${base}${vol}/${n}/index.html`);
+    if (vol) location.replace(new URL(`${vol}/${n}/index.html`, document.baseURI).href);
   }
 </script>

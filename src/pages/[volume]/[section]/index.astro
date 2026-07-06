@@ -8,7 +8,11 @@ import { buildRailSections } from "../../../../lib/site/volume-rail.ts";
 import { legacyPlainText } from "../../../../lib/site/structured-render.ts";
 import { volumeHubPath, volumeSectionPath } from "../../../../lib/site/volume-paths.ts";
 import { VOLUME_IDS } from "../../../../lib/dic/pipeline.ts";
-import { rebaseDictionarySnapshotHtml } from "../../../../lib/site/site-base.ts";
+import {
+  pageLink,
+  relativizeDictionarySnapshotHtml,
+  siteRootPrefixForPage,
+} from "../../../../lib/site/site-url.ts";
 import { volumeNav, volumeRangeText } from "../../../../lib/site/volume-astro-shared.ts";
 
 export function getStaticPaths() {
@@ -37,12 +41,15 @@ const snapshotPath = join(root, "public", "sections", volumeSectionPath(volume, 
 if (!existsSync(snapshotPath)) {
   throw new Error(`missing section snapshot ${snapshotPath} — run bun run section:snapshots`);
 }
-const baseUrl = import.meta.env.BASE_URL.endsWith("/")
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const href = (path = "") => `${baseUrl}${path}`;
-const sectionHtml = rebaseDictionarySnapshotHtml(readFileSync(snapshotPath, "utf8"), baseUrl);
-const { prev, next, volName } = volumeNav(volNo, href);
+const pagePath = volumeSectionPath(volume, section);
+const siteRootPrefix = siteRootPrefixForPage(pagePath);
+const link = (target: string) => pageLink(pagePath, target);
+const sectionHtml = relativizeDictionarySnapshotHtml(
+  readFileSync(snapshotPath, "utf8"),
+  volume,
+  section,
+);
+const { prev, next, volName } = volumeNav(volNo, link);
 const sylText = legacyPlainText(rail.syllable);
 const title = `${volName} ${sylText}・國臺對照活用辭典`;
 const description = `國臺對照活用辭典${volName}・音節 ${sylText}（${rail.entryCount} 詞條）。`;
@@ -50,7 +57,7 @@ const prevSec = section > 1 ? section - 1 : null;
 const nextSec = section < railSections.length ? section + 1 : null;
 ---
 
-<Dictionary title={title} description={description}>
+<Dictionary title={title} description={description} siteRootPrefix={siteRootPrefix}>
   <div class="vol-layout">
     <aside class="rail" aria-label="音節索引">
       <p class="rail-tag">音節索引</p>
@@ -60,7 +67,7 @@ const nextSec = section < railSections.length ? section + 1 : null;
             railSections.map((s, i) => (
               <li>
                 <a
-                  href={href(`${volume}/${i + 1}/index.html`)}
+                  href={link(`${volume}/${i + 1}/index.html`)}
                   aria-current={i + 1 === section ? "true" : undefined}
                 >
                   <span>{legacyPlainText(s.syllable)}</span>
@@ -76,22 +83,22 @@ const nextSec = section < railSections.length ? section + 1 : null;
     <article>
       <header class="vol-head">
         <p class="vol-eyebrow">
-          <a href={href(volumeHubPath(volume))}>{volName}</a>
+          <a href={link(volumeHubPath(volume))}>{volName}</a>
           ・音節 {sylText}
         </p>
         <nav class="vol-nav vol-nav--tight" aria-label="音節卷內">
           {prevSec && (
-            <a href={href(`${volume}/${prevSec}/index.html`)}>◀ 上一音節</a>
+            <a href={link(`${volume}/${prevSec}/index.html`)}>◀ 上一音節</a>
           )}
-          <a href={href(volumeHubPath(volume))}>卷目錄</a>
+          <a href={link(volumeHubPath(volume))}>卷目錄</a>
           {nextSec && (
-            <a href={href(`${volume}/${nextSec}/index.html`)}>下一音節 ▶</a>
+            <a href={link(`${volume}/${nextSec}/index.html`)}>下一音節 ▶</a>
           )}
         </nav>
         <nav class="vol-nav" aria-label="卷次">
-          {prev && <a href={href(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
-          <a href={href("#volumes")}>卷目</a>
-          {next && <a href={href(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
+          {prev && <a href={link(volumeHubPath(prev))}>◀ 卷{chineseNumeral(volNo - 1)}</a>}
+          <a href={link("#volumes")}>卷目</a>
+          {next && <a href={link(volumeHubPath(next))}>卷{chineseNumeral(volNo + 1)} ▶</a>}
         </nav>
       </header>
 

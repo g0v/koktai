@@ -34,8 +34,8 @@ describe("horizontalBopomofo via legacyPlainText", () => {
 describe("absolutizeDictionaryImgSrc", () => {
   test("converts relative image paths to base-prefixed paths", () => {
     const html = '繃<img src="img/k/fbba.png">／鬥鬦';
-    expect(absolutizeDictionaryImgSrc(html, "/koktai/")).toBe(
-      '繃<img src="/koktai/img/k/fbba.png">／鬥鬦',
+    expect(absolutizeDictionaryImgSrc(html, "./")).toBe(
+      '繃<img src="./img/k/fbba.png">／鬥鬦',
     );
     expect(absolutizeDictionaryImgSrc(html, "/")).toBe(
       '繃<img src="/img/k/fbba.png">／鬥鬦',
@@ -45,11 +45,11 @@ describe("absolutizeDictionaryImgSrc", () => {
   test("handles single quotes and double quotes", () => {
     const htmlDouble = '<img src="img/m3/fbb9.png">';
     const htmlSingle = "<img src='img/m3/fbb9.png'>";
-    expect(absolutizeDictionaryImgSrc(htmlDouble, "/koktai")).toBe(
-      '<img src="/koktai/img/m3/fbb9.png">',
+    expect(absolutizeDictionaryImgSrc(htmlDouble, "./")).toBe(
+      '<img src="./img/m3/fbb9.png">',
     );
-    expect(absolutizeDictionaryImgSrc(htmlSingle, "/koktai")).toBe(
-      "<img src='/koktai/img/m3/fbb9.png'>",
+    expect(absolutizeDictionaryImgSrc(htmlSingle, "./")).toBe(
+      "<img src='./img/m3/fbb9.png'>",
     );
   });
 });

@@ -7,7 +7,7 @@ import {
   buildSectionEntryIndex,
   entryAnchor,
   sectionForTarget,
-  targetPageHref,
+  entryLinkFromSection,
   volumeSectionPath,
 } from "./volume-paths.ts";
 
@@ -27,33 +27,50 @@ export function extractElementIds(html: string): Set<string> {
   return ids;
 }
 
-/** Normalize site-internal dictionary URL → page path + optional entry anchor. */
+const VOL_PAGE_RE =
+  /^(?:\.\.\/)*(0[1-9]|1[0-9]|2[0-6])\/(\d+)\/index\.html$/;
+const VOL_HUB_RE = /^(?:\.\.\/)*(0[1-9]|1[0-9]|2[0-6])\/index\.html$/;
+
+/** Parse page-relative or same-page dictionary entry href. */
 export function parseDictionaryHref(
   href: string,
-  siteBase = "/koktai/",
+  _siteBase?: string,
 ): { page: string; vol: string; section: number | null; anchor: string | null } | null {
-  const base = siteBase.endsWith("/") ? siteBase : `${siteBase}/`;
   let path = href.trim();
   if (path.startsWith("http://") || path.startsWith("https://")) {
     try {
-      path = new URL(path).pathname;
+      path = new URL(path).pathname.replace(/^\//, "");
     } catch {
       return null;
     }
   }
+  if (path.startsWith("#")) {
+    const anchor = path.slice(1);
+    if (!/^(w|c)-\d+$/.test(anchor)) return null;
+    return { page: "", vol: "", section: null, anchor };
+  }
   const hashIdx = path.indexOf("#");
   const anchor = hashIdx >= 0 ? path.slice(hashIdx + 1) : null;
   path = hashIdx >= 0 ? path.slice(0, hashIdx) : path;
-  if (!path.startsWith(base)) return null;
-  const rest = path.slice(base.length);
-  const m = rest.match(/^((?:0[1-9]|1[0-9]|2[0-6]))(?:\/index\.html|\/(\d+)\/index\.html)?$/);
-  if (!m) return null;
-  const vol = m[1]!;
-  const section = m[2] ? Number.parseInt(m[2], 10) : null;
-  if (anchor && !/^(w|c)-\d+$/.test(anchor)) {
-    if (!anchor.startsWith("s-")) return { page: rest, vol, section, anchor: null };
+  let m = path.match(VOL_PAGE_RE);
+  if (m) {
+    const vol = m[1]!;
+    const section = Number.parseInt(m[2]!, 10);
+    if (anchor && !/^(w|c)-\d+$/.test(anchor)) return null;
+    return {
+      page: `${vol}/${section}/index.html`,
+      vol,
+      section,
+      anchor,
+    };
   }
-  return { page: rest + (anchor ? `#${anchor}` : ""), vol, section, anchor };
+  m = path.match(VOL_HUB_RE);
+  if (m) {
+    const vol = m[1]!;
+    if (anchor && !/^(w|c)-\d+$/.test(anchor)) return null;
+    return { page: `${vol}/index.html`, vol, section: null, anchor };
+  }
+  return null;
 }
 
 export function listBuiltDictionaryPages(distRoot: string): BuiltPageRef[] {
@@ -98,16 +115,13 @@ export function verifyCorpusSectionRouting(corpus: Corpus): string[] {
   return errors;
 }
 
-/** Hrefs emitted by `targetPageHref` must land on the section that owns the anchor. */
-export function verifyTargetHrefRouting(
-  corpus: Corpus,
-  hrefBase = "/koktai/",
-): string[] {
+/** Hrefs from `entryLinkFromSection` must land on the section that owns the anchor. */
+export function verifyTargetHrefRouting(corpus: Corpus): string[] {
   const index = buildSectionEntryIndex(corpus);
   const errors: string[] = [];
-  const check = (target: LinkTarget) => {
-    const href = targetPageHref(hrefBase, target, corpus);
-    const parsed = parseDictionaryHref(href, hrefBase);
+  const check = (fromVol: string, fromSection: number, target: LinkTarget) => {
+    const href = entryLinkFromSection(fromVol, fromSection, target, corpus);
+    const parsed = parseDictionaryHref(href);
     if (!parsed?.anchor) {
       errors.push(`target ${target.k}:${target.v}:${target.l} → href missing anchor: ${href}`);
       return;
@@ -132,8 +146,14 @@ export function verifyTargetHrefRouting(
   for (const vol of VOLUME_IDS) {
     const data = corpus.volumes.get(vol);
     if (!data) continue;
-    for (const w of data.words) check({ k: "w", v: vol, l: w.line });
-    for (const s of data.sinograms) check({ k: "c", v: vol, l: s.line });
+    for (const w of data.words) {
+      const fromSec = corpus.sectionOf(vol, w.chapterZhuyin);
+      if (fromSec > 0) check(vol, fromSec, { k: "w", v: vol, l: w.line });
+    }
+    for (const s of data.sinograms) {
+      const fromSec = corpus.sectionOf(vol, s.chapterZhuyin);
+      if (fromSec > 0) check(vol, fromSec, { k: "c", v: vol, l: s.line });
+    }
   }
   return errors;
 }
@@ -148,10 +168,7 @@ export function collectHrefTargetsFromHtml(html: string): { href: string; fromKk
 }
 
 /** Scan built HTML: entry anchors must exist on the resolved target page. */
-export function verifyBuiltHtmlAnchors(
-  distRoot: string,
-  siteBase = "/koktai/",
-): string[] {
+export function verifyBuiltHtmlAnchors(distRoot: string): string[] {
   const pages = listBuiltDictionaryPages(distRoot);
   if (pages.length === 0) return ["no dictionary pages under dist/ (run astro build)"];
 
@@ -173,13 +190,23 @@ export function verifyBuiltHtmlAnchors(
   for (const p of pages) {
     const html = readFileSync(join(distRoot, p.rel), "utf8");
     for (const { href, fromKk } of collectHrefTargetsFromHtml(html)) {
-      const parsed = parseDictionaryHref(href, siteBase);
+      const parsed = parseDictionaryHref(href);
       if (!parsed) continue;
-      if (!VOL_RE.test(parsed.vol)) continue;
       if (!fromKk) continue;
       if (!parsed.anchor) continue;
 
-      const targetIds = resolveTargetIds(parsed.vol, parsed.section);
+      let targetVol: string;
+      let targetSection: number | null;
+      if (href.trim().startsWith("#")) {
+        targetVol = p.vol;
+        targetSection = p.section;
+      } else {
+        if (!VOL_RE.test(parsed.vol)) continue;
+        targetVol = parsed.vol;
+        targetSection = parsed.section;
+      }
+
+      const targetIds = resolveTargetIds(targetVol, targetSection);
       if (!targetIds) {
         errors.push(`${p.rel}: link ${href} → missing target page`);
         continue;

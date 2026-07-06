@@ -13,7 +13,10 @@ export function getStaticPaths() {
 const { base } = Astro.props;
 const root = process.cwd();
 const raw = getVolumeData(root, base);
-const html = wrapPe2Directives(raw.html);
+const html = absolutizeDictionaryImgSrc(
+  wrapPe2Directives(raw.html),
+  import.meta.env.BASE_URL,
+);
 const meta = APPENDIX[base]!;
 const title = `${meta.zh}・國臺對照活用辭典`;
 const description = meta.desc;

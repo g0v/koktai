@@ -1,21 +1,23 @@
 # 本地預覽（Astro + Pug 3）
 
 - **首頁**：`src/pages/index.astro`——書名、對照字例（八）、二十六卷拇指索引、附錄、關於
-- **辭典／附錄**：`pug/*.pug` → **Pug 3** → Astro（**卷** `/<vol>.html` 音節目錄；**音節** `/<vol>/<n>.html` 條目內文；附錄 `/<name>.html`）
+- **辭典／附錄**：`pug/*.pug` → **Pug 3** → Astro（**卷** `/<vol>/index.html` 音節目錄；**音節** `/<vol>/<n>/index.html` 條目內文；附錄 `/<name>/index.html`）
   - `pug/` 是 1990 年代 `.dic` 轉換產生的**資料成品**（三千萬字元，現由純 TS pipeline 重產，見「其他」），不是手寫模板——
     真正的模板層在 Astro（layout／pages）。檔案為 Pug 3 語法
     （`doctype html`、一般屬性、行內 HTML 文字）。
     舊版 Jade 1.11 產物已於 2026-07-04 驗證內容等價後改以 Pug 3 編譯
     （僅差 pretty 空白；pre-wrap 附錄頁因此更貼近原始檔）。
     原 `include _head` 已內聯至各檔（head 由 Astro layout 取代）。
-- **靜態資源**：`bun run sync` → `public/`（han、字型、字形圖；來源在 `html/` 與 `img/`）
+- **靜態資源**：`bun run sync` → `public/`（han、字形圖；來源在 `html/` 與 `img/`）。站內字型由 `src/fonts/` 經 Vite 打包進 `_astro/`。
 
 ```sh
 bun install
 bun run start      # sync + astro dev → http://localhost:4173
-bun run build      # 產出 dist/（先平行預編 .cache/pug/，見下）
-bun run preview    # 預覽 build 結果
+bun run build      # 產出 dist/（含 section:snapshots、relativize-dist-assets）
+bun run preview    # Astro preview（與「整包 dist 靜態服務」行為可能略有差異）
 ```
+
+建置後 **`dist/` 為前綴無關**：可整包上傳至 GitHub Pages 子路徑或本機 `cd dist && python3 -m http.server`。
 
 ## 版面設計
 

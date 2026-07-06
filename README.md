@@ -18,6 +18,19 @@ bun run check       # tsgo --noEmit
 **Perl 與 Python 不是建置必要條件**；歷史對照見 `archive/README.md`（`PARITY_LEGACY=1`）。
 `archive/font-hfn-c/` 為已退役的 C／libgd 造字工具鏈。
 
+## 線上站（Astro）
+
+```sh
+bun run build   # sync → precache → section:snapshots → astro build → relativize-dist-assets → check-built-html
+bun test tests/site
+python3 scripts/check-dist-links.py dist   # 可選；略過 public/sections 快照
+```
+
+- `astro.config.mjs` 設 `base: "./"`；建置後 `scripts/relativize-dist-assets.ts` 將 HTML／CSS 內的 `_astro` 等改為依頁面深度的相對路徑。
+- 產出的 **`dist/` 整包**可部署於任意 URL 前綴（例如 [g0v.github.io/koktai](https://g0v.github.io/koktai/)），不必為掛載路徑重編。
+- 本地靜態預覽：`cd dist && python3 -m http.server 8765` → `http://127.0.0.1:8765/`。
+- 辭典內連結與搜尋使用頁面相對路徑（`data-base` 為 `./`、`../`、`../../`）；詳見 `lib/site/site-url.ts`。
+
 ## 結構化資料
 
 Issue [g0v/koktai#3](https://github.com/g0v/koktai/issues/3) requested a better machine-readable representation of the word-entry pronunciations. The extractor keeps the website render pipeline byte-identical, but also emits structured pronunciation data under `data/`.

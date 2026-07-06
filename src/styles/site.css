@@ -817,7 +817,7 @@ mark {
   width: 1em;
   height: 1em;
   border: 0;
-  vertical-align: -0.1em;
+  vertical-align: -0.075em;
   mix-blend-mode: multiply;
 }
 html[data-theme="dark"] .doc img,

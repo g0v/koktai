@@ -21,7 +21,7 @@
     "gen:font-json": "bun run scripts/font/gen-json.ts",
     "extract:readings": "bun run scripts/extract-readings.ts",
     "export:tei": "bun run scripts/export-tei.ts",
-    "check": "tsgo --noEmit",
+    "check": "tsc --noEmit",
     "gen:maps-gif": "bun run scripts/font/maps-to-gif.ts",
     "gen:missing-gif": "bun run scripts/font/missings-to-gif.ts",
     "gen:missing-png": "bun run scripts/font/missings-to-png.ts",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/bun": "^1.3.14",
     "@types/pug": "^2.0.10",
-    "@typescript/native-preview": "^7.0.0-dev.20260703.1",
+    "typescript": "^7.0.2",
     "iconv-lite": "^0.7.3"
   }
 }

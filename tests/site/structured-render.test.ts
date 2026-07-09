@@ -136,6 +136,73 @@ describe("structured dictionary render", () => {
     expect(html).toContain("ㄗㄨㄥ");
   });
 
+  test("PUA syl base under structured readings does not nest ruby", () => {
+    const pua = String.fromCodePoint(0xffca6);
+    const token = {
+      kind: "syl",
+      han: pua,
+      readings: [{ zhuyin: "ㆠㄨㆤ˫", register: [], geo: [], other: [] }],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('<ruby class="token-ruby zhuyin">');
+    expect(html).toContain('<rt><span class="reading-zhuyin">ㆠㄨㆤ˫</span></rt>');
+    expect(html).toContain("ㆠㆤ˫");
+    expect(html).not.toContain(pua);
+    expect(html).not.toMatch(/token-han">\s*<ruby/);
+    expect(html).not.toContain("zhuyin-standalone");
+  });
+
+  test("k-tagged PUA syl base under structured readings does not nest ruby", () => {
+    const pua = String.fromCodePoint(0xffadf);
+    const token = {
+      kind: "syl",
+      han: `<k>${pua}</k>`,
+      readings: [{ zhuyin: "ㄉㄤ˪", register: [], geo: [], other: [] }],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain('<ruby class="token-ruby zhuyin">');
+    expect(html).toContain('<rt><span class="reading-zhuyin">ㄉㄤ˪</span></rt>');
+    // fadf is m3-only; inside <k> the kai path falls back to the k bitmap, not m3 reading text.
+    expect(html).toContain("img/k/fadf.png");
+    expect(html).not.toMatch(/token-han">\s*<ruby/);
+    expect(html).not.toContain("zhuyin-standalone");
+  });
+
+  test("m3 reading base expands nested glyph PUA without residual astral", () => {
+    // faca → ㄅ + fa62(ㄜ〾 image) + ㆷ̇
+    const pua = String.fromCodePoint(0xffaca);
+    const token = {
+      kind: "syl",
+      han: pua,
+      readings: [{ zhuyin: "ㄇㄚ˫", register: [], geo: [], other: [] }],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token);
+
+    expect(html).toContain("img/m3/fa62.png");
+    expect(html).toContain("ㄅ");
+    expect(html).toContain("ㆷ");
+    expect(html).not.toMatch(/[\u{f0000}-\u{fffff}]/u);
+    expect(html).not.toMatch(/token-han">\s*<ruby/);
+  });
+
+  test("ordinary Han syl bases stay linkable via renderCharLink", () => {
+    const corpus = getCorpus(root);
+    const ctx = renderCtx(corpus, "07", 28);
+    const token = {
+      kind: "syl",
+      han: "蒜",
+      readings: [{ zhuyin: "ㄙㄨㄢ˪", register: [], geo: [], other: [] }],
+    } satisfies StructuredToken;
+    const html = require("../../lib/site/structured-render.ts").renderStructuredToken(token, ctx);
+
+    expect(html).toContain('class="kk"');
+    expect(html).toContain("蒜");
+    expect(html).toContain("ㄙㄨㄢ˪");
+    expect(html).not.toMatch(/token-han">\s*<ruby/);
+  });
+
   test("legacy text consumes k tags and emits horizontal zhuyin ruby", () => {
     const kai = String.fromCodePoint(0xf8d44);
     const horizontalI = String.fromCodePoint(0xf8265);

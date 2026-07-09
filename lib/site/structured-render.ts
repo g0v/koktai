@@ -1,5 +1,6 @@
-import { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
+import { horizontalBopomofo, legacyPlainText, renderLegacyText } from "./legacy-text.ts";
 export { legacyPlainText, renderLegacyText } from "./legacy-text.ts";
+import { classifyPua, isPua, loadSyllables, puaHex } from "../extract/syllables.ts";
 import type { LinkTarget, RenderCtx } from "./linkify.ts";
 import { siteRootPrefixForPage } from "./site-url.ts";
 import { entryLinkFromSection, volumeSectionPath } from "./volume-paths.ts";
@@ -13,6 +14,9 @@ import type {
   StructuredToken,
   StructuredVolume,
 } from "./structured-volume.ts";
+
+const syllables = loadSyllables(process.cwd());
+const ASTRAL_PUA_RE = /[\u{f0000}-\u{fffff}]/u;
 
 export interface SectionRailMeta {
   id: string;
@@ -148,6 +152,78 @@ function renderCharLink(han: string, ctx?: RenderCtx): string {
   return target ? renderTargetLink(han, target, ctx) : legacyHtml(han, ctx);
 }
 
+function assetPrefix(ctx?: RenderCtx): string {
+  const base = ctx
+    ? siteRootPrefixForPage(volumeSectionPath(ctx.fromVol, ctx.fromSection))
+    : siteRootPrefixForPage("index.html");
+  if (base === "/") return "/";
+  return base.endsWith("/") || base === "" ? base : `${base}/`;
+}
+
+/** Expand plain/BPMF text that may still embed PUA — never `<ruby>`/`<rt>`. */
+function expandBaseText(text: string, prefix: string, depth = 0): string {
+  if (depth > 8) return escapeHtml(horizontalBopomofo(text));
+  let out = "";
+  for (const ch of horizontalBopomofo(text)) {
+    out += isPua(ch) ? renderBarePuaBase(ch, prefix, depth + 1) : escapeHtml(ch);
+  }
+  return out;
+}
+
+/** Bare PUA base (m3-first classify) — never `<ruby>`/`<rt>`. */
+function renderBarePuaBase(ch: string, prefix: string, depth = 0): string {
+  const cls = classifyPua(ch, syllables);
+  switch (cls.type) {
+    case "reading":
+    case "kReading":
+      return expandBaseText(cls.zhuyin, prefix, depth);
+    case "kGlyph":
+    case "symbol":
+      return expandBaseText(cls.text, prefix, depth);
+    case "glyph": {
+      const hex = puaHex(ch);
+      const noruby = syllables.m3Noruby[hex];
+      if (noruby !== undefined && !noruby.includes("〾")) {
+        return expandBaseText(noruby, prefix, depth);
+      }
+      return `<img src="${prefix}img/m3/${hex}.png" alt="">`;
+    }
+  }
+}
+
+/** `<k>…</k>` PUA base follows kai expansion without wrapping readings in ruby. */
+function renderKaiPuaBase(ch: string, prefix: string): string {
+  const mapped = syllables.mapping[ch];
+  if (mapped) return expandBaseText(mapped, prefix);
+  const hex = puaHex(ch);
+  const k = syllables.k[hex];
+  if (k !== undefined) return expandBaseText(k, prefix);
+  return `<img src="${prefix}img/k/${hex}.png" alt="">`;
+}
+
+/**
+ * Structured `token.han` base. Ordinary Han keeps `renderCharLink` (a.kk).
+ * PUA / `<k>` markup must not go through legacy ruby expansion, or the outer
+ * structured `<ruby>` nests a standalone zhuyin ruby and BPMF paints twice.
+ */
+function renderTokenHanBase(han: string, ctx?: RenderCtx): string {
+  const kWrapped = /^<k>([\s\S]*)<\/k>$/i.exec(han.trim());
+  const raw = kWrapped ? kWrapped[1]! : han.replace(/<\/?k>/gi, "");
+  if (!ASTRAL_PUA_RE.test(raw)) {
+    return renderCharLink(raw, ctx);
+  }
+  const prefix = assetPrefix(ctx);
+  let out = "";
+  for (const ch of raw) {
+    if (!isPua(ch)) {
+      out += escapeHtml(ch);
+      continue;
+    }
+    out += kWrapped ? renderKaiPuaBase(ch, prefix) : renderBarePuaBase(ch, prefix);
+  }
+  return out;
+}
+
 function renderReadingBadges(reading: StructuredReading, ctx?: RenderCtx): string {
   const badges: string[] = [];
   for (const v of reading.register) {
@@ -193,7 +269,7 @@ export function renderStructuredToken(token: StructuredToken, ctx?: RenderCtx): 
   switch (token.kind) {
     case "syl": {
       const annotations = renderReadingAnnotations(token.readings, ctx);
-      const han = `<span class="token-han">${renderCharLink(token.han, ctx)}</span>`;
+      const han = `<span class="token-han">${renderTokenHanBase(token.han, ctx)}</span>`;
       if (!annotations) return `<span class="token-syl">${han}</span>`;
       return `<span class="token-syl"><ruby class="token-ruby zhuyin">${han}${annotations}</ruby></span>`;
     }

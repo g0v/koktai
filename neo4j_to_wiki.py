@@ -38,7 +38,7 @@ def zhuyin_to_ruby(s):
     buf.append(s)
     s = "".join(buf)
 
-    # 2 ruby with preceeding char
+    # 2 ruby with preceding char
     buf = []
     m = re_rt.search(s)
     while m is not None:

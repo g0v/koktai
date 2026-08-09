@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { extractVolume } from "../extract/extract.ts";
 import type { ExtractResult } from "../extract/extract.ts";
 import { VOLUME_IDS } from "../dic/pipeline.ts";
@@ -32,11 +33,12 @@ function chapterSectionIndex(result: ExtractResult): Map<string, number> {
 }
 
 export function getCorpus(root: string): Corpus {
-  if (cache?.root === root) return cache.corpus;
+  const normalizedRoot = resolve(root);
+  if (cache?.root === normalizedRoot) return cache.corpus;
   const volumes = new Map<string, ExtractResult>();
   const sectionMaps = new Map<string, Map<string, number>>();
   for (const vol of VOLUME_IDS) {
-    const result = extractVolume(root, vol);
+    const result = extractVolume(normalizedRoot, vol);
     volumes.set(vol, result);
     sectionMaps.set(vol, chapterSectionIndex(result));
   }
@@ -48,6 +50,6 @@ export function getCorpus(root: string): Corpus {
     },
   } satisfies Corpus;
   corpus.resolver = buildResolver(corpus);
-  cache = { root, corpus };
+  cache = { root: normalizedRoot, corpus };
   return corpus;
 }

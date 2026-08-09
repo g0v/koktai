@@ -21,4 +21,10 @@ describe("corpus", () => {
   test("getCorpus returns same instance on second call", () => {
     expect(getCorpus(root)).toBe(getCorpus(root));
   });
+
+  // site-url.test.ts uses this spelling; it must hit the preload cache.
+  test("getCorpus normalizes equivalent root path spellings", () => {
+    expect(import.meta.dir + "/../..").not.toBe(root);
+    expect(getCorpus(import.meta.dir + "/../..")).toBe(getCorpus(root));
+  });
 });
